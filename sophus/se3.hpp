@@ -808,11 +808,11 @@ class SE3 : public SE3Base<SE3<Scalar_, Options>> {
     // clang-format off
     J << o, o, o, h, o, o,
          o, o, o, o, h, o,
-	 o, o, o, o, o, h,
-	 o, o, o, o, o, o,
-	 i, o, o, o, o, o,
-	 o, i, o, o, o, o,
-	 o, o, i, o, o, o;
+	       o, o, o, o, o, h,
+	       o, o, o, o, o, o,
+	       i, o, o, o, o, o,
+	       o, i, o, o, o, o,
+	       o, o, i, o, o, o;
     // clang-format on
     return J;
   }
@@ -821,6 +821,16 @@ class SE3 : public SE3Base<SE3<Scalar_, Options>> {
   ///
   SOPHUS_FUNC static Transformation Dxi_exp_x_matrix_at_0(int i) {
     return generator(i);
+  }
+
+  /// Returns derivative of exp(x) * p wrt. x_i at x=0.
+  ///
+  SOPHUS_FUNC static Sophus::Matrix<Scalar, 3, DoF> Dx_exp_x_times_point_at_0(
+      Point const& point) {
+    Sophus::Matrix<Scalar, 3, DoF> J;
+    J << Sophus::Matrix3<Scalar>::Identity(),
+        Sophus::SO3<Scalar>::Dx_exp_x_times_point_at_0(point);
+    return J;
   }
 
   /// Group exponential

@@ -656,6 +656,13 @@ class SO3 : public SO3Base<SO3<Scalar_, Options>> {
     return J;
   }
 
+  /// Returns derivative of exp(x) * p wrt. x_i at x=0.
+  ///
+  SOPHUS_FUNC static Sophus::Matrix<Scalar, 3, DoF> Dx_exp_x_times_point_at_0(
+      Point const& point) {
+    return hat(-point);
+  }
+
   /// Returns derivative of exp(x).matrix() wrt. ``x_i at x=0``.
   ///
   SOPHUS_FUNC static Transformation Dxi_exp_x_matrix_at_0(int i) {
