@@ -2,6 +2,7 @@
 SET( TEST_SOURCES test_common
                   test_cartesian2
                   test_cartesian3
+                  test_projection
                   test_so2
                   test_se2
                   test_rxso2
