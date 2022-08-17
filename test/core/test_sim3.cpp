@@ -8,11 +8,11 @@
 // Explicit instantiate all class templates so that all member methods
 // get compiled and for code coverage analysis.
 namespace Eigen {
-template class Map<Sophus::Sim3<double>>;
-template class Map<Sophus::Sim3<double> const>;
+template class Map<sophus::Sim3<double>>;
+template class Map<sophus::Sim3<double> const>;
 }  // namespace Eigen
 
-namespace Sophus {
+namespace sophus {
 
 template class Sim3<double, Eigen::AutoAlign>;
 template class Sim3<float, Eigen::DontAlign>;
@@ -276,6 +276,6 @@ int test_sim3() {
 
   return 0;
 }
-}  // namespace Sophus
+}  // namespace sophus
 
-int main() { return Sophus::test_sim3(); }
+int main() { return sophus::test_sim3(); }

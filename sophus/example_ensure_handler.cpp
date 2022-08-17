@@ -3,7 +3,7 @@
 #include <cstdio>
 #include <cstdlib>
 
-namespace Sophus {
+namespace sophus {
 void ensureFailed(char const* function, char const* file, int line,
                   char const* description) {
   std::printf("Sophus ensure failed in function '%s', file '%s', line %d.\n",
@@ -11,4 +11,4 @@ void ensureFailed(char const* function, char const* file, int line,
   std::printf("Description: %s\n", description);
   std::abort();
 }
-}  // namespace Sophus
+}  // namespace sophus

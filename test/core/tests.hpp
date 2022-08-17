@@ -16,7 +16,7 @@
 #include <ceres/jet.h>
 #endif
 
-namespace Sophus {
+namespace sophus {
 
 // compatibility with ceres::Jet types
 #if SOPHUS_CERES
@@ -48,10 +48,10 @@ class LieGroupTests {
   using Line = typename LieGroup::Line;
   using Hyperplane = typename LieGroup::Hyperplane;
   using Adjoint = typename LieGroup::Adjoint;
-  static int constexpr Dim = LieGroup::Dim;
-  static int constexpr N = LieGroup::N;
-  static int constexpr DoF = LieGroup::DoF;
-  static int constexpr num_parameters = LieGroup::num_parameters;
+  static int constexpr kPointDim = LieGroup::kPointDim;
+  static int constexpr kMatrixDim = LieGroup::kMatrixDim;
+  static int constexpr kDoF = LieGroup::kDoF;
+  static int constexpr kNumParameters = LieGroup::kNumParameters;
 
   LieGroupTests(
       std::vector<LieGroup, Eigen::aligned_allocator<LieGroup>> const&
@@ -96,19 +96,19 @@ class LieGroupTests {
 
       // Explicit implement the derivative in the Lie Group in first principles
       // as a vector field: D_x f(x) = D_h log(f(x + h) . f(x)^{-1})
-      Matrix<Scalar, DoF, DoF> const J_num =
-          vectorFieldNumDiff<Scalar, DoF, DoF>(
+      Matrix<Scalar, kDoF, kDoF> const J_num =
+          vectorFieldNumDiff<Scalar, kDoF, kDoF>(
               [&inv_exp_x](Tangent const& x_plus_delta) {
                 return (LieGroup::exp(x_plus_delta) * inv_exp_x).log();
               },
               x);
 
       // Analytical left Jacobian
-      Matrix<Scalar, DoF, DoF> const J = LieGroup::leftJacobian(x);
+      Matrix<Scalar, kDoF, kDoF> const J = LieGroup::leftJacobian(x);
       SOPHUS_TEST_APPROX(passed, J, J_num, Scalar(100) * kSmallEpsSqrt,
                          "Left Jacobian");
 
-      Matrix<Scalar, DoF, DoF> J_inv = LieGroup::leftJacobianInverse(x);
+      Matrix<Scalar, kDoF, kDoF> J_inv = LieGroup::leftJacobianInverse(x);
 
       SOPHUS_TEST_APPROX(passed, J, J_inv.inverse().eval(),
                          Scalar(100) * kSmallEpsSqrt,
@@ -129,11 +129,11 @@ class LieGroupTests {
   bool moreJacobiansTest() {
     bool passed = true;
     for (auto const& point : point_vec_) {
-      Matrix<Scalar, Dim, DoF> J = LieGroup::Dx_exp_x_times_point_at_0(point);
+      Matrix<Scalar, kPointDim, kDoF> J = LieGroup::Dx_exp_x_times_point_at_0(point);
       Tangent t;
       setToZero(t);
-      Matrix<Scalar, Dim, DoF> const J_num =
-          vectorFieldNumDiff<Scalar, Dim, DoF>(
+      Matrix<Scalar, kPointDim, kDoF> const J_num =
+          vectorFieldNumDiff<Scalar, kPointDim, kDoF>(
               [point](Tangent const& x) { return LieGroup::exp(x) * point; },
               t);
 
@@ -194,7 +194,7 @@ class LieGroupTests {
     bool passed = true;
 
     LieGroup g;
-    for (int i = 0; i < DoF; ++i) {
+    for (int i = 0; i < kDoF; ++i) {
       Transformation Gi = g.Dxi_exp_x_matrix_at_0(i);
       Transformation Gi2 = curveNumDiff(
           [i](Scalar xi) -> Transformation {
@@ -216,10 +216,10 @@ class LieGroupTests {
     bool passed = true;
     for (size_t j = 0; j < tangent_vec_.size(); ++j) {
       Tangent a = tangent_vec_[j];
-      Eigen::Matrix<Scalar, num_parameters, DoF> J = LieGroup::Dx_exp_x(a);
-      Eigen::Matrix<Scalar, num_parameters, DoF> J_num =
-          vectorFieldNumDiff<Scalar, num_parameters, DoF>(
-              [](Tangent const& x) -> Sophus::Vector<Scalar, num_parameters> {
+      Eigen::Matrix<Scalar, kNumParameters, kDoF> J = LieGroup::Dx_exp_x(a);
+      Eigen::Matrix<Scalar, kNumParameters, kDoF> J_num =
+          vectorFieldNumDiff<Scalar, kNumParameters, kDoF>(
+              [](Tangent const& x) -> sophus::Vector<Scalar, kNumParameters> {
                 return LieGroup::exp(x).params();
               },
               a);
@@ -230,10 +230,10 @@ class LieGroupTests {
 
     Tangent o;
     setToZero(o);
-    Eigen::Matrix<Scalar, num_parameters, DoF> J = LieGroup::Dx_exp_x_at_0();
-    Eigen::Matrix<Scalar, num_parameters, DoF> J_num =
-        vectorFieldNumDiff<Scalar, num_parameters, DoF>(
-            [](Tangent const& x) -> Sophus::Vector<Scalar, num_parameters> {
+    Eigen::Matrix<Scalar, kNumParameters, kDoF> J = LieGroup::Dx_exp_x_at_0();
+    Eigen::Matrix<Scalar, kNumParameters, kDoF> J_num =
+        vectorFieldNumDiff<Scalar, kNumParameters, kDoF>(
+            [](Tangent const& x) -> sophus::Vector<Scalar, kNumParameters> {
               return LieGroup::exp(x).params();
             },
             o);
@@ -242,10 +242,10 @@ class LieGroupTests {
     for (size_t i = 0; i < group_vec_.size(); ++i) {
       LieGroup T = group_vec_[i];
 
-      Eigen::Matrix<Scalar, num_parameters, DoF> J = T.Dx_this_mul_exp_x_at_0();
-      Eigen::Matrix<Scalar, num_parameters, DoF> J_num =
-          vectorFieldNumDiff<Scalar, num_parameters, DoF>(
-              [T](Tangent const& x) -> Sophus::Vector<Scalar, num_parameters> {
+      Eigen::Matrix<Scalar, kNumParameters, kDoF> J = T.Dx_this_mul_exp_x_at_0();
+      Eigen::Matrix<Scalar, kNumParameters, kDoF> J_num =
+          vectorFieldNumDiff<Scalar, kNumParameters, kDoF>(
+              [T](Tangent const& x) -> sophus::Vector<Scalar, kNumParameters> {
                 return (T * LieGroup::exp(x)).params();
               },
               o);
@@ -257,10 +257,10 @@ class LieGroupTests {
     for (size_t i = 0; i < group_vec_.size(); ++i) {
       LieGroup T = group_vec_[i];
 
-      Eigen::Matrix<Scalar, DoF, DoF> J =
+      Eigen::Matrix<Scalar, kDoF, kDoF> J =
           T.Dx_log_this_inv_by_x_at_this() * T.Dx_this_mul_exp_x_at_0();
-      Eigen::Matrix<Scalar, DoF, DoF> J_exp =
-          Eigen::Matrix<Scalar, DoF, DoF>::Identity();
+      Eigen::Matrix<Scalar, kDoF, kDoF> J_exp =
+          Eigen::Matrix<Scalar, kDoF, kDoF>::Identity();
 
       SOPHUS_TEST_APPROX(passed, J, J_exp, kSmallEpsSqrt,
                          "Dy_log_this_inv_by_at_x case: %", i);
@@ -674,15 +674,15 @@ class LieGroupTests {
   Scalar const kSmallEps = Constants<Scalar>::epsilon();
   Scalar const kSmallEpsSqrt = Constants<Scalar>::epsilonSqrt();
 
-  Eigen::Matrix<Scalar, N - 1, 1> map(
-      Eigen::Matrix<Scalar, N, N> const& T,
-      Eigen::Matrix<Scalar, N - 1, 1> const& p) {
-    return T.template topLeftCorner<N - 1, N - 1>() * p +
-           T.template topRightCorner<N - 1, 1>();
+  Eigen::Matrix<Scalar, kMatrixDim - 1, 1> map(
+      Eigen::Matrix<Scalar, kMatrixDim, kMatrixDim> const& T,
+      Eigen::Matrix<Scalar, kMatrixDim - 1, 1> const& p) {
+    return T.template topLeftCorner<kMatrixDim - 1, kMatrixDim - 1>() * p +
+           T.template topRightCorner<kMatrixDim - 1, 1>();
   }
 
-  Eigen::Matrix<Scalar, N, 1> map(Eigen::Matrix<Scalar, N, N> const& T,
-                                  Eigen::Matrix<Scalar, N, 1> const& p) {
+  Eigen::Matrix<Scalar, kMatrixDim, 1> map(Eigen::Matrix<Scalar, kMatrixDim, kMatrixDim> const& T,
+                                  Eigen::Matrix<Scalar, kMatrixDim, 1> const& p) {
     return T * p;
   }
 
@@ -745,5 +745,5 @@ std::vector<SE2<T>, Eigen::aligned_allocator<SE2<T>>> getTestSE2s() {
                     SE2<T>(SO2<T>(-0.3), Vector2<T>(0, 6)));
   return se2_vec;
 }
-}  // namespace Sophus
+}  // namespace sophus
 #endif  // TESTS_HPP

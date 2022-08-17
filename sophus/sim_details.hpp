@@ -2,20 +2,20 @@
 
 #include "types.hpp"
 
-namespace Sophus {
+namespace sophus {
 namespace details {
 
-template <class Scalar, int N>
-Matrix<Scalar, N, N> calcW(Matrix<Scalar, N, N> const &Omega,
+template <class Scalar, int kMatrixDim>
+Matrix<Scalar, kMatrixDim, kMatrixDim> calcW(Matrix<Scalar, kMatrixDim, kMatrixDim> const &Omega,
                            Scalar const theta, Scalar const sigma) {
   using std::abs;
   using std::cos;
   using std::exp;
   using std::sin;
-  static Matrix<Scalar, N, N> const I = Matrix<Scalar, N, N>::Identity();
+  static Matrix<Scalar, kMatrixDim, kMatrixDim> const I = Matrix<Scalar, kMatrixDim, kMatrixDim>::Identity();
   static Scalar const one(1);
   static Scalar const half(0.5);
-  Matrix<Scalar, N, N> const Omega2 = Omega * Omega;
+  Matrix<Scalar, kMatrixDim, kMatrixDim> const Omega2 = Omega * Omega;
   Scalar const scale = exp(sigma);
   Scalar A, B, C;
   if (abs(sigma) < Constants<Scalar>::epsilon()) {
@@ -138,18 +138,18 @@ void calcW_derivatives(Scalar const theta, Scalar const sigma, Scalar &A,
   }
 }
 
-template <class Scalar, int N>
-Matrix<Scalar, N, N> calcWInv(Matrix<Scalar, N, N> const &Omega,
+template <class Scalar, int kMatrixDim>
+Matrix<Scalar, kMatrixDim, kMatrixDim> calcWInv(Matrix<Scalar, kMatrixDim, kMatrixDim> const &Omega,
                               Scalar const theta, Scalar const sigma,
                               Scalar const scale) {
   using std::abs;
   using std::cos;
   using std::sin;
-  static Matrix<Scalar, N, N> const I = Matrix<Scalar, N, N>::Identity();
+  static Matrix<Scalar, kMatrixDim, kMatrixDim> const I = Matrix<Scalar, kMatrixDim, kMatrixDim>::Identity();
   static Scalar const half(0.5);
   static Scalar const one(1);
   static Scalar const two(2);
-  Matrix<Scalar, N, N> const Omega2 = Omega * Omega;
+  Matrix<Scalar, kMatrixDim, kMatrixDim> const Omega2 = Omega * Omega;
   Scalar const scale_sq = scale * scale;
   Scalar const theta_sq = theta * theta;
   Scalar const sin_theta = sin(theta);
@@ -188,4 +188,4 @@ Matrix<Scalar, N, N> calcWInv(Matrix<Scalar, N, N> const &Omega,
 }
 
 }  // namespace details
-}  // namespace Sophus
+}  // namespace sophus

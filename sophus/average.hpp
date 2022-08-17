@@ -16,7 +16,7 @@
 #include "so2.hpp"
 #include "so3.hpp"
 
-namespace Sophus {
+namespace sophus {
 
 /// Calculates mean iteratively.
 ///
@@ -25,8 +25,8 @@ namespace Sophus {
 template <class SequenceContainer>
 optional<typename SequenceContainer::value_type> iterativeMean(
     SequenceContainer const& foo_Ts_bar, int max_num_iterations) {
-  size_t N = foo_Ts_bar.size();
-  SOPHUS_ENSURE(N >= 1, "N must be >= 1.");
+  size_t kMatrixDim = foo_Ts_bar.size();
+  SOPHUS_ENSURE(kMatrixDim >= 1, "kMatrixDim must be >= 1.");
 
   using Group = typename SequenceContainer::value_type;
   using Scalar = typename Group::Scalar;
@@ -35,7 +35,7 @@ optional<typename SequenceContainer::value_type> iterativeMean(
   // This implements the algorithm in the beginning of Sec. 4.2 in
   // ftp://ftp-sop.inria.fr/epidaure/Publications/Arsigny/arsigny_rr_biinvariant_average.pdf.
   Group foo_T_average = foo_Ts_bar.front();
-  Scalar w = Scalar(1. / N);
+  Scalar w = Scalar(1. / kMatrixDim);
   for (int i = 0; i < max_num_iterations; ++i) {
     Tangent average;
     setToZero<Tangent>(average);
@@ -64,21 +64,21 @@ optional<typename SequenceContainer::value_type> average(
 #else
 
 // Mean implementation for Cartesian.
-template <class SequenceContainer, int Dim = SequenceContainer::value_type::DoF,
+template <class SequenceContainer, int kPointDim = SequenceContainer::value_type::kDoF,
           class Scalar = typename SequenceContainer::value_type::Scalar>
 enable_if_t<std::is_same<typename SequenceContainer::value_type,
-                         Cartesian<Scalar, Dim> >::value,
+                         Cartesian<Scalar, kPointDim> >::value,
             optional<typename SequenceContainer::value_type> >
 average(SequenceContainer const& foo_Ts_bar) {
-  size_t N = std::distance(std::begin(foo_Ts_bar), std::end(foo_Ts_bar));
-  SOPHUS_ENSURE(N >= 1, "N must be >= 1.");
+  size_t kMatrixDim = std::distance(std::begin(foo_Ts_bar), std::end(foo_Ts_bar));
+  SOPHUS_ENSURE(kMatrixDim >= 1, "kMatrixDim must be >= 1.");
 
-  Sophus::Vector<Scalar, Dim> average;
+  sophus::Vector<Scalar, kPointDim> average;
   average.setZero();
-  for (Cartesian<Scalar, Dim> const& foo_T_bar : foo_Ts_bar) {
+  for (Cartesian<Scalar, kPointDim> const& foo_T_bar : foo_Ts_bar) {
     average += foo_T_bar.params();
   }
-  return Cartesian<Scalar, Dim>(average / Scalar(N));
+  return Cartesian<Scalar, kPointDim>(average / Scalar(kMatrixDim));
 }
 
 // Mean implementation for SO(2).
@@ -90,10 +90,10 @@ enable_if_t<
 average(SequenceContainer const& foo_Ts_bar) {
   // This implements rotational part of Proposition 12 from Sec. 6.2 of
   // ftp://ftp-sop.inria.fr/epidaure/Publications/Arsigny/arsigny_rr_biinvariant_average.pdf.
-  size_t N = std::distance(std::begin(foo_Ts_bar), std::end(foo_Ts_bar));
-  SOPHUS_ENSURE(N >= 1, "N must be >= 1.");
+  size_t kMatrixDim = std::distance(std::begin(foo_Ts_bar), std::end(foo_Ts_bar));
+  SOPHUS_ENSURE(kMatrixDim >= 1, "kMatrixDim must be >= 1.");
   SO2<Scalar> foo_T_average = foo_Ts_bar.front();
-  Scalar w = Scalar(1. / N);
+  Scalar w = Scalar(1. / kMatrixDim);
 
   Scalar average(0);
   for (SO2<Scalar> const& foo_T_bar : foo_Ts_bar) {
@@ -109,10 +109,10 @@ enable_if_t<
     std::is_same<typename SequenceContainer::value_type, RxSO2<Scalar> >::value,
     optional<typename SequenceContainer::value_type> >
 average(SequenceContainer const& foo_Ts_bar) {
-  size_t N = std::distance(std::begin(foo_Ts_bar), std::end(foo_Ts_bar));
-  SOPHUS_ENSURE(N >= 1, "N must be >= 1.");
+  size_t kMatrixDim = std::distance(std::begin(foo_Ts_bar), std::end(foo_Ts_bar));
+  SOPHUS_ENSURE(kMatrixDim >= 1, "kMatrixDim must be >= 1.");
   RxSO2<Scalar> foo_T_average = foo_Ts_bar.front();
-  Scalar w = Scalar(1. / N);
+  Scalar w = Scalar(1. / kMatrixDim);
 
   Vector2<Scalar> average(Scalar(0), Scalar(0));
   for (RxSO2<Scalar> const& foo_T_bar : foo_Ts_bar) {
@@ -140,11 +140,11 @@ template <class SequenceContainer,
 Eigen::Quaternion<Scalar> averageUnitQuaternion(
     SequenceContainer const& foo_Ts_bar) {
   // This:  http://stackoverflow.com/a/27410865/1221742
-  size_t N = std::distance(std::begin(foo_Ts_bar), std::end(foo_Ts_bar));
-  SOPHUS_ENSURE(N >= 1, "N must be >= 1.");
-  Eigen::Matrix<Scalar, 4, Eigen::Dynamic> Q(4, N);
+  size_t kMatrixDim = std::distance(std::begin(foo_Ts_bar), std::end(foo_Ts_bar));
+  SOPHUS_ENSURE(kMatrixDim >= 1, "kMatrixDim must be >= 1.");
+  Eigen::Matrix<Scalar, 4, Eigen::Dynamic> Q(4, kMatrixDim);
   int i = 0;
-  Scalar w = Scalar(1. / N);
+  Scalar w = Scalar(1. / kMatrixDim);
   for (auto const& foo_T_bar : foo_Ts_bar) {
     Q.col(i) = w * details::getUnitQuaternion(foo_T_bar).coeffs();
     ++i;
@@ -193,16 +193,16 @@ enable_if_t<
     std::is_same<typename SequenceContainer::value_type, RxSO3<Scalar> >::value,
     optional<typename SequenceContainer::value_type> >
 average(SequenceContainer const& foo_Ts_bar) {
-  size_t N = std::distance(std::begin(foo_Ts_bar), std::end(foo_Ts_bar));
+  size_t kMatrixDim = std::distance(std::begin(foo_Ts_bar), std::end(foo_Ts_bar));
 
-  SOPHUS_ENSURE(N >= 1, "N must be >= 1.");
+  SOPHUS_ENSURE(kMatrixDim >= 1, "kMatrixDim must be >= 1.");
   Scalar scale_sum = Scalar(0);
   using std::exp;
   using std::log;
   for (RxSO3<Scalar> const& foo_T_bar : foo_Ts_bar) {
     scale_sum += log(foo_T_bar.scale());
   }
-  return RxSO3<Scalar>(exp(scale_sum / Scalar(N)),
+  return RxSO3<Scalar>(exp(scale_sum / Scalar(kMatrixDim)),
                        SO3<Scalar>(details::averageUnitQuaternion(foo_Ts_bar)));
 }
 
@@ -246,4 +246,4 @@ average(SequenceContainer const& foo_Ts_bar, int max_num_iterations = 20) {
 
 #endif  // DOXYGEN_SHOULD_SKIP_THIS
 
-}  // namespace Sophus
+}  // namespace sophus

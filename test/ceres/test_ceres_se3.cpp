@@ -8,17 +8,17 @@ template <typename T>
 using StdVector = std::vector<T, Eigen::aligned_allocator<T>>;
 
 template <>
-struct RotationalPart<Sophus::SE3d> {
-  static double Norm(const typename Sophus::SE3d::Tangent &t) {
+struct RotationalPart<sophus::SE3d> {
+  static double Norm(const typename sophus::SE3d::Tangent &t) {
     return t.template tail<3>().norm();
   }
 };
 
 int main(int, char **) {
-  using SE3d = Sophus::SE3d;
-  using SO3d = Sophus::SO3d;
+  using SE3d = sophus::SE3d;
+  using SO3d = sophus::SO3d;
   using Point = SE3d::Point;
-  double const kPi = Sophus::Constants<double>::pi();
+  double const kPi = sophus::Constants<double>::pi();
 
   StdVector<SE3d> se3_vec;
   se3_vec.push_back(SE3d(SO3d::exp(Point(0.2, 0.5, 0.0)), Point(0, 0, 0)));
@@ -48,6 +48,6 @@ int main(int, char **) {
   point_vec.push_back(Point(5.8, 9.2, 0.0));
 
   std::cerr << "Test Ceres SE3" << std::endl;
-  Sophus::LieGroupCeresTests<Sophus::SE3>(se3_vec, point_vec).testAll();
+  sophus::LieGroupCeresTests<sophus::SE3>(se3_vec, point_vec).testAll();
   return 0;
 }

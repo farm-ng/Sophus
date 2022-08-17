@@ -5,42 +5,42 @@
 
 #include "so3.hpp"
 
-namespace Sophus {
-template <class Scalar_, int Options = 0>
+namespace sophus {
+template <class ScalarT, int Options = 0>
 class RxSO3;
 using RxSO3d = RxSO3<double>;
 using RxSO3f = RxSO3<float>;
-}  // namespace Sophus
+}  // namespace sophus
 
 namespace Eigen {
 namespace internal {
 
-template <class Scalar_, int Options_>
-struct traits<Sophus::RxSO3<Scalar_, Options_>> {
+template <class ScalarT, int Options_>
+struct traits<sophus::RxSO3<ScalarT, Options_>> {
   static constexpr int Options = Options_;
-  using Scalar = Scalar_;
+  using Scalar = ScalarT;
   using QuaternionType = Eigen::Quaternion<Scalar, Options>;
 };
 
-template <class Scalar_, int Options_>
-struct traits<Map<Sophus::RxSO3<Scalar_>, Options_>>
-    : traits<Sophus::RxSO3<Scalar_, Options_>> {
+template <class ScalarT, int Options_>
+struct traits<Map<sophus::RxSO3<ScalarT>, Options_>>
+    : traits<sophus::RxSO3<ScalarT, Options_>> {
   static constexpr int Options = Options_;
-  using Scalar = Scalar_;
+  using Scalar = ScalarT;
   using QuaternionType = Map<Eigen::Quaternion<Scalar>, Options>;
 };
 
-template <class Scalar_, int Options_>
-struct traits<Map<Sophus::RxSO3<Scalar_> const, Options_>>
-    : traits<Sophus::RxSO3<Scalar_, Options_> const> {
+template <class ScalarT, int Options_>
+struct traits<Map<sophus::RxSO3<ScalarT> const, Options_>>
+    : traits<sophus::RxSO3<ScalarT, Options_> const> {
   static constexpr int Options = Options_;
-  using Scalar = Scalar_;
+  using Scalar = ScalarT;
   using QuaternionType = Map<Eigen::Quaternion<Scalar> const, Options>;
 };
 }  // namespace internal
 }  // namespace Eigen
 
-namespace Sophus {
+namespace sophus {
 
 /// RxSO3 base type - implements RxSO3 class but is storage agnostic
 ///
@@ -55,7 +55,7 @@ namespace Sophus {
 /// Internally, RxSO3 is represented by the group of non-zero quaternions.
 /// In particular, the scale equals the squared(!) norm of the quaternion ``q``,
 /// ``s = |q|^2``. This is a most compact representation since the degrees of
-/// freedom (DoF) of RxSO3 (=4) equals the number of internal parameters (=4).
+/// freedom (kDoF) of RxSO3 (=4) equals the number of internal parameters (=4).
 ///
 /// This class has the explicit class invariant that the scale ``s`` is not
 /// too close to either zero or infinity. Strictly speaking, it must hold that:
@@ -77,20 +77,20 @@ class RxSO3Base {
 
   /// Degrees of freedom of manifold, number of dimensions in tangent space
   /// (three for rotation and one for scaling).
-  static int constexpr DoF = 4;
+  static int constexpr kDoF = 4;
   /// Number of internal parameters used (quaternion is a 4-tuple).
-  static int constexpr num_parameters = 4;
+  static int constexpr kNumParameters = 4;
   /// Group transformations are 3x3 matrices.
-  static int constexpr N = 3;
+  static int constexpr kMatrixDim = 3;
   /// Points are 3-dimensional
-  static int constexpr Dim = 3;
-  using Transformation = Matrix<Scalar, N, N>;
+  static int constexpr kPointDim = 3;
+  using Transformation = Matrix<Scalar, kMatrixDim, kMatrixDim>;
   using Point = Vector3<Scalar>;
   using HomogeneousPoint = Vector4<Scalar>;
   using Line = ParametrizedLine3<Scalar>;
   using Hyperplane = Hyperplane3<Scalar>;
-  using Tangent = Vector<Scalar, DoF>;
-  using Adjoint = Matrix<Scalar, DoF, DoF>;
+  using Tangent = Vector<Scalar, kDoF>;
+  using Adjoint = Matrix<Scalar, kDoF, kDoF>;
 
   struct TangentAndTheta {
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
@@ -246,7 +246,7 @@ class RxSO3Base {
         typename RxSO3Product<OtherDerived>::QuaternionType;
 
     QuaternionProductType result_quaternion(
-        Sophus::SO3<double>::QuaternionProduct<QuaternionProductType>(
+        sophus::SO3<double>::QuaternionProduct<QuaternionProductType>(
             quaternion(), other.quaternion()));
 
     ResultT scale = result_quaternion.squaredNorm();
@@ -342,7 +342,7 @@ class RxSO3Base {
   /// It returns (q.imag[0], q.imag[1], q.imag[2], q.real), with q being the
   /// quaternion.
   ///
-  SOPHUS_FUNC Sophus::Vector<Scalar, num_parameters> params() const {
+  SOPHUS_FUNC sophus::Vector<Scalar, kNumParameters> params() const {
     return quaternion().coeffs();
   }
 
@@ -434,9 +434,9 @@ class RxSO3Base {
 
   /// Returns derivative of  this * RxSO3::exp(x) wrt. x at x=0
   ///
-  SOPHUS_FUNC Matrix<Scalar, num_parameters, DoF> Dx_this_mul_exp_x_at_0()
+  SOPHUS_FUNC Matrix<Scalar, kNumParameters, kDoF> Dx_this_mul_exp_x_at_0()
       const {
-    Matrix<Scalar, num_parameters, DoF> J;
+    Matrix<Scalar, kNumParameters, kDoF> J;
     Eigen::Quaternion<Scalar> const q = quaternion();
     J.col(3) = q.coeffs() * Scalar(0.5);
     Scalar const c0 = Scalar(0.5) * q.w();
@@ -463,10 +463,10 @@ class RxSO3Base {
 
   /// Returns derivative of log(this^{-1} * x) by x at x=this.
   ///
-  SOPHUS_FUNC Matrix<Scalar, DoF, num_parameters> Dx_log_this_inv_by_x_at_this()
+  SOPHUS_FUNC Matrix<Scalar, kDoF, kNumParameters> Dx_log_this_inv_by_x_at_this()
       const {
     auto& q = quaternion();
-    Matrix<Scalar, DoF, num_parameters> J;
+    Matrix<Scalar, kDoF, kNumParameters> J;
     // clang-format off
     J << q.w(),  q.z(), -q.y(), -q.x(),
         -q.z(),  q.w(),  q.x(), -q.y(),
@@ -486,14 +486,14 @@ class RxSO3Base {
 };
 
 /// RxSO3 using storage; derived from RxSO3Base.
-template <class Scalar_, int Options>
-class RxSO3 : public RxSO3Base<RxSO3<Scalar_, Options>> {
+template <class ScalarT, int Options>
+class RxSO3 : public RxSO3Base<RxSO3<ScalarT, Options>> {
  public:
-  using Base = RxSO3Base<RxSO3<Scalar_, Options>>;
-  static int constexpr DoF = Base::DoF;
-  static int constexpr num_parameters = Base::num_parameters;
+  using Base = RxSO3Base<RxSO3<ScalarT, Options>>;
+  static int constexpr kDoF = Base::kDoF;
+  static int constexpr kNumParameters = Base::kNumParameters;
 
-  using Scalar = Scalar_;
+  using Scalar = ScalarT;
   using Transformation = typename Base::Transformation;
   using Point = typename Base::Point;
   using HomogeneousPoint = typename Base::HomogeneousPoint;
@@ -502,7 +502,7 @@ class RxSO3 : public RxSO3Base<RxSO3<Scalar_, Options>> {
   using QuaternionMember = Eigen::Quaternion<Scalar, Options>;
 
   /// ``Base`` is friend so quaternion_nonconst can be accessed from ``Base``.
-  friend class RxSO3Base<RxSO3<Scalar_, Options>>;
+  friend class RxSO3Base<RxSO3<ScalarT, Options>>;
 
   using Base::operator=;
 
@@ -599,19 +599,19 @@ class RxSO3 : public RxSO3Base<RxSO3<Scalar_, Options>> {
 
   /// Returns derivative of exp(x) wrt. x_i at x=0.
   ///
-  SOPHUS_FUNC static Sophus::Matrix<Scalar, num_parameters, DoF>
+  SOPHUS_FUNC static sophus::Matrix<Scalar, kNumParameters, kDoF>
   Dx_exp_x_at_0() {
     static Scalar const h(0.5);
-    return h * Sophus::Matrix<Scalar, num_parameters, DoF>::Identity();
+    return h * sophus::Matrix<Scalar, kNumParameters, kDoF>::Identity();
   }
 
   /// Returns derivative of exp(x) wrt. x.
   ///
-  SOPHUS_FUNC static Sophus::Matrix<Scalar, num_parameters, DoF> Dx_exp_x(
+  SOPHUS_FUNC static sophus::Matrix<Scalar, kNumParameters, kDoF> Dx_exp_x(
       const Tangent& a) {
     using std::exp;
     using std::sqrt;
-    Sophus::Matrix<Scalar, num_parameters, DoF> J;
+    sophus::Matrix<Scalar, kNumParameters, kDoF> J;
     Vector3<Scalar> const omega = a.template head<3>();
     Scalar const sigma = a[3];
     Eigen::Quaternion<Scalar> quat = SO3<Scalar>::exp(omega).unit_quaternion();
@@ -625,10 +625,10 @@ class RxSO3 : public RxSO3Base<RxSO3<Scalar_, Options>> {
 
   /// Returns derivative of exp(x) * p wrt. x_i at x=0.
   ///
-  SOPHUS_FUNC static Sophus::Matrix<Scalar, 3, DoF> Dx_exp_x_times_point_at_0(
+  SOPHUS_FUNC static sophus::Matrix<Scalar, 3, kDoF> Dx_exp_x_times_point_at_0(
       Point const& point) {
-    Sophus::Matrix<Scalar, 3, DoF> j;
-    j << Sophus::SO3<Scalar>::hat(-point), point;
+    sophus::Matrix<Scalar, 3, kDoF> j;
+    j << sophus::SO3<Scalar>::hat(-point), point;
     return j;
   }
 
@@ -788,7 +788,7 @@ class RxSO3 : public RxSO3Base<RxSO3<Scalar_, Options>> {
   QuaternionMember quaternion_;
 };
 
-}  // namespace Sophus
+}  // namespace sophus
 
 namespace Eigen {
 
@@ -796,12 +796,12 @@ namespace Eigen {
 ///
 /// Allows us to wrap RxSO3 objects around POD array (e.g. external c style
 /// quaternion).
-template <class Scalar_, int Options>
-class Map<Sophus::RxSO3<Scalar_>, Options>
-    : public Sophus::RxSO3Base<Map<Sophus::RxSO3<Scalar_>, Options>> {
+template <class ScalarT, int Options>
+class Map<sophus::RxSO3<ScalarT>, Options>
+    : public sophus::RxSO3Base<Map<sophus::RxSO3<ScalarT>, Options>> {
  public:
-  using Base = Sophus::RxSO3Base<Map<Sophus::RxSO3<Scalar_>, Options>>;
-  using Scalar = Scalar_;
+  using Base = sophus::RxSO3Base<Map<sophus::RxSO3<ScalarT>, Options>>;
+  using Scalar = ScalarT;
   using Transformation = typename Base::Transformation;
   using Point = typename Base::Point;
   using HomogeneousPoint = typename Base::HomogeneousPoint;
@@ -809,7 +809,7 @@ class Map<Sophus::RxSO3<Scalar_>, Options>
   using Adjoint = typename Base::Adjoint;
 
   /// ``Base`` is friend so quaternion_nonconst can be accessed from ``Base``.
-  friend class Sophus::RxSO3Base<Map<Sophus::RxSO3<Scalar_>, Options>>;
+  friend class sophus::RxSO3Base<Map<sophus::RxSO3<ScalarT>, Options>>;
 
   using Base::operator=;
   using Base::operator*=;
@@ -836,12 +836,12 @@ class Map<Sophus::RxSO3<Scalar_>, Options>
 ///
 /// Allows us to wrap RxSO3 objects around POD array (e.g. external c style
 /// quaternion).
-template <class Scalar_, int Options>
-class Map<Sophus::RxSO3<Scalar_> const, Options>
-    : public Sophus::RxSO3Base<Map<Sophus::RxSO3<Scalar_> const, Options>> {
+template <class ScalarT, int Options>
+class Map<sophus::RxSO3<ScalarT> const, Options>
+    : public sophus::RxSO3Base<Map<sophus::RxSO3<ScalarT> const, Options>> {
  public:
-  using Base = Sophus::RxSO3Base<Map<Sophus::RxSO3<Scalar_> const, Options>>;
-  using Scalar = Scalar_;
+  using Base = sophus::RxSO3Base<Map<sophus::RxSO3<ScalarT> const, Options>>;
+  using Scalar = ScalarT;
   using Transformation = typename Base::Transformation;
   using Point = typename Base::Point;
   using HomogeneousPoint = typename Base::HomogeneousPoint;

@@ -7,7 +7,7 @@
 
 #include "interpolate_details.hpp"
 
-namespace Sophus {
+namespace sophus {
 
 /// This function interpolates between two Lie group elements ``foo_T_bar``
 /// and ``foo_T_baz`` with an interpolation factor of ``alpha`` in [0, 1].
@@ -32,4 +32,4 @@ enable_if_t<interp_details::Traits<G>::supported, G> interpolate(
   return foo_T_bar * G::exp(inter_p * (foo_T_bar.inverse() * foo_T_baz).log());
 }
 
-}  // namespace Sophus
+}  // namespace sophus

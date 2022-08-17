@@ -13,42 +13,42 @@
 #include <Eigen/src/Geometry/Quaternion.h>
 #include <Eigen/src/Geometry/RotationBase.h>
 
-namespace Sophus {
-template <class Scalar_, int Options = 0>
+namespace sophus {
+template <class ScalarT, int Options = 0>
 class SO3;
 using SO3d = SO3<double>;
 using SO3f = SO3<float>;
-}  // namespace Sophus
+}  // namespace sophus
 
 namespace Eigen {
 namespace internal {
 
-template <class Scalar_, int Options_>
-struct traits<Sophus::SO3<Scalar_, Options_>> {
+template <class ScalarT, int Options_>
+struct traits<sophus::SO3<ScalarT, Options_>> {
   static constexpr int Options = Options_;
-  using Scalar = Scalar_;
+  using Scalar = ScalarT;
   using QuaternionType = Eigen::Quaternion<Scalar, Options>;
 };
 
-template <class Scalar_, int Options_>
-struct traits<Map<Sophus::SO3<Scalar_>, Options_>>
-    : traits<Sophus::SO3<Scalar_, Options_>> {
+template <class ScalarT, int Options_>
+struct traits<Map<sophus::SO3<ScalarT>, Options_>>
+    : traits<sophus::SO3<ScalarT, Options_>> {
   static constexpr int Options = Options_;
-  using Scalar = Scalar_;
+  using Scalar = ScalarT;
   using QuaternionType = Map<Eigen::Quaternion<Scalar>, Options>;
 };
 
-template <class Scalar_, int Options_>
-struct traits<Map<Sophus::SO3<Scalar_> const, Options_>>
-    : traits<Sophus::SO3<Scalar_, Options_> const> {
+template <class ScalarT, int Options_>
+struct traits<Map<sophus::SO3<ScalarT> const, Options_>>
+    : traits<sophus::SO3<ScalarT, Options_> const> {
   static constexpr int Options = Options_;
-  using Scalar = Scalar_;
+  using Scalar = ScalarT;
   using QuaternionType = Map<Eigen::Quaternion<Scalar> const, Options>;
 };
 }  // namespace internal
 }  // namespace Eigen
 
-namespace Sophus {
+namespace sophus {
 
 /// SO3 base type - implements SO3 class but is storage agnostic.
 ///
@@ -82,21 +82,21 @@ class SO3Base {
   using QuaternionTemporaryType = Eigen::Quaternion<Scalar, Options>;
 
   /// Degrees of freedom of group, number of dimensions in tangent space.
-  static int constexpr DoF = 3;
+  static int constexpr kDoF = 3;
   /// Number of internal parameters used (quaternion is a 4-tuple).
-  static int constexpr num_parameters = 4;
+  static int constexpr kNumParameters = 4;
   /// Group transformations are 3x3 matrices.
-  static int constexpr N = 3;
+  static int constexpr kMatrixDim = 3;
   /// Points are 3-dimensional
-  static int constexpr Dim = 3;
+  static int constexpr kPointDim = 3;
 
-  using Transformation = Matrix<Scalar, N, N>;
+  using Transformation = Matrix<Scalar, kMatrixDim, kMatrixDim>;
   using Point = Vector3<Scalar>;
   using HomogeneousPoint = Vector4<Scalar>;
   using Line = ParametrizedLine3<Scalar>;
   using Hyperplane = Hyperplane3<Scalar>;
-  using Tangent = Vector<Scalar, DoF>;
-  using Adjoint = Matrix<Scalar, DoF, DoF>;
+  using Tangent = Vector<Scalar, kDoF>;
+  using Adjoint = Matrix<Scalar, kDoF, kDoF>;
 
   struct TangentAndTheta {
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
@@ -136,8 +136,8 @@ class SO3Base {
   ///
   template <class S = Scalar>
   SOPHUS_FUNC enable_if_t<std::is_floating_point<S>::value, S> angleX() const {
-    Sophus::Matrix3<Scalar> R = matrix();
-    Sophus::Matrix2<Scalar> Rx = R.template block<2, 2>(1, 1);
+    sophus::Matrix3<Scalar> R = matrix();
+    sophus::Matrix2<Scalar> Rx = R.template block<2, 2>(1, 1);
     return SO2<Scalar>(makeRotationMatrix(Rx)).log();
   }
 
@@ -145,8 +145,8 @@ class SO3Base {
   ///
   template <class S = Scalar>
   SOPHUS_FUNC enable_if_t<std::is_floating_point<S>::value, S> angleY() const {
-    Sophus::Matrix3<Scalar> R = matrix();
-    Sophus::Matrix2<Scalar> Ry;
+    sophus::Matrix3<Scalar> R = matrix();
+    sophus::Matrix2<Scalar> Ry;
     // clang-format off
     Ry <<
       R(0, 0), R(2, 0),
@@ -159,8 +159,8 @@ class SO3Base {
   ///
   template <class S = Scalar>
   SOPHUS_FUNC enable_if_t<std::is_floating_point<S>::value, S> angleZ() const {
-    Sophus::Matrix3<Scalar> R = matrix();
-    Sophus::Matrix2<Scalar> Rz = R.template block<2, 2>(0, 0);
+    sophus::Matrix3<Scalar> R = matrix();
+    sophus::Matrix2<Scalar> Rz = R.template block<2, 2>(0, 0);
     return SO2<Scalar>(makeRotationMatrix(Rz)).log();
   }
 
@@ -191,9 +191,9 @@ class SO3Base {
 
   /// Returns derivative of  this * SO3::exp(x)  wrt. x at x=0.
   ///
-  SOPHUS_FUNC Matrix<Scalar, num_parameters, DoF> Dx_this_mul_exp_x_at_0()
+  SOPHUS_FUNC Matrix<Scalar, kNumParameters, kDoF> Dx_this_mul_exp_x_at_0()
       const {
-    Matrix<Scalar, num_parameters, DoF> J;
+    Matrix<Scalar, kNumParameters, kDoF> J;
     Eigen::Quaternion<Scalar> const q = unit_quaternion();
     Scalar const c0 = Scalar(0.5) * q.w();
     Scalar const c1 = Scalar(0.5) * q.z();
@@ -220,10 +220,10 @@ class SO3Base {
 
   /// Returns derivative of log(this^{-1} * x) by x at x=this.
   ///
-  SOPHUS_FUNC Matrix<Scalar, DoF, num_parameters> Dx_log_this_inv_by_x_at_this()
+  SOPHUS_FUNC Matrix<Scalar, kDoF, kNumParameters> Dx_log_this_inv_by_x_at_this()
       const {
     auto& q = unit_quaternion();
-    Matrix<Scalar, DoF, num_parameters> J;
+    Matrix<Scalar, kDoF, kNumParameters> J;
     // clang-format off
     J << q.w(),  q.z(), -q.y(), -q.x(),
         -q.z(),  q.w(),  q.x(), -q.y(),
@@ -237,7 +237,7 @@ class SO3Base {
   /// It returns (q.imag[0], q.imag[1], q.imag[2], q.real), with q being the
   /// unit quaternion.
   ///
-  SOPHUS_FUNC Sophus::Vector<Scalar, num_parameters> params() const {
+  SOPHUS_FUNC sophus::Vector<Scalar, kNumParameters> params() const {
     return unit_quaternion().coeffs();
   }
 
@@ -464,14 +464,14 @@ class SO3Base {
 };
 
 /// SO3 using default storage; derived from SO3Base.
-template <class Scalar_, int Options>
-class SO3 : public SO3Base<SO3<Scalar_, Options>> {
+template <class ScalarT, int Options>
+class SO3 : public SO3Base<SO3<ScalarT, Options>> {
  public:
-  using Base = SO3Base<SO3<Scalar_, Options>>;
-  static int constexpr DoF = Base::DoF;
-  static int constexpr num_parameters = Base::num_parameters;
+  using Base = SO3Base<SO3<ScalarT, Options>>;
+  static int constexpr kDoF = Base::kDoF;
+  static int constexpr kNumParameters = Base::kNumParameters;
 
-  using Scalar = Scalar_;
+  using Scalar = ScalarT;
   using Transformation = typename Base::Transformation;
   using Point = typename Base::Point;
   using HomogeneousPoint = typename Base::HomogeneousPoint;
@@ -546,7 +546,7 @@ class SO3 : public SO3Base<SO3<Scalar_, Options>> {
   /// Warning: Not to be confused with Dx_exp_x(), which is derivative of the
   ///          internal quaternion representation of SO3 wrt the tangent vector
   ///
-  SOPHUS_FUNC static Sophus::Matrix<Scalar, DoF, DoF> leftJacobian(
+  SOPHUS_FUNC static sophus::Matrix<Scalar, kDoF, kDoF> leftJacobian(
       Tangent const& omega, optional<Scalar> const& theta_o = nullopt) {
     using std::cos;
     using std::sin;
@@ -569,7 +569,7 @@ class SO3 : public SO3Base<SO3<Scalar_, Options>> {
     return V;
   }
 
-  SOPHUS_FUNC static Sophus::Matrix<Scalar, DoF, DoF> leftJacobianInverse(
+  SOPHUS_FUNC static sophus::Matrix<Scalar, kDoF, kDoF> leftJacobianInverse(
       Tangent const& omega, optional<Scalar> const& theta_o = nullopt) {
     using std::cos;
     using std::sin;
@@ -597,7 +597,7 @@ class SO3 : public SO3Base<SO3<Scalar_, Options>> {
 
   /// Returns derivative of exp(x) wrt. x.
   ///
-  SOPHUS_FUNC static Sophus::Matrix<Scalar, num_parameters, DoF> Dx_exp_x(
+  SOPHUS_FUNC static sophus::Matrix<Scalar, kNumParameters, kDoF> Dx_exp_x(
       Tangent const& omega) {
     using std::cos;
     using std::exp;
@@ -629,7 +629,7 @@ class SO3 : public SO3Base<SO3<Scalar_, Options>> {
     Scalar const c18 = omega[1] * omega[2];
     Scalar const c19 = -c10 * c18 + c13 * c18;
     Scalar const c20 = Scalar(0.5) * c5 * c7;
-    Sophus::Matrix<Scalar, num_parameters, DoF> J;
+    sophus::Matrix<Scalar, kNumParameters, kDoF> J;
     J(0, 0) = -c0 * c10 + c0 * c13 + c8;
     J(0, 1) = c16;
     J(0, 2) = c17;
@@ -647,9 +647,9 @@ class SO3 : public SO3Base<SO3<Scalar_, Options>> {
 
   /// Returns derivative of exp(x) wrt. x_i at x=0.
   ///
-  SOPHUS_FUNC static Sophus::Matrix<Scalar, num_parameters, DoF>
+  SOPHUS_FUNC static sophus::Matrix<Scalar, kNumParameters, kDoF>
   Dx_exp_x_at_0() {
-    Sophus::Matrix<Scalar, num_parameters, DoF> J;
+    sophus::Matrix<Scalar, kNumParameters, kDoF> J;
     // clang-format off
     J <<  Scalar(0.5),   Scalar(0),   Scalar(0),
             Scalar(0), Scalar(0.5),   Scalar(0),
@@ -661,7 +661,7 @@ class SO3 : public SO3Base<SO3<Scalar_, Options>> {
 
   /// Returns derivative of exp(x) * p wrt. x_i at x=0.
   ///
-  SOPHUS_FUNC static Sophus::Matrix<Scalar, 3, DoF> Dx_exp_x_times_point_at_0(
+  SOPHUS_FUNC static sophus::Matrix<Scalar, 3, kDoF> Dx_exp_x_times_point_at_0(
       Point const& point) {
     return hat(-point);
   }
@@ -722,7 +722,7 @@ class SO3 : public SO3Base<SO3<Scalar_, Options>> {
         QuaternionMember(real_factor, imag_factor * omega.x(),
                          imag_factor * omega.y(), imag_factor * omega.z());
     SOPHUS_ENSURE(abs(q.unit_quaternion().squaredNorm() - Scalar(1)) <
-                      Sophus::Constants<Scalar>::epsilon(),
+                      sophus::Constants<Scalar>::epsilon(),
                   "SO3::exp failed! omega: {}, real: {}, img: {}",
                   omega.transpose(), real_factor, imag_factor);
     return q;
@@ -733,7 +733,7 @@ class SO3 : public SO3Base<SO3<Scalar_, Options>> {
   template <class S = Scalar>
   static SOPHUS_FUNC enable_if_t<std::is_floating_point<S>::value, SO3>
   fitToSO3(Transformation const& R) {
-    return SO3(::Sophus::makeRotationMatrix(R));
+    return SO3(::sophus::makeRotationMatrix(R));
   }
 
   /// Returns the ith infinitesimal generators of SO(3).
@@ -810,19 +810,19 @@ class SO3 : public SO3Base<SO3<Scalar_, Options>> {
   /// Construct x-axis rotation.
   ///
   static SOPHUS_FUNC SO3 rotX(Scalar const& x) {
-    return SO3::exp(Sophus::Vector3<Scalar>(x, Scalar(0), Scalar(0)));
+    return SO3::exp(sophus::Vector3<Scalar>(x, Scalar(0), Scalar(0)));
   }
 
   /// Construct y-axis rotation.
   ///
   static SOPHUS_FUNC SO3 rotY(Scalar const& y) {
-    return SO3::exp(Sophus::Vector3<Scalar>(Scalar(0), y, Scalar(0)));
+    return SO3::exp(sophus::Vector3<Scalar>(Scalar(0), y, Scalar(0)));
   }
 
   /// Construct z-axis rotation.
   ///
   static SOPHUS_FUNC SO3 rotZ(Scalar const& z) {
-    return SO3::exp(Sophus::Vector3<Scalar>(Scalar(0), Scalar(0), z));
+    return SO3::exp(sophus::Vector3<Scalar>(Scalar(0), Scalar(0), z));
   }
 
   /// Draw uniform sample from SO(3) manifold.
@@ -875,19 +875,19 @@ class SO3 : public SO3Base<SO3<Scalar_, Options>> {
   QuaternionMember unit_quaternion_;
 };
 
-}  // namespace Sophus
+}  // namespace sophus
 
 namespace Eigen {
 /// Specialization of Eigen::Map for ``SO3``; derived from SO3Base.
 ///
 /// Allows us to wrap SO3 objects around POD array (e.g. external c style
 /// quaternion).
-template <class Scalar_, int Options>
-class Map<Sophus::SO3<Scalar_>, Options>
-    : public Sophus::SO3Base<Map<Sophus::SO3<Scalar_>, Options>> {
+template <class ScalarT, int Options>
+class Map<sophus::SO3<ScalarT>, Options>
+    : public sophus::SO3Base<Map<sophus::SO3<ScalarT>, Options>> {
  public:
-  using Base = Sophus::SO3Base<Map<Sophus::SO3<Scalar_>, Options>>;
-  using Scalar = Scalar_;
+  using Base = sophus::SO3Base<Map<sophus::SO3<ScalarT>, Options>>;
+  using Scalar = ScalarT;
   using Transformation = typename Base::Transformation;
   using Point = typename Base::Point;
   using HomogeneousPoint = typename Base::HomogeneousPoint;
@@ -896,7 +896,7 @@ class Map<Sophus::SO3<Scalar_>, Options>
 
   /// ``Base`` is friend so unit_quaternion_nonconst can be accessed from
   /// ``Base``.
-  friend class Sophus::SO3Base<Map<Sophus::SO3<Scalar_>, Options>>;
+  friend class sophus::SO3Base<Map<sophus::SO3<ScalarT>, Options>>;
 
   using Base::operator=;
   using Base::operator*=;
@@ -926,12 +926,12 @@ class Map<Sophus::SO3<Scalar_>, Options>
 ///
 /// Allows us to wrap SO3 objects around POD array (e.g. external c style
 /// quaternion).
-template <class Scalar_, int Options>
-class Map<Sophus::SO3<Scalar_> const, Options>
-    : public Sophus::SO3Base<Map<Sophus::SO3<Scalar_> const, Options>> {
+template <class ScalarT, int Options>
+class Map<sophus::SO3<ScalarT> const, Options>
+    : public sophus::SO3Base<Map<sophus::SO3<ScalarT> const, Options>> {
  public:
-  using Base = Sophus::SO3Base<Map<Sophus::SO3<Scalar_> const, Options>>;
-  using Scalar = Scalar_;
+  using Base = sophus::SO3Base<Map<sophus::SO3<ScalarT> const, Options>>;
+  using Scalar = ScalarT;
   using Transformation = typename Base::Transformation;
   using Point = typename Base::Point;
   using HomogeneousPoint = typename Base::HomogeneousPoint;

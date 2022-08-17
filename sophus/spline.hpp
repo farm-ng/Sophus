@@ -7,7 +7,7 @@
 
 #include "types.hpp"
 
-namespace Sophus {
+namespace sophus {
 
 template <class Scalar>
 class SplineBasisFunction {
@@ -449,7 +449,7 @@ class BasisSpline {
     IndexAndU index_and_u;
     index_and_u.u = std::modf(s, &i);
     index_and_u.i = int(i);
-    if (index_and_u.u > Sophus::Constants<double>::epsilon()) {
+    if (index_and_u.u > sophus::Constants<double>::epsilon()) {
       return index_and_u;
     }
 
@@ -472,4 +472,4 @@ class BasisSpline {
   double t0_;
 };
 
-}  // namespace Sophus
+}  // namespace sophus

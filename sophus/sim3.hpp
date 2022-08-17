@@ -6,42 +6,42 @@
 #include "rxso3.hpp"
 #include "sim_details.hpp"
 
-namespace Sophus {
-template <class Scalar_, int Options = 0>
+namespace sophus {
+template <class ScalarT, int Options = 0>
 class Sim3;
 using Sim3d = Sim3<double>;
 using Sim3f = Sim3<float>;
-}  // namespace Sophus
+}  // namespace sophus
 
 namespace Eigen {
 namespace internal {
 
-template <class Scalar_, int Options>
-struct traits<Sophus::Sim3<Scalar_, Options>> {
-  using Scalar = Scalar_;
-  using TranslationType = Sophus::Vector3<Scalar, Options>;
-  using RxSO3Type = Sophus::RxSO3<Scalar, Options>;
+template <class ScalarT, int Options>
+struct traits<sophus::Sim3<ScalarT, Options>> {
+  using Scalar = ScalarT;
+  using TranslationType = sophus::Vector3<Scalar, Options>;
+  using RxSO3Type = sophus::RxSO3<Scalar, Options>;
 };
 
-template <class Scalar_, int Options>
-struct traits<Map<Sophus::Sim3<Scalar_>, Options>>
-    : traits<Sophus::Sim3<Scalar_, Options>> {
-  using Scalar = Scalar_;
-  using TranslationType = Map<Sophus::Vector3<Scalar>, Options>;
-  using RxSO3Type = Map<Sophus::RxSO3<Scalar>, Options>;
+template <class ScalarT, int Options>
+struct traits<Map<sophus::Sim3<ScalarT>, Options>>
+    : traits<sophus::Sim3<ScalarT, Options>> {
+  using Scalar = ScalarT;
+  using TranslationType = Map<sophus::Vector3<Scalar>, Options>;
+  using RxSO3Type = Map<sophus::RxSO3<Scalar>, Options>;
 };
 
-template <class Scalar_, int Options>
-struct traits<Map<Sophus::Sim3<Scalar_> const, Options>>
-    : traits<Sophus::Sim3<Scalar_, Options> const> {
-  using Scalar = Scalar_;
-  using TranslationType = Map<Sophus::Vector3<Scalar> const, Options>;
-  using RxSO3Type = Map<Sophus::RxSO3<Scalar> const, Options>;
+template <class ScalarT, int Options>
+struct traits<Map<sophus::Sim3<ScalarT> const, Options>>
+    : traits<sophus::Sim3<ScalarT, Options> const> {
+  using Scalar = ScalarT;
+  using TranslationType = Map<sophus::Vector3<Scalar> const, Options>;
+  using RxSO3Type = Map<sophus::RxSO3<Scalar> const, Options>;
 };
 }  // namespace internal
 }  // namespace Eigen
 
-namespace Sophus {
+namespace sophus {
 
 /// Sim3 base type - implements Sim3 class but is storage agnostic.
 ///
@@ -65,21 +65,21 @@ class Sim3Base {
 
   /// Degrees of freedom of manifold, number of dimensions in tangent space
   /// (three for translation, three for rotation and one for scaling).
-  static int constexpr DoF = 7;
+  static int constexpr kDoF = 7;
   /// Number of internal parameters used (4-tuple for quaternion, three for
   /// translation).
-  static int constexpr num_parameters = 7;
+  static int constexpr kNumParameters = 7;
   /// Group transformations are 4x4 matrices.
-  static int constexpr N = 4;
+  static int constexpr kMatrixDim = 4;
   /// Points are 3-dimensional
-  static int constexpr Dim = 3;
-  using Transformation = Matrix<Scalar, N, N>;
+  static int constexpr kPointDim = 3;
+  using Transformation = Matrix<Scalar, kMatrixDim, kMatrixDim>;
   using Point = Vector3<Scalar>;
   using HomogeneousPoint = Vector4<Scalar>;
   using Line = ParametrizedLine3<Scalar>;
   using Hyperplane = Hyperplane3<Scalar>;
-  using Tangent = Vector<Scalar, DoF>;
-  using Adjoint = Matrix<Scalar, DoF, DoF>;
+  using Tangent = Vector<Scalar, kDoF>;
+  using Adjoint = Matrix<Scalar, kDoF, kDoF>;
 
   /// For binary operations the return type is determined with the
   /// ScalarBinaryOpTraits feature of Eigen. This allows mixing concrete and Map
@@ -283,9 +283,9 @@ class Sim3Base {
 
   /// Returns derivative of  this * Sim3::exp(x) w.r.t. x at x = 0
   ///
-  SOPHUS_FUNC Matrix<Scalar, num_parameters, DoF> Dx_this_mul_exp_x_at_0()
+  SOPHUS_FUNC Matrix<Scalar, kNumParameters, kDoF> Dx_this_mul_exp_x_at_0()
       const {
-    Matrix<Scalar, num_parameters, DoF> J;
+    Matrix<Scalar, kNumParameters, kDoF> J;
     J.template block<4, 3>(0, 0).setZero();
     J.template block<4, 4>(0, 3) = rxso3().Dx_this_mul_exp_x_at_0();
     J.template block<3, 3>(4, 0) = rxso3().matrix();
@@ -296,9 +296,9 @@ class Sim3Base {
 
   /// Returns derivative of log(this^{-1} * x) by x at x=this.
   ///
-  SOPHUS_FUNC Matrix<Scalar, DoF, num_parameters> Dx_log_this_inv_by_x_at_this()
+  SOPHUS_FUNC Matrix<Scalar, kDoF, kNumParameters> Dx_log_this_inv_by_x_at_this()
       const {
-    Matrix<Scalar, DoF, num_parameters> J;
+    Matrix<Scalar, kDoF, kNumParameters> J;
     J.template block<3, 4>(0, 0).setZero();
     J.template block<3, 3>(0, 4) = rxso3().inverse().matrix();
     J.template block<4, 4>(3, 0) = rxso3().Dx_log_this_inv_by_x_at_this();
@@ -311,8 +311,8 @@ class Sim3Base {
   /// It returns (q.imag[0], q.imag[1], q.imag[2], q.real, t[0], t[1], t[2]),
   /// with q being the quaternion, t the translation 3-vector.
   ///
-  SOPHUS_FUNC Sophus::Vector<Scalar, num_parameters> params() const {
-    Sophus::Vector<Scalar, num_parameters> p;
+  SOPHUS_FUNC sophus::Vector<Scalar, kNumParameters> params() const {
+    sophus::Vector<Scalar, kNumParameters> p;
     p << rxso3().params(), translation();
     return p;
   }
@@ -389,14 +389,14 @@ class Sim3Base {
 };
 
 /// Sim3 using default storage; derived from Sim3Base.
-template <class Scalar_, int Options>
-class Sim3 : public Sim3Base<Sim3<Scalar_, Options>> {
+template <class ScalarT, int Options>
+class Sim3 : public Sim3Base<Sim3<ScalarT, Options>> {
  public:
-  using Base = Sim3Base<Sim3<Scalar_, Options>>;
-  static int constexpr DoF = Base::DoF;
-  static int constexpr num_parameters = Base::num_parameters;
+  using Base = Sim3Base<Sim3<ScalarT, Options>>;
+  static int constexpr kDoF = Base::kDoF;
+  static int constexpr kNumParameters = Base::kNumParameters;
 
-  using Scalar = Scalar_;
+  using Scalar = ScalarT;
   using Transformation = typename Base::Transformation;
   using Point = typename Base::Point;
   using HomogeneousPoint = typename Base::HomogeneousPoint;
@@ -513,9 +513,9 @@ class Sim3 : public Sim3Base<Sim3<Scalar_, Options>> {
 
   /// Returns derivative of exp(x) wrt. x_i at x=0.
   ///
-  SOPHUS_FUNC static Sophus::Matrix<Scalar, num_parameters, DoF>
+  SOPHUS_FUNC static sophus::Matrix<Scalar, kNumParameters, kDoF>
   Dx_exp_x_at_0() {
-    Sophus::Matrix<Scalar, num_parameters, DoF> J;
+    sophus::Matrix<Scalar, kNumParameters, kDoF> J;
     J.template block<4, 3>(0, 0).setZero();
     J.template block<4, 4>(0, 3) = RxSO3<Scalar>::Dx_exp_x_at_0();
     J.template block<3, 3>(4, 0).setIdentity();
@@ -525,9 +525,9 @@ class Sim3 : public Sim3Base<Sim3<Scalar_, Options>> {
 
   /// Returns derivative of exp(x) wrt. x.
   ///
-  SOPHUS_FUNC static Sophus::Matrix<Scalar, num_parameters, DoF> Dx_exp_x(
+  SOPHUS_FUNC static sophus::Matrix<Scalar, kNumParameters, kDoF> Dx_exp_x(
       const Tangent& a) {
-    Sophus::Matrix<Scalar, num_parameters, DoF> J;
+    sophus::Matrix<Scalar, kNumParameters, kDoF> J;
 
     static Matrix3<Scalar> const I = Matrix3<Scalar>::Identity();
     Vector3<Scalar> const omega = a.template segment<3>(3);
@@ -580,11 +580,11 @@ class Sim3 : public Sim3Base<Sim3<Scalar_, Options>> {
 
   /// Returns derivative of exp(x) * p wrt. x_i at x=0.
   ///
-  SOPHUS_FUNC static Sophus::Matrix<Scalar, 3, DoF> Dx_exp_x_times_point_at_0(
+  SOPHUS_FUNC static sophus::Matrix<Scalar, 3, kDoF> Dx_exp_x_times_point_at_0(
       Point const& point) {
-    Sophus::Matrix<Scalar, 3, DoF> J;
-    J << Sophus::Matrix3<Scalar>::Identity(),
-        Sophus::RxSO3<Scalar>::Dx_exp_x_times_point_at_0(point);
+    sophus::Matrix<Scalar, 3, kDoF> J;
+    J << sophus::Matrix3<Scalar>::Identity(),
+        sophus::RxSO3<Scalar>::Dx_exp_x_times_point_at_0(point);
     return J;
   }
 
@@ -771,27 +771,27 @@ SOPHUS_FUNC Sim3<Scalar, Options>::Sim3()
   static_assert(std::is_standard_layout<Sim3>::value,
                 "Assume standard layout for the use of offsetof check below.");
   static_assert(
-      offsetof(Sim3, rxso3_) + sizeof(Scalar) * RxSO3<Scalar>::num_parameters ==
+      offsetof(Sim3, rxso3_) + sizeof(Scalar) * RxSO3<Scalar>::kNumParameters ==
           offsetof(Sim3, translation_),
       "This class assumes packed storage and hence will only work "
       "correctly depending on the compiler (options) - in "
       "particular when using [this->data(), this-data() + "
-      "num_parameters] to access the raw data in a contiguous fashion.");
+      "kNumParameters] to access the raw data in a contiguous fashion.");
 }
 
-}  // namespace Sophus
+}  // namespace sophus
 
 namespace Eigen {
 
 /// Specialization of Eigen::Map for ``Sim3``; derived from Sim3Base.
 ///
 /// Allows us to wrap Sim3 objects around POD array.
-template <class Scalar_, int Options>
-class Map<Sophus::Sim3<Scalar_>, Options>
-    : public Sophus::Sim3Base<Map<Sophus::Sim3<Scalar_>, Options>> {
+template <class ScalarT, int Options>
+class Map<sophus::Sim3<ScalarT>, Options>
+    : public sophus::Sim3Base<Map<sophus::Sim3<ScalarT>, Options>> {
  public:
-  using Base = Sophus::Sim3Base<Map<Sophus::Sim3<Scalar_>, Options>>;
-  using Scalar = Scalar_;
+  using Base = sophus::Sim3Base<Map<sophus::Sim3<ScalarT>, Options>>;
+  using Scalar = ScalarT;
   using Transformation = typename Base::Transformation;
   using Point = typename Base::Point;
   using HomogeneousPoint = typename Base::HomogeneousPoint;
@@ -804,44 +804,44 @@ class Map<Sophus::Sim3<Scalar_>, Options>
 
   SOPHUS_FUNC explicit Map(Scalar* coeffs)
       : rxso3_(coeffs),
-        translation_(coeffs + Sophus::RxSO3<Scalar>::num_parameters) {}
+        translation_(coeffs + sophus::RxSO3<Scalar>::kNumParameters) {}
 
   /// Mutator of RxSO3
   ///
-  SOPHUS_FUNC Map<Sophus::RxSO3<Scalar>, Options>& rxso3() { return rxso3_; }
+  SOPHUS_FUNC Map<sophus::RxSO3<Scalar>, Options>& rxso3() { return rxso3_; }
 
   /// Accessor of RxSO3
   ///
-  SOPHUS_FUNC Map<Sophus::RxSO3<Scalar>, Options> const& rxso3() const {
+  SOPHUS_FUNC Map<sophus::RxSO3<Scalar>, Options> const& rxso3() const {
     return rxso3_;
   }
 
   /// Mutator of translation vector
   ///
-  SOPHUS_FUNC Map<Sophus::Vector3<Scalar>, Options>& translation() {
+  SOPHUS_FUNC Map<sophus::Vector3<Scalar>, Options>& translation() {
     return translation_;
   }
 
   /// Accessor of translation vector
-  SOPHUS_FUNC Map<Sophus::Vector3<Scalar>, Options> const& translation() const {
+  SOPHUS_FUNC Map<sophus::Vector3<Scalar>, Options> const& translation() const {
     return translation_;
   }
 
  protected:
-  Map<Sophus::RxSO3<Scalar>, Options> rxso3_;
-  Map<Sophus::Vector3<Scalar>, Options> translation_;
+  Map<sophus::RxSO3<Scalar>, Options> rxso3_;
+  Map<sophus::Vector3<Scalar>, Options> translation_;
 };
 
 /// Specialization of Eigen::Map for ``Sim3 const``; derived from Sim3Base.
 ///
 /// Allows us to wrap RxSO3 objects around POD array.
-template <class Scalar_, int Options>
-class Map<Sophus::Sim3<Scalar_> const, Options>
-    : public Sophus::Sim3Base<Map<Sophus::Sim3<Scalar_> const, Options>> {
-  using Base = Sophus::Sim3Base<Map<Sophus::Sim3<Scalar_> const, Options>>;
+template <class ScalarT, int Options>
+class Map<sophus::Sim3<ScalarT> const, Options>
+    : public sophus::Sim3Base<Map<sophus::Sim3<ScalarT> const, Options>> {
+  using Base = sophus::Sim3Base<Map<sophus::Sim3<ScalarT> const, Options>>;
 
  public:
-  using Scalar = Scalar_;
+  using Scalar = ScalarT;
   using Transformation = typename Base::Transformation;
   using Point = typename Base::Point;
   using HomogeneousPoint = typename Base::HomogeneousPoint;
@@ -853,23 +853,23 @@ class Map<Sophus::Sim3<Scalar_> const, Options>
 
   SOPHUS_FUNC explicit Map(Scalar const* coeffs)
       : rxso3_(coeffs),
-        translation_(coeffs + Sophus::RxSO3<Scalar>::num_parameters) {}
+        translation_(coeffs + sophus::RxSO3<Scalar>::kNumParameters) {}
 
   /// Accessor of RxSO3
   ///
-  SOPHUS_FUNC Map<Sophus::RxSO3<Scalar> const, Options> const& rxso3() const {
+  SOPHUS_FUNC Map<sophus::RxSO3<Scalar> const, Options> const& rxso3() const {
     return rxso3_;
   }
 
   /// Accessor of translation vector
   ///
-  SOPHUS_FUNC Map<Sophus::Vector3<Scalar> const, Options> const& translation()
+  SOPHUS_FUNC Map<sophus::Vector3<Scalar> const, Options> const& translation()
       const {
     return translation_;
   }
 
  protected:
-  Map<Sophus::RxSO3<Scalar> const, Options> const rxso3_;
-  Map<Sophus::Vector3<Scalar> const, Options> const translation_;
+  Map<sophus::RxSO3<Scalar> const, Options> const rxso3_;
+  Map<sophus::Vector3<Scalar> const, Options> const translation_;
 };
 }  // namespace Eigen

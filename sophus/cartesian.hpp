@@ -4,54 +4,54 @@
 #pragma once
 #include <sophus/types.hpp>
 
-namespace Sophus {
-template <class Scalar_, int M, int Options = 0>
+namespace sophus {
+template <class ScalarT, int M, int Options = 0>
 class Cartesian;
 
-template <class Scalar_>
-using Cartesian2 = Cartesian<Scalar_, 2>;
+template <class ScalarT>
+using Cartesian2 = Cartesian<ScalarT, 2>;
 
-template <class Scalar_>
-using Cartesian3 = Cartesian<Scalar_, 3>;
+template <class ScalarT>
+using Cartesian3 = Cartesian<ScalarT, 3>;
 
 using Cartesian2d = Cartesian2<double>;
 using Cartesian3d = Cartesian3<double>;
 
-}  // namespace Sophus
+}  // namespace sophus
 
 namespace Eigen {
 namespace internal {
 
-template <class Scalar_, int M, int Options>
-struct traits<Sophus::Cartesian<Scalar_, M, Options>> {
-  using Scalar = Scalar_;
-  using ParamsType = Sophus::Vector<Scalar, M, Options>;
+template <class ScalarT, int M, int Options>
+struct traits<sophus::Cartesian<ScalarT, M, Options>> {
+  using Scalar = ScalarT;
+  using ParamsType = sophus::Vector<Scalar, M, Options>;
 };
 
-template <class Scalar_, int M, int Options>
-struct traits<Map<Sophus::Cartesian<Scalar_, M>, Options>>
-    : traits<Sophus::Cartesian<Scalar_, M, Options>> {
-  using Scalar = Scalar_;
-  using ParamsType = Map<Sophus::Vector<Scalar, M>, Options>;
+template <class ScalarT, int M, int Options>
+struct traits<Map<sophus::Cartesian<ScalarT, M>, Options>>
+    : traits<sophus::Cartesian<ScalarT, M, Options>> {
+  using Scalar = ScalarT;
+  using ParamsType = Map<sophus::Vector<Scalar, M>, Options>;
 };
 
-template <class Scalar_, int M, int Options>
-struct traits<Map<Sophus::Cartesian<Scalar_, M> const, Options>>
-    : traits<Sophus::Cartesian<Scalar_, M, Options> const> {
-  using Scalar = Scalar_;
-  using ParamsType = Map<Sophus::Vector<Scalar, M> const, Options>;
+template <class ScalarT, int M, int Options>
+struct traits<Map<sophus::Cartesian<ScalarT, M> const, Options>>
+    : traits<sophus::Cartesian<ScalarT, M, Options> const> {
+  using Scalar = ScalarT;
+  using ParamsType = Map<sophus::Vector<Scalar, M> const, Options>;
 };
 }  // namespace internal
 }  // namespace Eigen
 
-namespace Sophus {
+namespace sophus {
 
 /// Cartesian base type - implements Cartesian class but is storage agnostic.
 ///
 /// Euclidean vector space as Lie group.
 ///
 /// Lie groups can be seen as a generalization over the Euclidean vector
-/// space R^M. Here a N-dimensional vector ``p`` is represented as a
+/// space R^M. Here a kMatrixDim-dimensional vector ``p`` is represented as a
 //  (M+1) x (M+1) homogeneous matrix:
 ///
 ///   | I p |
@@ -63,7 +63,7 @@ namespace Sophus {
 /// The purpose of this class is two-fold:
 ///  - for educational purpose, to highlight how Lie groups generalize over
 ///    Euclidean vector spaces.
-///  - to be used in templated/generic algorithms (such as Sophus::Spline)
+///  - to be used in templated/generic algorithms (such as sophus::Spline)
 ///    which are implemented against the Lie group interface.
 ///
 /// Obviously, Cartesian(M) can just be represented as a M-tuple.
@@ -79,20 +79,20 @@ class CartesianBase {
   using Scalar = typename Eigen::internal::traits<Derived>::Scalar;
   using ParamsType = typename Eigen::internal::traits<Derived>::ParamsType;
   /// Degrees of freedom of manifold, equals to number of Cartesian coordinates.
-  static int constexpr DoF = M;
+  static int constexpr kDoF = M;
   /// Number of internal parameters used, also M.
-  static int constexpr num_parameters = M;
+  static int constexpr kNumParameters = M;
   /// Group transformations are (M+1)x(M+1) matrices.
-  static int constexpr N = M + 1;
-  static int constexpr Dim = M;
+  static int constexpr kMatrixDim = M + 1;
+  static int constexpr kPointDim = M;
 
-  using Transformation = Sophus::Matrix<Scalar, N, N>;
-  using Point = Sophus::Vector<Scalar, M>;
-  using HomogeneousPoint = Sophus::Vector<Scalar, N>;
+  using Transformation = sophus::Matrix<Scalar, kMatrixDim, kMatrixDim>;
+  using Point = sophus::Vector<Scalar, M>;
+  using HomogeneousPoint = sophus::Vector<Scalar, kMatrixDim>;
   using Line = ParametrizedLine<Scalar, M>;
   using Hyperplane = Eigen::Hyperplane<Scalar, M>;
-  using Tangent = Sophus::Vector<Scalar, DoF>;
-  using Adjoint = Matrix<Scalar, DoF, DoF>;
+  using Tangent = sophus::Vector<Scalar, kDoF>;
+  using Adjoint = Matrix<Scalar, kDoF, kDoF>;
 
   /// For binary operations the return type is determined with the
   /// ScalarBinaryOpTraits feature of Eigen. This allows mixing concrete and Map
@@ -106,11 +106,11 @@ class CartesianBase {
   using CartesianSum = Cartesian<ReturnScalar<OtherDerived>, M>;
 
   template <typename PointDerived>
-  using PointProduct = Sophus::Vector<ReturnScalar<PointDerived>, M>;
+  using PointProduct = sophus::Vector<ReturnScalar<PointDerived>, M>;
 
   template <typename HPointDerived>
   using HomogeneousPointProduct =
-      Sophus::Vector<ReturnScalar<HPointDerived>, N>;
+      sophus::Vector<ReturnScalar<HPointDerived>, kMatrixDim>;
 
   /// Adjoint transformation
   ///
@@ -126,18 +126,18 @@ class CartesianBase {
 
   /// Returns derivative of  this * exp(x)  wrt x at x=0.
   ///
-  SOPHUS_FUNC Matrix<Scalar, num_parameters, DoF> Dx_this_mul_exp_x_at_0()
+  SOPHUS_FUNC Matrix<Scalar, kNumParameters, kDoF> Dx_this_mul_exp_x_at_0()
       const {
-    Sophus::Matrix<Scalar, num_parameters, DoF> m;
+    sophus::Matrix<Scalar, kNumParameters, kDoF> m;
     m.setIdentity();
     return m;
   }
 
   /// Returns derivative of log(this^{-1} * x) by x at x=this.
   ///
-  SOPHUS_FUNC Matrix<Scalar, num_parameters, DoF> Dx_log_this_inv_by_x_at_this()
+  SOPHUS_FUNC Matrix<Scalar, kNumParameters, kDoF> Dx_log_this_inv_by_x_at_this()
       const {
-    Matrix<Scalar, DoF, num_parameters> m;
+    Matrix<Scalar, kDoF, kNumParameters> m;
     m.setIdentity();
     return m;
   }
@@ -165,7 +165,7 @@ class CartesianBase {
   ///   | o 1 |
   ///
   SOPHUS_FUNC Transformation matrix() const {
-    Sophus::Matrix<Scalar, N, N> matrix;
+    sophus::Matrix<Scalar, kMatrixDim, kMatrixDim> matrix;
     matrix.setIdentity();
     matrix.col(M).template head<M>() = params();
     return matrix;
@@ -202,7 +202,7 @@ class CartesianBase {
   ///
   template <typename HPointDerived,
             typename = typename std::enable_if<
-                IsFixedSizeVector<HPointDerived, N>::value>::type>
+                IsFixedSizeVector<HPointDerived, kMatrixDim>::value>::type>
   SOPHUS_FUNC HomogeneousPointProduct<HPointDerived> operator*(
       Eigen::MatrixBase<HPointDerived> const& p) const {
     const auto rp = *this * p.template head<M>();
@@ -250,22 +250,22 @@ class CartesianBase {
 };
 
 /// Cartesian using default storage; derived from CartesianBase.
-template <class Scalar_, int M, int Options>
-class Cartesian : public CartesianBase<Cartesian<Scalar_, M, Options>, M> {
-  using Base = CartesianBase<Cartesian<Scalar_, M, Options>, M>;
+template <class ScalarT, int M, int Options>
+class Cartesian : public CartesianBase<Cartesian<ScalarT, M, Options>, M> {
+  using Base = CartesianBase<Cartesian<ScalarT, M, Options>, M>;
 
  public:
-  static int constexpr DoF = Base::DoF;
-  static int constexpr num_parameters = Base::num_parameters;
-  static int constexpr N = Base::N;
-  static int constexpr Dim = Base::Dim;
+  static int constexpr kDoF = Base::kDoF;
+  static int constexpr kNumParameters = Base::kNumParameters;
+  static int constexpr kMatrixDim = Base::kMatrixDim;
+  static int constexpr kPointDim = Base::kPointDim;
 
-  using Scalar = Scalar_;
+  using Scalar = ScalarT;
   using Transformation = typename Base::Transformation;
   using Point = typename Base::Point;
   using HomogeneousPoint = typename Base::HomogeneousPoint;
   using Tangent = typename Base::Tangent;
-  using ParamsMember = Sophus::Vector<Scalar, M, Options>;
+  using ParamsMember = sophus::Vector<Scalar, M, Options>;
 
   using Base::operator=;
 
@@ -299,10 +299,10 @@ class Cartesian : public CartesianBase<Cartesian<Scalar_, M, Options>, M> {
   explicit SOPHUS_FUNC Cartesian(Eigen::MatrixBase<D> const& m) {
     static_assert(
         std::is_same<typename Eigen::MatrixBase<D>::Scalar, Scalar>::value, "");
-    if (m.rows() == DoF && m.cols() == 1) {
+    if (m.rows() == kDoF && m.cols() == 1) {
       // trick so this compiles
       params_ = m.template block<M, 1>(0, 0);
-    } else if (m.rows() == N && m.cols() == N) {
+    } else if (m.rows() == kMatrixDim && m.cols() == kMatrixDim) {
       params_ = m.template block<M, 1>(0, M);
     } else {
       SOPHUS_ENSURE(false, "{} {}", m.rows(), m.cols());
@@ -319,25 +319,25 @@ class Cartesian : public CartesianBase<Cartesian<Scalar_, M, Options>, M> {
 
   /// Returns derivative of exp(x) wrt. x.
   ///
-  SOPHUS_FUNC static Sophus::Matrix<Scalar, num_parameters, DoF>
+  SOPHUS_FUNC static sophus::Matrix<Scalar, kNumParameters, kDoF>
   Dx_exp_x_at_0() {
-    Sophus::Matrix<Scalar, num_parameters, DoF> m;
+    sophus::Matrix<Scalar, kNumParameters, kDoF> m;
     m.setIdentity();
     return m;
   }
 
   /// Returns derivative of exp(x) wrt. x_i at x=0.
   ///
-  SOPHUS_FUNC static Sophus::Matrix<Scalar, num_parameters, DoF> Dx_exp_x(
+  SOPHUS_FUNC static sophus::Matrix<Scalar, kNumParameters, kDoF> Dx_exp_x(
       Tangent const&) {
     return Dx_exp_x_at_0();
   }
 
   /// Returns derivative of exp(x) * p wrt. x_i at x=0.
   ///
-  SOPHUS_FUNC static Sophus::Matrix<Scalar, Dim, DoF> Dx_exp_x_times_point_at_0(
+  SOPHUS_FUNC static sophus::Matrix<Scalar, kPointDim, kDoF> Dx_exp_x_times_point_at_0(
       Point const&) {
-    Sophus::Matrix<Scalar, Dim, DoF> J;
+    sophus::Matrix<Scalar, kPointDim, kDoF> J;
     J.setIdentity();
     return J;
   }
@@ -446,7 +446,7 @@ class Cartesian : public CartesianBase<Cartesian<Scalar_, M, Options>, M> {
   ParamsMember params_;
 };
 
-}  // namespace Sophus
+}  // namespace sophus
 
 namespace Eigen {
 
@@ -454,14 +454,14 @@ namespace Eigen {
 /// CartesianBase.
 ///
 /// Allows us to wrap Cartesian objects around POD array.
-template <class Scalar_, int M, int Options>
-class Map<Sophus::Cartesian<Scalar_, M>, Options>
-    : public Sophus::CartesianBase<Map<Sophus::Cartesian<Scalar_, M>, Options>,
+template <class ScalarT, int M, int Options>
+class Map<sophus::Cartesian<ScalarT, M>, Options>
+    : public sophus::CartesianBase<Map<sophus::Cartesian<ScalarT, M>, Options>,
                                    M> {
  public:
   using Base =
-      Sophus::CartesianBase<Map<Sophus::Cartesian<Scalar_, M>, Options>, M>;
-  using Scalar = Scalar_;
+      sophus::CartesianBase<Map<sophus::Cartesian<ScalarT, M>, Options>, M>;
+  using Scalar = ScalarT;
   using Transformation = typename Base::Transformation;
   using Point = typename Base::Point;
   using HomogeneousPoint = typename Base::HomogeneousPoint;
@@ -475,33 +475,33 @@ class Map<Sophus::Cartesian<Scalar_, M>, Options>
 
   /// Mutator of params vector
   ///
-  SOPHUS_FUNC Map<Sophus::Vector<Scalar, M, Options>>& params() {
+  SOPHUS_FUNC Map<sophus::Vector<Scalar, M, Options>>& params() {
     return params_;
   }
 
   /// Accessor of params vector
   ///
-  SOPHUS_FUNC Map<Sophus::Vector<Scalar, M, Options>> const& params() const {
+  SOPHUS_FUNC Map<sophus::Vector<Scalar, M, Options>> const& params() const {
     return params_;
   }
 
  protected:
-  Map<Sophus::Vector<Scalar, M>, Options> params_;
+  Map<sophus::Vector<Scalar, M>, Options> params_;
 };
 
 /// Specialization of Eigen::Map for ``Cartesian const``; derived from
 /// CartesianBase.
 ///
 /// Allows us to wrap Cartesian objects around POD array.
-template <class Scalar_, int M, int Options>
-class Map<Sophus::Cartesian<Scalar_, M> const, Options>
-    : public Sophus::CartesianBase<
-          Map<Sophus::Cartesian<Scalar_, M> const, Options>, M> {
+template <class ScalarT, int M, int Options>
+class Map<sophus::Cartesian<ScalarT, M> const, Options>
+    : public sophus::CartesianBase<
+          Map<sophus::Cartesian<ScalarT, M> const, Options>, M> {
  public:
   using Base =
-      Sophus::CartesianBase<Map<Sophus::Cartesian<Scalar_, M> const, Options>,
+      sophus::CartesianBase<Map<sophus::Cartesian<ScalarT, M> const, Options>,
                             M>;
-  using Scalar = Scalar_;
+  using Scalar = ScalarT;
   using Transformation = typename Base::Transformation;
   using Point = typename Base::Point;
   using HomogeneousPoint = typename Base::HomogeneousPoint;
@@ -513,12 +513,12 @@ class Map<Sophus::Cartesian<Scalar_, M> const, Options>
 
   /// Accessor of params vector
   ///
-  SOPHUS_FUNC Map<Sophus::Vector<Scalar, M> const, Options> const& params()
+  SOPHUS_FUNC Map<sophus::Vector<Scalar, M> const, Options> const& params()
       const {
     return params_;
   }
 
  protected:
-  Map<Sophus::Vector<Scalar, M> const, Options> const params_;
+  Map<sophus::Vector<Scalar, M> const, Options> const params_;
 };
 }  // namespace Eigen

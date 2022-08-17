@@ -5,7 +5,7 @@
 
 #include <sophus/types.hpp>
 
-namespace Sophus {
+namespace sophus {
 namespace details {
 
 template <class Scalar, class Enable = void>
@@ -28,10 +28,10 @@ class Pretty<Ptr, enable_if_t<std::is_pointer<Ptr>::value>> {
   }
 };
 
-template <class Scalar, int M, int N>
-class Pretty<Eigen::Matrix<Scalar, M, N>, void> {
+template <class Scalar, int M, int kMatrixDim>
+class Pretty<Eigen::Matrix<Scalar, M, kMatrixDim>, void> {
  public:
-  static std::string impl(Matrix<Scalar, M, N> const& v) {
+  static std::string impl(Matrix<Scalar, M, kMatrixDim> const& v) {
     std::stringstream sstr;
     sstr << "\n" << v << "\n";
     return sstr.str();
@@ -65,7 +65,7 @@ void processTestResult(bool passed) {
   }
   std::cerr << "passed." << std::endl << std::endl;
 }
-}  // namespace Sophus
+}  // namespace sophus
 
 #define SOPHUS_STRINGIFY(x) #x
 
@@ -77,7 +77,7 @@ void processTestResult(bool passed) {
       std::string msg = SOPHUS_FMT_STR("condition ``{}`` is false\n",          \
                                        SOPHUS_STRINGIFY(condition));           \
       msg += SOPHUS_FMT_STR(descr, ##__VA_ARGS__);                             \
-      Sophus::details::testFailed(passed, SOPHUS_FUNCTION, __FILE__, __LINE__, \
+      sophus::details::testFailed(passed, SOPHUS_FUNCTION, __FILE__, __LINE__, \
                                   msg);                                        \
     }                                                                          \
   } while (false)
@@ -89,10 +89,10 @@ void processTestResult(bool passed) {
     if (left != right) {                                                       \
       std::string msg = SOPHUS_FMT_STR(                                        \
           "{} (={}) is not equal to {} (={})\n", SOPHUS_STRINGIFY(left),       \
-          Sophus::details::pretty(left), SOPHUS_STRINGIFY(right),              \
-          Sophus::details::pretty(right));                                     \
+          sophus::details::pretty(left), SOPHUS_STRINGIFY(right),              \
+          sophus::details::pretty(right));                                     \
       msg += SOPHUS_FMT_STR(descr, ##__VA_ARGS__);                             \
-      Sophus::details::testFailed(passed, SOPHUS_FUNCTION, __FILE__, __LINE__, \
+      sophus::details::testFailed(passed, SOPHUS_FUNCTION, __FILE__, __LINE__, \
                                   msg);                                        \
     }                                                                          \
   } while (false)
@@ -104,10 +104,10 @@ void processTestResult(bool passed) {
     if (left == right) {                                                       \
       std::string msg = SOPHUS_FMT_STR(                                        \
           "{} (={}) should not be equal to {} (={})\n",                        \
-          SOPHUS_STRINGIFY(left), Sophus::details::pretty(left),               \
-          SOPHUS_STRINGIFY(right), Sophus::details::pretty(right));            \
+          SOPHUS_STRINGIFY(left), sophus::details::pretty(left),               \
+          SOPHUS_STRINGIFY(right), sophus::details::pretty(right));            \
       msg += SOPHUS_FMT_STR(descr, ##__VA_ARGS__);                             \
-      Sophus::details::testFailed(passed, SOPHUS_FUNCTION, __FILE__, __LINE__, \
+      sophus::details::testFailed(passed, SOPHUS_FUNCTION, __FILE__, __LINE__, \
                                   msg);                                        \
     }                                                                          \
   } while (false)
@@ -116,15 +116,15 @@ void processTestResult(bool passed) {
 /// The in-out parameter passed will be set to false if test fails.
 #define SOPHUS_TEST_APPROX(passed, left, right, thr, descr, ...)               \
   do {                                                                         \
-    auto nrm = Sophus::maxMetric((left), (right));                             \
+    auto nrm = sophus::maxMetric((left), (right));                             \
     if (!(nrm < (thr))) {                                                      \
       std::string msg = SOPHUS_FMT_STR(                                        \
           "{} (={}) is not approx {} (={}); {} is {}; nrm is {}\n",            \
-          SOPHUS_STRINGIFY(left), Sophus::details::pretty(left),               \
-          SOPHUS_STRINGIFY(right), Sophus::details::pretty(right),             \
-          SOPHUS_STRINGIFY(thr), Sophus::details::pretty(thr), nrm);           \
+          SOPHUS_STRINGIFY(left), sophus::details::pretty(left),               \
+          SOPHUS_STRINGIFY(right), sophus::details::pretty(right),             \
+          SOPHUS_STRINGIFY(thr), sophus::details::pretty(thr), nrm);           \
       msg += SOPHUS_FMT_STR(descr, ##__VA_ARGS__);                             \
-      Sophus::details::testFailed(passed, SOPHUS_FUNCTION, __FILE__, __LINE__, \
+      sophus::details::testFailed(passed, SOPHUS_FUNCTION, __FILE__, __LINE__, \
                                   msg);                                        \
     }                                                                          \
   } while (false)
@@ -133,16 +133,16 @@ void processTestResult(bool passed) {
 /// threshold. The in-out parameter passed will be set to false if test fails.
 #define SOPHUS_TEST_NOT_APPROX(passed, left, right, thr, descr, ...)           \
   do {                                                                         \
-    auto nrm = Sophus::maxMetric((left), (right));                             \
+    auto nrm = sophus::maxMetric((left), (right));                             \
     if (nrm < (thr)) {                                                         \
       std::string msg = SOPHUS_FMT_STR(                                        \
           "{} (={}) is approx {} (={}), but it should not!\n {} is {}; nrm "   \
           "is {}\n",                                                           \
-          SOPHUS_STRINGIFY(left), Sophus::details::pretty(left),               \
-          SOPHUS_STRINGIFY(right), Sophus::details::pretty(right),             \
-          SOPHUS_STRINGIFY(thr), Sophus::details::pretty(thr), nrm);           \
+          SOPHUS_STRINGIFY(left), sophus::details::pretty(left),               \
+          SOPHUS_STRINGIFY(right), sophus::details::pretty(right),             \
+          SOPHUS_STRINGIFY(thr), sophus::details::pretty(thr), nrm);           \
       msg += SOPHUS_FMT_STR(descr, ##__VA_ARGS__);                             \
-      Sophus::details::testFailed(passed, SOPHUS_FUNCTION, __FILE__, __LINE__, \
+      sophus::details::testFailed(passed, SOPHUS_FUNCTION, __FILE__, __LINE__, \
                                   msg);                                        \
     }                                                                          \
   } while (false)

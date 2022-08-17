@@ -6,11 +6,11 @@
 // Explicit instantiate all class templates so that all member methods
 // get compiled and for code coverage analysis.
 namespace Eigen {
-template class Map<Sophus::RxSO3<double>>;
-template class Map<Sophus::RxSO3<double> const>;
+template class Map<sophus::RxSO3<double>>;
+template class Map<sophus::RxSO3<double> const>;
 }  // namespace Eigen
 
-namespace Sophus {
+namespace sophus {
 
 template class RxSO3<double, Eigen::AutoAlign>;
 template class RxSO3<float, Eigen::DontAlign>;
@@ -18,10 +18,10 @@ template class RxSO3<float, Eigen::DontAlign>;
 template class RxSO3<ceres::Jet<double, 3>>;
 #endif
 
-template <class Scalar_>
+template <class ScalarT>
 class Tests {
  public:
-  using Scalar = Scalar_;
+  using Scalar = ScalarT;
   using SO3Type = SO3<Scalar>;
   using RxSO3Type = RxSO3<Scalar>;
   using RotationMatrixType = typename SO3<Scalar>::Transformation;
@@ -319,6 +319,6 @@ int test_rxso3() {
   return 0;
 }
 
-}  // namespace Sophus
+}  // namespace sophus
 
-int main() { return Sophus::test_rxso3(); }
+int main() { return sophus::test_rxso3(); }

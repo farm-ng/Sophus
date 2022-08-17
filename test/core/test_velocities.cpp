@@ -4,7 +4,7 @@
 
 #include <sophus/velocities.hpp>
 
-namespace Sophus {
+namespace sophus {
 namespace experimental {
 
 template <class Scalar>
@@ -125,6 +125,6 @@ int test_velocities() {
   return 0;
 }
 }  // namespace experimental
-}  // namespace Sophus
+}  // namespace sophus
 
-int main() { return Sophus::experimental::test_velocities(); }
+int main() { return sophus::experimental::test_velocities(); }

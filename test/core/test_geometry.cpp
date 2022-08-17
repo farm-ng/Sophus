@@ -4,7 +4,7 @@
 #include <sophus/test_macros.hpp>
 #include "tests.hpp"
 
-namespace Sophus {
+namespace sophus {
 
 namespace {
 
@@ -16,7 +16,7 @@ bool test2dGeometry() {
   for (int i = 0; i < 20; ++i) {
     // Roundtrip test:
     Vector2<T> normal_foo = Vector2<T>::Random().normalized();
-    Sophus::SO2<T> R_foo_plane = SO2FromNormal(normal_foo);
+    sophus::SO2<T> R_foo_plane = SO2FromNormal(normal_foo);
     Vector2<T> resultNormal_foo = normalFromSO2(R_foo_plane);
     SOPHUS_TEST_APPROX(passed, normal_foo, resultNormal_foo, eps, "");
   }
@@ -25,7 +25,7 @@ bool test2dGeometry() {
     // Roundtrip test:
     Line2<T> line_foo = makeHyperplaneUnique(
         Line2<T>(Vector2<T>::Random().normalized(), Vector2<T>::Random()));
-    Sophus::SE2<T> T_foo_plane = SE2FromLine(line_foo);
+    sophus::SE2<T> T_foo_plane = SE2FromLine(line_foo);
     Line2<T> resultPlane_foo = lineFromSE2(T_foo_plane);
     SOPHUS_TEST_APPROX(passed, line_foo.normal().eval(),
                        resultPlane_foo.normal().eval(), eps, "");
@@ -80,7 +80,7 @@ bool test3dGeometry() {
   for (int i = 0; i < 20; ++i) {
     // Roundtrip test:
     Vector3<T> normal_foo = Vector3<T>::Random().normalized();
-    Sophus::SO3<T> R_foo_plane = SO3FromNormal(normal_foo);
+    sophus::SO3<T> R_foo_plane = SO3FromNormal(normal_foo);
     Vector3<T> resultNormal_foo = normalFromSO3(R_foo_plane);
     SOPHUS_TEST_APPROX(passed, normal_foo, resultNormal_foo, eps, "");
   }
@@ -89,7 +89,7 @@ bool test3dGeometry() {
     // Roundtrip test:
     Plane3<T> plane_foo = makeHyperplaneUnique(
         Plane3<T>(Vector3<T>::Random().normalized(), Vector3<T>::Random()));
-    Sophus::SE3<T> T_foo_plane = SE3FromPlane(plane_foo);
+    sophus::SE3<T> T_foo_plane = SE3FromPlane(plane_foo);
     Plane3<T> resultPlane_foo = planeFromSE3(T_foo_plane);
     SOPHUS_TEST_APPROX(passed, plane_foo.normal().eval(),
                        resultPlane_foo.normal().eval(), eps, "");
@@ -126,6 +126,6 @@ void runAll() {
 }
 
 }  // namespace
-}  // namespace Sophus
+}  // namespace sophus
 
-int main() { Sophus::runAll(); }
+int main() { sophus::runAll(); }

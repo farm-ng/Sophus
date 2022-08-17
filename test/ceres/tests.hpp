@@ -8,17 +8,17 @@
 template <typename LieGroup>
 struct RotationalPart;
 
-namespace Sophus {
+namespace sophus {
 
-template <int N>
-double dot(const Vector<double, N>& v1, const Vector<double, N>& v2) {
+template <int kMatrixDim>
+double dot(const Vector<double, kMatrixDim>& v1, const Vector<double, kMatrixDim>& v2) {
   return v1.dot(v2);
 }
 
 double dot(const double& a, const double& b) { return a * b; }
 
-template <int N>
-double squaredNorm(const Vector<double, N>& vec) {
+template <int kMatrixDim>
+double squaredNorm(const Vector<double, kMatrixDim>& vec) {
   return vec.squaredNorm();
 }
 
@@ -83,9 +83,9 @@ struct LieGroupCeresTests {
   using Tangentd = typename LieGroupd::Tangent;
   template <typename T>
   using StdVector = std::vector<T, Eigen::aligned_allocator<T>>;
-  static int constexpr N = LieGroupd::N;
-  static int constexpr num_parameters = LieGroupd::num_parameters;
-  static int constexpr DoF = LieGroupd::DoF;
+  static int constexpr kMatrixDim = LieGroupd::kMatrixDim;
+  static int constexpr kNumParameters = LieGroupd::kNumParameters;
+  static int constexpr kDoF = LieGroupd::kDoF;
 
   struct TestLieGroupCostFunctor {
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
@@ -196,9 +196,9 @@ struct LieGroupCeresTests {
       }
     }
     int Ns[] = {20, 40, 80, 160};
-    for (auto N : Ns) {
-      std::cerr << "Averaging test: N = " << N;
-      passed &= testAveraging(N, .5, .1);
+    for (auto kMatrixDim : Ns) {
+      std::cerr << "Averaging test: kMatrixDim = " << kMatrixDim;
+      passed &= testAveraging(kMatrixDim, .5, .1);
       processTestResult(passed);
     }
     return passed;
@@ -207,9 +207,9 @@ struct LieGroupCeresTests {
   bool testAveraging(const size_t num_vertices, const double sigma_init,
                      const double sigma_observation) {
     if (!num_vertices) return true;
-    const double sigma_init_elementwise = sigma_init / std::sqrt(DoF);
+    const double sigma_init_elementwise = sigma_init / std::sqrt(kDoF);
     const double sigma_observation_elementwise =
-        sigma_observation / std::sqrt(DoF);
+        sigma_observation / std::sqrt(kDoF);
     // Running Lie group averaging on a K_n graph with a random initialization
     // noise and random noise in observations
     ceres::Problem problem;
@@ -219,7 +219,7 @@ struct LieGroupCeresTests {
     StdVector<LieGroupd> V(num_vertices), V_estimate;
     V_estimate.reserve(num_vertices);
     double initial_error = 0.;
-    auto parametrization = new Sophus::Manifold<LieGroup_>;
+    auto parametrization = new sophus::Manifold<LieGroup_>;
 
     // All vertices are initialized with an i.i.d noise with normal
     // distribution; Scaling is adjusted in order to maintain the same
@@ -233,7 +233,7 @@ struct LieGroupCeresTests {
       V_estimate.emplace_back(v * delta);
       initial_error += squaredNorm(delta_log);
       problem.AddParameterBlock(V_estimate.back().data(),
-                                LieGroupd::num_parameters, parametrization);
+                                LieGroupd::kNumParameters, parametrization);
     }
 
     // For simplicity of graph generation, we use a complete (undirected) graph.
@@ -248,9 +248,9 @@ struct LieGroupCeresTests {
             sigma_observation_elementwise;
         const auto delta = LieGroupd::exp(delta_log);
         ceres::CostFunction* cost =
-            new ceres::AutoDiffCostFunction<TestGraphFunctor, LieGroupd::DoF,
-                                            LieGroupd::num_parameters,
-                                            LieGroupd::num_parameters>(
+            new ceres::AutoDiffCostFunction<TestGraphFunctor, LieGroupd::kDoF,
+                                            LieGroupd::kNumParameters,
+                                            LieGroupd::kNumParameters>(
                 new TestGraphFunctor(diff * delta));
         // For real-world problems you should consider using robust
         // loss-function
@@ -259,9 +259,9 @@ struct LieGroupCeresTests {
       }
 
     ceres::Solver::Options options;
-    options.gradient_tolerance = 1e-2 * Sophus::Constants<double>::epsilon();
-    options.function_tolerance = 1e-2 * Sophus::Constants<double>::epsilon();
-    options.parameter_tolerance = 1e-2 * Sophus::Constants<double>::epsilon();
+    options.gradient_tolerance = 1e-2 * sophus::Constants<double>::epsilon();
+    options.function_tolerance = 1e-2 * sophus::Constants<double>::epsilon();
+    options.parameter_tolerance = 1e-2 * sophus::Constants<double>::epsilon();
     options.linear_solver_type = ceres::SPARSE_NORMAL_CHOLESKY;
 
     ceres::Solver::Summary summary;
@@ -291,19 +291,19 @@ struct LieGroupCeresTests {
 
     // Specify local update rule for our parameter
 
-    auto parameterization = new Sophus::Manifold<LieGroup_>;
-    problem.AddParameterBlock(T_wr.data(), num_parameters, parameterization);
+    auto parameterization = new sophus::Manifold<LieGroup_>;
+    problem.AddParameterBlock(T_wr.data(), kNumParameters, parameterization);
 
     // Create and add cost functions. Derivatives will be evaluated via
     // automatic differentiation
     ceres::CostFunction* cost_function1 =
-        new ceres::AutoDiffCostFunction<TestLieGroupCostFunctor, LieGroupd::DoF,
-                                        LieGroupd::num_parameters>(
+        new ceres::AutoDiffCostFunction<TestLieGroupCostFunctor, LieGroupd::kDoF,
+                                        LieGroupd::kNumParameters>(
             new TestLieGroupCostFunctor(T_w_targ.inverse()));
     problem.AddResidualBlock(cost_function1, nullptr, T_wr.data());
     ceres::CostFunction* cost_function2 =
         new ceres::AutoDiffCostFunction<TestPointCostFunctor,
-                                        kNumPointParameters, num_parameters,
+                                        kNumPointParameters, kNumParameters,
                                         kNumPointParameters>(
             new TestPointCostFunctor(T_w_targ.inverse(), point_b));
     problem.AddResidualBlock(cost_function2, nullptr, T_wr.data(),
@@ -311,8 +311,8 @@ struct LieGroupCeresTests {
 
     // Set solver options (precision / method)
     ceres::Solver::Options options;
-    options.gradient_tolerance = 0.01 * Sophus::Constants<double>::epsilon();
-    options.function_tolerance = 0.01 * Sophus::Constants<double>::epsilon();
+    options.gradient_tolerance = 0.01 * sophus::Constants<double>::epsilon();
+    options.function_tolerance = 0.01 * sophus::Constants<double>::epsilon();
     options.linear_solver_type = ceres::DENSE_QR;
     options.max_num_iterations = 100;
 
@@ -322,7 +322,7 @@ struct LieGroupCeresTests {
 
     // Difference between target and parameter
     double const mse = squaredNorm((T_w_targ.inverse() * T_wr).log());
-    bool const passed = mse < 10. * Sophus::Constants<double>::epsilon();
+    bool const passed = mse < 10. * sophus::Constants<double>::epsilon();
     return passed;
   }
 
@@ -331,15 +331,15 @@ struct LieGroupCeresTests {
     // same invariants
     const Tangentd delta = (x.inverse() * y).log();
     const Tangentd zero = Zero<Tangentd>();
-    Sophus::Manifold<LieGroup_> manifold;
+    sophus::Manifold<LieGroup_> manifold;
 
     LieGroupd test_group;
 
     bool passed = true;
     auto coeffs =
-        Eigen::Map<const Eigen::Matrix<double, num_parameters, 1>>(x.data());
+        Eigen::Map<const Eigen::Matrix<double, kNumParameters, 1>>(x.data());
     auto coeffs_y =
-        Eigen::Map<const Eigen::Matrix<double, num_parameters, 1>>(y.data());
+        Eigen::Map<const Eigen::Matrix<double, kNumParameters, 1>>(y.data());
     std::cerr << "XPlusZeroIsXAt " << coeffs.transpose() << std::endl;
     passed &= xPlusZeroIsXAt(x);
     std::cerr << "XMinusXIsZeroAt " << coeffs.transpose() << std::endl;
@@ -361,7 +361,7 @@ struct LieGroupCeresTests {
 
   bool xPlusZeroIsXAt(const LieGroupd& x) {
     const Tangentd zero = Zero<Tangentd>();
-    Sophus::Manifold<LieGroup_> manifold;
+    sophus::Manifold<LieGroup_> manifold;
     LieGroupd test_group;
 
     bool passed = true;
@@ -369,13 +369,13 @@ struct LieGroupCeresTests {
     passed &= manifold.Plus(x.data(), data(zero), test_group.data());
     processTestResult(passed);
     const double error = squaredNorm((x.inverse() * test_group).log());
-    passed &= error < Sophus::Constants<double>::epsilon();
+    passed &= error < sophus::Constants<double>::epsilon();
     processTestResult(passed);
     return passed;
   }
 
   bool xMinusXIsZeroAt(const LieGroupd& x) {
-    Sophus::Manifold<LieGroup_> manifold;
+    sophus::Manifold<LieGroup_> manifold;
     LieGroupd test_group;
     Tangentd test_tangent;
 
@@ -384,17 +384,17 @@ struct LieGroupCeresTests {
     passed &= manifold.Minus(x.data(), x.data(), data(test_tangent));
     processTestResult(passed);
     const double error = squaredNorm(test_tangent);
-    passed &= error < Sophus::Constants<double>::epsilon();
+    passed &= error < sophus::Constants<double>::epsilon();
     processTestResult(passed);
     return passed;
   }
 
   bool minusPlusIsIdentityAt(const LieGroupd& x, const Tangentd& delta) {
     if (RotationalPart<LieGroupd>::Norm(delta) >
-        Sophus::Constants<double>::pi() *
-            (1. - Sophus::Constants<double>::epsilon()))
+        sophus::Constants<double>::pi() *
+            (1. - sophus::Constants<double>::epsilon()))
       return true;
-    Sophus::Manifold<LieGroup_> manifold;
+    sophus::Manifold<LieGroup_> manifold;
     LieGroupd test_group;
     Tangentd test_tangent;
 
@@ -408,13 +408,13 @@ struct LieGroupCeresTests {
 
     const Tangentd diff = test_tangent - delta;
     const double error = squaredNorm(diff);
-    passed &= error < Sophus::Constants<double>::epsilon();
+    passed &= error < sophus::Constants<double>::epsilon();
     processTestResult(passed);
     return passed;
   }
 
   bool plusMinusIsIdentityAt(const LieGroupd& x, const LieGroupd& y) {
-    Sophus::Manifold<LieGroup_> manifold;
+    sophus::Manifold<LieGroup_> manifold;
     LieGroupd test_group;
     Tangentd test_tangent;
 
@@ -427,21 +427,21 @@ struct LieGroupCeresTests {
     processTestResult(passed);
 
     const double error = squaredNorm((y.inverse() * test_group).log());
-    passed &= error < Sophus::Constants<double>::epsilon();
+    passed &= error < sophus::Constants<double>::epsilon();
     processTestResult(passed);
     return passed;
   }
 
   bool minusPlusJacobianIsIdentityAt(const LieGroupd& x) {
-    Sophus::Manifold<LieGroup_> manifold;
+    sophus::Manifold<LieGroup_> manifold;
     LieGroupd test_group;
 
     bool passed = true;
 
-    Eigen::Matrix<double, num_parameters, DoF,
-                  DoF == 1 ? Eigen::ColMajor : Eigen::RowMajor>
+    Eigen::Matrix<double, kNumParameters, kDoF,
+                  kDoF == 1 ? Eigen::ColMajor : Eigen::RowMajor>
         Jplus;
-    Eigen::Matrix<double, DoF, num_parameters, Eigen::RowMajor> Jminus;
+    Eigen::Matrix<double, kDoF, kNumParameters, Eigen::RowMajor> Jminus;
 
     passed &= manifold.PlusJacobian(x.data(), Jplus.data());
     processTestResult(passed);
@@ -449,12 +449,12 @@ struct LieGroupCeresTests {
     passed &= manifold.MinusJacobian(x.data(), Jminus.data());
     processTestResult(passed);
 
-    const Eigen::Matrix<double, DoF, DoF> diff =
-        Jminus * Jplus - Eigen::Matrix<double, DoF, DoF>::Identity();
+    const Eigen::Matrix<double, kDoF, kDoF> diff =
+        Jminus * Jplus - Eigen::Matrix<double, kDoF, kDoF>::Identity();
 
     std::cerr << diff << std::endl;
     const double error = diff.squaredNorm();
-    passed &= error < Sophus::Constants<double>::epsilon();
+    passed &= error < sophus::Constants<double>::epsilon();
     processTestResult(passed);
     return passed;
   }
@@ -467,4 +467,4 @@ struct LieGroupCeresTests {
   StdVector<Pointd> point_vec;
 };
 
-}  // namespace Sophus
+}  // namespace sophus

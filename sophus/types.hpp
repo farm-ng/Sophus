@@ -6,7 +6,7 @@
 #include <type_traits>
 #include "common.hpp"
 
-namespace Sophus {
+namespace sophus {
 
 template <class Scalar, int M, int Options = 0>
 using Vector = Eigen::Matrix<Scalar, M, 1, Options>;
@@ -36,8 +36,8 @@ using Vector7 = Vector<Scalar, 7>;
 using Vector7f = Vector7<float>;
 using Vector7d = Vector7<double>;
 
-template <class Scalar, int M, int N>
-using Matrix = Eigen::Matrix<Scalar, M, N>;
+template <class Scalar, int M, int kMatrixDim>
+using Matrix = Eigen::Matrix<Scalar, M, kMatrixDim>;
 
 template <class Scalar>
 using Matrix2 = Matrix<Scalar, 2, 2>;
@@ -64,8 +64,8 @@ using Matrix7 = Matrix<Scalar, 7, 7>;
 using Matrix7f = Matrix7<float>;
 using Matrix7d = Matrix7<double>;
 
-template <class Scalar, int N, int Options = 0>
-using ParametrizedLine = Eigen::ParametrizedLine<Scalar, N, Options>;
+template <class Scalar, int kMatrixDim, int Options = 0>
+using ParametrizedLine = Eigen::ParametrizedLine<Scalar, kMatrixDim, Options>;
 
 template <class Scalar, int Options = 0>
 using ParametrizedLine3 = ParametrizedLine<Scalar, 3, Options>;
@@ -77,8 +77,8 @@ using ParametrizedLine2 = ParametrizedLine<Scalar, 2, Options>;
 using ParametrizedLine2f = ParametrizedLine2<float>;
 using ParametrizedLine2d = ParametrizedLine2<double>;
 
-template <class Scalar, int N, int Options = 0>
-using Hyperplane = Eigen::Hyperplane<Scalar, N, Options>;
+template <class Scalar, int kMatrixDim, int Options = 0>
+using Hyperplane = Eigen::Hyperplane<Scalar, kMatrixDim, Options>;
 
 template <class Scalar, int Options = 0>
 using Hyperplane3 = Eigen::Hyperplane<Scalar, 3, Options>;
@@ -100,11 +100,11 @@ class MaxMetric {
   }
 };
 
-template <class Scalar, int M, int N>
-class MaxMetric<Matrix<Scalar, M, N>> {
+template <class Scalar, int M, int kMatrixDim>
+class MaxMetric<Matrix<Scalar, M, kMatrixDim>> {
  public:
-  static Scalar impl(Matrix<Scalar, M, N> const& p0,
-                     Matrix<Scalar, M, N> const& p1) {
+  static Scalar impl(Matrix<Scalar, M, kMatrixDim> const& p0,
+                     Matrix<Scalar, M, kMatrixDim> const& p1) {
     return (p0 - p1).template lpNorm<Eigen::Infinity>();
   }
 };
@@ -115,10 +115,10 @@ class SetToZero {
   static void impl(Scalar& s) { s = Scalar(0); }
 };
 
-template <class Scalar, int M, int N>
-class SetToZero<Matrix<Scalar, M, N>> {
+template <class Scalar, int M, int kMatrixDim>
+class SetToZero<Matrix<Scalar, M, kMatrixDim>> {
  public:
-  static void impl(Matrix<Scalar, M, N>& v) { v.setZero(); }
+  static void impl(Matrix<Scalar, M, kMatrixDim>& v) { v.setZero(); }
 };
 
 template <class T1, class Scalar>
@@ -133,11 +133,11 @@ class SetElementAt<Scalar, Scalar> {
   }
 };
 
-template <class Scalar, int N>
-class SetElementAt<Vector<Scalar, N>, Scalar> {
+template <class Scalar, int kMatrixDim>
+class SetElementAt<Vector<Scalar, kMatrixDim>, Scalar> {
  public:
-  static void impl(Vector<Scalar, N>& v, Scalar value, int at) {
-    SOPHUS_ENSURE(at >= 0 && at < N, "is {}", at);
+  static void impl(Vector<Scalar, kMatrixDim>& v, Scalar value, int at) {
+    SOPHUS_ENSURE(at >= 0 && at < kMatrixDim, "is {}", at);
     v[at] = value;
   }
 };
@@ -148,10 +148,10 @@ class SquaredNorm {
   static Scalar impl(Scalar const& s) { return s * s; }
 };
 
-template <class Scalar, int N>
-class SquaredNorm<Matrix<Scalar, N, 1>> {
+template <class Scalar, int kMatrixDim>
+class SquaredNorm<Matrix<Scalar, kMatrixDim, 1>> {
  public:
-  static Scalar impl(Matrix<Scalar, N, 1> const& s) { return s.squaredNorm(); }
+  static Scalar impl(Matrix<Scalar, kMatrixDim, 1> const& s) { return s.squaredNorm(); }
 };
 
 template <class Scalar>
@@ -160,10 +160,10 @@ class Transpose {
   static Scalar impl(Scalar const& s) { return s; }
 };
 
-template <class Scalar, int M, int N>
-class Transpose<Matrix<Scalar, M, N>> {
+template <class Scalar, int M, int kMatrixDim>
+class Transpose<Matrix<Scalar, M, kMatrixDim>> {
  public:
-  static Matrix<Scalar, M, N> impl(Matrix<Scalar, M, N> const& s) {
+  static Matrix<Scalar, M, kMatrixDim> impl(Matrix<Scalar, M, kMatrixDim> const& s) {
     return s.transpose();
   }
 };
@@ -213,19 +213,19 @@ struct IsFloatingPoint {
   static bool const value = std::is_floating_point<Scalar>::value;
 };
 
-template <class Scalar, int M, int N>
-struct IsFloatingPoint<Matrix<Scalar, M, N>> {
+template <class Scalar, int M, int kMatrixDim>
+struct IsFloatingPoint<Matrix<Scalar, M, kMatrixDim>> {
   static bool const value = std::is_floating_point<Scalar>::value;
 };
 
-template <class Scalar_>
+template <class ScalarT>
 struct GetScalar {
-  using Scalar = Scalar_;
+  using Scalar = ScalarT;
 };
 
-template <class Scalar_, int M, int N>
-struct GetScalar<Matrix<Scalar_, M, N>> {
-  using Scalar = Scalar_;
+template <class ScalarT, int M, int kMatrixDim>
+struct GetScalar<Matrix<ScalarT, M, kMatrixDim>> {
+  using Scalar = ScalarT;
 };
 
 /// If the Vector type is of fixed size, then IsFixedSizeVector::value will be
@@ -248,4 +248,4 @@ using Line2 = Eigen::Hyperplane<T, 2>;
 using Line2d = Line2<double>;
 using Line2f = Line2<float>;
 
-}  // namespace Sophus
+}  // namespace sophus

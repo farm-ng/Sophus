@@ -6,7 +6,7 @@
 #include <sophus/spline.hpp>
 #include <sophus/test_macros.hpp>
 
-namespace Sophus {
+namespace sophus {
 
 namespace {
 
@@ -118,6 +118,6 @@ void runAll() {
 }
 
 }  // namespace
-}  // namespace Sophus
+}  // namespace sophus
 
-int main() { Sophus::runAll(); }
+int main() { sophus::runAll(); }

@@ -6,42 +6,42 @@
 #include "rxso2.hpp"
 #include "sim_details.hpp"
 
-namespace Sophus {
-template <class Scalar_, int Options = 0>
+namespace sophus {
+template <class ScalarT, int Options = 0>
 class Sim2;
 using Sim2d = Sim2<double>;
 using Sim2f = Sim2<float>;
-}  // namespace Sophus
+}  // namespace sophus
 
 namespace Eigen {
 namespace internal {
 
-template <class Scalar_, int Options>
-struct traits<Sophus::Sim2<Scalar_, Options>> {
-  using Scalar = Scalar_;
-  using TranslationType = Sophus::Vector2<Scalar, Options>;
-  using RxSO2Type = Sophus::RxSO2<Scalar, Options>;
+template <class ScalarT, int Options>
+struct traits<sophus::Sim2<ScalarT, Options>> {
+  using Scalar = ScalarT;
+  using TranslationType = sophus::Vector2<Scalar, Options>;
+  using RxSO2Type = sophus::RxSO2<Scalar, Options>;
 };
 
-template <class Scalar_, int Options>
-struct traits<Map<Sophus::Sim2<Scalar_>, Options>>
-    : traits<Sophus::Sim2<Scalar_, Options>> {
-  using Scalar = Scalar_;
-  using TranslationType = Map<Sophus::Vector2<Scalar>, Options>;
-  using RxSO2Type = Map<Sophus::RxSO2<Scalar>, Options>;
+template <class ScalarT, int Options>
+struct traits<Map<sophus::Sim2<ScalarT>, Options>>
+    : traits<sophus::Sim2<ScalarT, Options>> {
+  using Scalar = ScalarT;
+  using TranslationType = Map<sophus::Vector2<Scalar>, Options>;
+  using RxSO2Type = Map<sophus::RxSO2<Scalar>, Options>;
 };
 
-template <class Scalar_, int Options>
-struct traits<Map<Sophus::Sim2<Scalar_> const, Options>>
-    : traits<Sophus::Sim2<Scalar_, Options> const> {
-  using Scalar = Scalar_;
-  using TranslationType = Map<Sophus::Vector2<Scalar> const, Options>;
-  using RxSO2Type = Map<Sophus::RxSO2<Scalar> const, Options>;
+template <class ScalarT, int Options>
+struct traits<Map<sophus::Sim2<ScalarT> const, Options>>
+    : traits<sophus::Sim2<ScalarT, Options> const> {
+  using Scalar = ScalarT;
+  using TranslationType = Map<sophus::Vector2<Scalar> const, Options>;
+  using RxSO2Type = Map<sophus::RxSO2<Scalar> const, Options>;
 };
 }  // namespace internal
 }  // namespace Eigen
 
-namespace Sophus {
+namespace sophus {
 
 /// Sim2 base type - implements Sim2 class but is storage agnostic.
 ///
@@ -64,21 +64,21 @@ class Sim2Base {
 
   /// Degrees of freedom of manifold, number of dimensions in tangent space
   /// (two for translation, one for rotation and one for scaling).
-  static int constexpr DoF = 4;
+  static int constexpr kDoF = 4;
   /// Number of internal parameters used (2-tuple for complex number, two for
   /// translation).
-  static int constexpr num_parameters = 4;
+  static int constexpr kNumParameters = 4;
   /// Group transformations are 3x3 matrices.
-  static int constexpr N = 3;
+  static int constexpr kMatrixDim = 3;
   /// Points are 2-dimensional
-  static int constexpr Dim = 2;
-  using Transformation = Matrix<Scalar, N, N>;
+  static int constexpr kPointDim = 2;
+  using Transformation = Matrix<Scalar, kMatrixDim, kMatrixDim>;
   using Point = Vector2<Scalar>;
   using HomogeneousPoint = Vector3<Scalar>;
   using Line = ParametrizedLine2<Scalar>;
   using Hyperplane = Hyperplane2<Scalar>;
-  using Tangent = Vector<Scalar, DoF>;
-  using Adjoint = Matrix<Scalar, DoF, DoF>;
+  using Tangent = Vector<Scalar, kDoF>;
+  using Adjoint = Matrix<Scalar, kDoF, kDoF>;
 
   /// For binary operations the return type is determined with the
   /// ScalarBinaryOpTraits feature of Eigen. This allows mixing concrete and Map
@@ -275,8 +275,8 @@ class Sim2Base {
   /// It returns (c[0], c[1], t[0], t[1]),
   /// with c being the complex number, t the translation 3-vector.
   ///
-  SOPHUS_FUNC Sophus::Vector<Scalar, num_parameters> params() const {
-    Sophus::Vector<Scalar, num_parameters> p;
+  SOPHUS_FUNC sophus::Vector<Scalar, kNumParameters> params() const {
+    sophus::Vector<Scalar, kNumParameters> p;
     p << rxso2().params(), translation();
     return p;
   }
@@ -295,9 +295,9 @@ class Sim2Base {
 
   /// Returns derivative of  this * Sim2::exp(x)  wrt. x at x=0.
   ///
-  SOPHUS_FUNC Matrix<Scalar, num_parameters, DoF> Dx_this_mul_exp_x_at_0()
+  SOPHUS_FUNC Matrix<Scalar, kNumParameters, kDoF> Dx_this_mul_exp_x_at_0()
       const {
-    Matrix<Scalar, num_parameters, DoF> J;
+    Matrix<Scalar, kNumParameters, kDoF> J;
     J.template block<2, 2>(0, 0).setZero();
     J.template block<2, 2>(0, 2) = rxso2().Dx_this_mul_exp_x_at_0();
     J.template block<2, 2>(2, 2).setZero();
@@ -307,9 +307,9 @@ class Sim2Base {
 
   /// Returns derivative of log(this^{-1} * x) by x at x=this.
   ///
-  SOPHUS_FUNC Matrix<Scalar, DoF, num_parameters> Dx_log_this_inv_by_x_at_this()
+  SOPHUS_FUNC Matrix<Scalar, kDoF, kNumParameters> Dx_log_this_inv_by_x_at_this()
       const {
-    Matrix<Scalar, num_parameters, DoF> J;
+    Matrix<Scalar, kNumParameters, kDoF> J;
     J.template block<2, 2>(0, 0).setZero();
     J.template block<2, 2>(0, 2) = rxso2().inverse().matrix();
     J.template block<2, 2>(2, 0) = rxso2().Dx_log_this_inv_by_x_at_this();
@@ -391,11 +391,11 @@ class Sim2Base {
 };
 
 /// Sim2 using default storage; derived from Sim2Base.
-template <class Scalar_, int Options>
-class Sim2 : public Sim2Base<Sim2<Scalar_, Options>> {
+template <class ScalarT, int Options>
+class Sim2 : public Sim2Base<Sim2<ScalarT, Options>> {
  public:
-  using Base = Sim2Base<Sim2<Scalar_, Options>>;
-  using Scalar = Scalar_;
+  using Base = Sim2Base<Sim2<ScalarT, Options>>;
+  using Scalar = ScalarT;
   using Transformation = typename Base::Transformation;
   using Point = typename Base::Point;
   using HomogeneousPoint = typename Base::HomogeneousPoint;
@@ -411,8 +411,8 @@ class Sim2 : public Sim2Base<Sim2<Scalar_, Options>> {
   /// user-declared copy constructor (-Wdeprecated-copy in clang >= 13).
   SOPHUS_FUNC Sim2& operator=(Sim2 const& other) = default;
 
-  static int constexpr DoF = Base::DoF;
-  static int constexpr num_parameters = Base::num_parameters;
+  static int constexpr kDoF = Base::kDoF;
+  static int constexpr kNumParameters = Base::kNumParameters;
 
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
@@ -503,9 +503,9 @@ class Sim2 : public Sim2Base<Sim2<Scalar_, Options>> {
 
   /// Returns derivative of exp(x) wrt. x_i at x=0.
   ///
-  SOPHUS_FUNC static Sophus::Matrix<Scalar, num_parameters, DoF>
+  SOPHUS_FUNC static sophus::Matrix<Scalar, kNumParameters, kDoF>
   Dx_exp_x_at_0() {
-    Sophus::Matrix<Scalar, num_parameters, DoF> J;
+    sophus::Matrix<Scalar, kNumParameters, kDoF> J;
     J.template block<2, 2>(0, 0).setZero();
     J.template block<2, 2>(0, 2) = RxSO2<Scalar>::Dx_exp_x_at_0();
     J.template block<2, 2>(2, 0).setIdentity();
@@ -515,7 +515,7 @@ class Sim2 : public Sim2Base<Sim2<Scalar_, Options>> {
 
   /// Returns derivative of exp(x) wrt. x.
   ///
-  SOPHUS_FUNC static Sophus::Matrix<Scalar, num_parameters, DoF> Dx_exp_x(
+  SOPHUS_FUNC static sophus::Matrix<Scalar, kNumParameters, kDoF> Dx_exp_x(
       const Tangent& a) {
     static Matrix2<Scalar> const I = Matrix2<Scalar>::Identity();
     static Scalar const one(1.0);
@@ -531,7 +531,7 @@ class Sim2 : public Sim2Base<Sim2<Scalar_, Options>> {
     Matrix2<Scalar> const W = details::calcW<Scalar, 2>(Omega, theta, sigma);
     Vector2<Scalar> const upsilon = a.segment(0, 2);
 
-    Sophus::Matrix<Scalar, num_parameters, DoF> J;
+    sophus::Matrix<Scalar, kNumParameters, kDoF> J;
     J.template block<2, 2>(0, 0).setZero();
     J.template block<2, 2>(0, 2) =
         RxSO2<Scalar>::Dx_exp_x(a.template tail<2>());
@@ -552,11 +552,11 @@ class Sim2 : public Sim2Base<Sim2<Scalar_, Options>> {
 
   /// Returns derivative of exp(x) * p wrt. x_i at x=0.
   ///
-  SOPHUS_FUNC static Sophus::Matrix<Scalar, 2, DoF> Dx_exp_x_times_point_at_0(
+  SOPHUS_FUNC static sophus::Matrix<Scalar, 2, kDoF> Dx_exp_x_times_point_at_0(
       Point const& point) {
-    Sophus::Matrix<Scalar, 2, DoF> J;
-    J << Sophus::Matrix2<Scalar>::Identity(),
-        Sophus::RxSO2<Scalar>::Dx_exp_x_times_point_at_0(point);
+    sophus::Matrix<Scalar, 2, kDoF> J;
+    J << sophus::Matrix2<Scalar>::Identity(),
+        sophus::RxSO2<Scalar>::Dx_exp_x_times_point_at_0(point);
     return J;
   }
 
@@ -588,7 +588,7 @@ class Sim2 : public Sim2Base<Sim2<Scalar_, Options>> {
   /// of Sim(2), see below.
   ///
   SOPHUS_FUNC static Sim2<Scalar> exp(Tangent const& a) {
-    // For the derivation of the exponential map of Sim(N) see
+    // For the derivation of the exponential map of Sim(kMatrixDim) see
     // H. Strasdat, "Local Accuracy and Global Consistency for Efficient Visual
     // SLAM", PhD thesis, 2012.
     // http:///hauke.strasdat.net/files/strasdat_thesis_2012.pdf (A.5, pp. 186)
@@ -728,27 +728,27 @@ SOPHUS_FUNC Sim2<Scalar, Options>::Sim2()
   static_assert(std::is_standard_layout<Sim2>::value,
                 "Assume standard layout for the use of offsetof check below.");
   static_assert(
-      offsetof(Sim2, rxso2_) + sizeof(Scalar) * RxSO2<Scalar>::num_parameters ==
+      offsetof(Sim2, rxso2_) + sizeof(Scalar) * RxSO2<Scalar>::kNumParameters ==
           offsetof(Sim2, translation_),
       "This class assumes packed storage and hence will only work "
       "correctly depending on the compiler (options) - in "
       "particular when using [this->data(), this-data() + "
-      "num_parameters] to access the raw data in a contiguous fashion.");
+      "kNumParameters] to access the raw data in a contiguous fashion.");
 }
 
-}  // namespace Sophus
+}  // namespace sophus
 
 namespace Eigen {
 
 /// Specialization of Eigen::Map for ``Sim2``; derived from Sim2Base.
 ///
 /// Allows us to wrap Sim2 objects around POD array.
-template <class Scalar_, int Options>
-class Map<Sophus::Sim2<Scalar_>, Options>
-    : public Sophus::Sim2Base<Map<Sophus::Sim2<Scalar_>, Options>> {
+template <class ScalarT, int Options>
+class Map<sophus::Sim2<ScalarT>, Options>
+    : public sophus::Sim2Base<Map<sophus::Sim2<ScalarT>, Options>> {
  public:
-  using Base = Sophus::Sim2Base<Map<Sophus::Sim2<Scalar_>, Options>>;
-  using Scalar = Scalar_;
+  using Base = sophus::Sim2Base<Map<sophus::Sim2<ScalarT>, Options>>;
+  using Scalar = ScalarT;
   using Transformation = typename Base::Transformation;
   using Point = typename Base::Point;
   using HomogeneousPoint = typename Base::HomogeneousPoint;
@@ -761,43 +761,43 @@ class Map<Sophus::Sim2<Scalar_>, Options>
 
   SOPHUS_FUNC explicit Map(Scalar* coeffs)
       : rxso2_(coeffs),
-        translation_(coeffs + Sophus::RxSO2<Scalar>::num_parameters) {}
+        translation_(coeffs + sophus::RxSO2<Scalar>::kNumParameters) {}
 
   /// Mutator of RxSO2
   ///
-  SOPHUS_FUNC Map<Sophus::RxSO2<Scalar>, Options>& rxso2() { return rxso2_; }
+  SOPHUS_FUNC Map<sophus::RxSO2<Scalar>, Options>& rxso2() { return rxso2_; }
 
   /// Accessor of RxSO2
   ///
-  SOPHUS_FUNC Map<Sophus::RxSO2<Scalar>, Options> const& rxso2() const {
+  SOPHUS_FUNC Map<sophus::RxSO2<Scalar>, Options> const& rxso2() const {
     return rxso2_;
   }
 
   /// Mutator of translation vector
   ///
-  SOPHUS_FUNC Map<Sophus::Vector2<Scalar>, Options>& translation() {
+  SOPHUS_FUNC Map<sophus::Vector2<Scalar>, Options>& translation() {
     return translation_;
   }
 
   /// Accessor of translation vector
-  SOPHUS_FUNC Map<Sophus::Vector2<Scalar>, Options> const& translation() const {
+  SOPHUS_FUNC Map<sophus::Vector2<Scalar>, Options> const& translation() const {
     return translation_;
   }
 
  protected:
-  Map<Sophus::RxSO2<Scalar>, Options> rxso2_;
-  Map<Sophus::Vector2<Scalar>, Options> translation_;
+  Map<sophus::RxSO2<Scalar>, Options> rxso2_;
+  Map<sophus::Vector2<Scalar>, Options> translation_;
 };
 
 /// Specialization of Eigen::Map for ``Sim2 const``; derived from Sim2Base.
 ///
 /// Allows us to wrap RxSO2 objects around POD array.
-template <class Scalar_, int Options>
-class Map<Sophus::Sim2<Scalar_> const, Options>
-    : public Sophus::Sim2Base<Map<Sophus::Sim2<Scalar_> const, Options>> {
+template <class ScalarT, int Options>
+class Map<sophus::Sim2<ScalarT> const, Options>
+    : public sophus::Sim2Base<Map<sophus::Sim2<ScalarT> const, Options>> {
  public:
-  using Base = Sophus::Sim2Base<Map<Sophus::Sim2<Scalar_> const, Options>>;
-  using Scalar = Scalar_;
+  using Base = sophus::Sim2Base<Map<sophus::Sim2<ScalarT> const, Options>>;
+  using Scalar = ScalarT;
   using Transformation = typename Base::Transformation;
   using Point = typename Base::Point;
   using HomogeneousPoint = typename Base::HomogeneousPoint;
@@ -809,23 +809,23 @@ class Map<Sophus::Sim2<Scalar_> const, Options>
 
   SOPHUS_FUNC explicit Map(Scalar const* coeffs)
       : rxso2_(coeffs),
-        translation_(coeffs + Sophus::RxSO2<Scalar>::num_parameters) {}
+        translation_(coeffs + sophus::RxSO2<Scalar>::kNumParameters) {}
 
   /// Accessor of RxSO2
   ///
-  SOPHUS_FUNC Map<Sophus::RxSO2<Scalar> const, Options> const& rxso2() const {
+  SOPHUS_FUNC Map<sophus::RxSO2<Scalar> const, Options> const& rxso2() const {
     return rxso2_;
   }
 
   /// Accessor of translation vector
   ///
-  SOPHUS_FUNC Map<Sophus::Vector2<Scalar> const, Options> const& translation()
+  SOPHUS_FUNC Map<sophus::Vector2<Scalar> const, Options> const& translation()
       const {
     return translation_;
   }
 
  protected:
-  Map<Sophus::RxSO2<Scalar> const, Options> const rxso2_;
-  Map<Sophus::Vector2<Scalar> const, Options> const translation_;
+  Map<sophus::RxSO2<Scalar> const, Options> const rxso2_;
+  Map<sophus::Vector2<Scalar> const, Options> const translation_;
 };
 }  // namespace Eigen

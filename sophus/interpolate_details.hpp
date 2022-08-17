@@ -10,17 +10,17 @@
 #include "so2.hpp"
 #include "so3.hpp"
 
-namespace Sophus {
+namespace sophus {
 namespace interp_details {
 
 template <class Group>
 struct Traits;
 
-template <class Scalar, int Dim>
-struct Traits<Cartesian<Scalar, Dim>> {
+template <class Scalar, int kPointDim>
+struct Traits<Cartesian<Scalar, kPointDim>> {
   static bool constexpr supported = true;
 
-  static bool hasShortestPathAmbiguity(Cartesian<Scalar, Dim> const&) {
+  static bool hasShortestPathAmbiguity(Cartesian<Scalar, kPointDim> const&) {
     return false;
   }
 };
@@ -108,4 +108,4 @@ struct Traits<Sim3<Scalar>> {
 };
 
 }  // namespace interp_details
-}  // namespace Sophus
+}  // namespace sophus

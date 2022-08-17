@@ -97,7 +97,7 @@
 
 #elif defined(SOPHUS_ENABLE_ENSURE_HANDLER)
 
-namespace Sophus {
+namespace sophus {
 void ensureFailed(char const* function, char const* file, int line,
                   char const* description);
 }
@@ -105,7 +105,7 @@ void ensureFailed(char const* function, char const* file, int line,
 #define SOPHUS_ENSURE(expr, description, ...)                        \
   ((expr)                                                            \
        ? ((void)0)                                                   \
-       : ::Sophus::ensureFailed(SOPHUS_FUNCTION, __FILE__, __LINE__, \
+       : ::sophus::ensureFailed(SOPHUS_FUNCTION, __FILE__, __LINE__, \
                                 SOPHUS_FMT_CSTR(description, ##__VA_ARGS__)))
 #else
 
@@ -143,7 +143,7 @@ void ensureFailed(char const* function, char const* file, int line,
 #endif
 #endif
 
-namespace Sophus {
+namespace sophus {
 
 template <class Scalar>
 struct Constants {
@@ -236,4 +236,4 @@ struct IsUniformRandomBitGenerator {
                             std::is_unsigned<decltype(G::min())>::value &&
                             std::is_unsigned<decltype(G::max())>::value;
 };
-}  // namespace Sophus
+}  // namespace sophus

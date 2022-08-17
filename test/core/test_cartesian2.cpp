@@ -6,11 +6,11 @@
 // Explicit instantiate all class templates so that all member methods
 // get compiled and for code coverage analysis.
 namespace Eigen {
-template class Map<Sophus::Cartesian<double, 2>>;
-template class Map<Sophus::Cartesian<double, 2> const>;
+template class Map<sophus::Cartesian<double, 2>>;
+template class Map<sophus::Cartesian<double, 2> const>;
 }  // namespace Eigen
 
-namespace Sophus {
+namespace sophus {
 
 template class Cartesian<double, 2, Eigen::AutoAlign>;
 template class Cartesian<float, 2, Eigen::DontAlign>;
@@ -18,10 +18,10 @@ template class Cartesian<float, 2, Eigen::DontAlign>;
 template class Cartesian<ceres::Jet<double, 2>, 2>;
 #endif
 
-template <class Scalar_>
+template <class ScalarT>
 class Tests {
  public:
-  using Scalar = Scalar_;
+  using Scalar = ScalarT;
   using Point = typename Cartesian<Scalar, 2>::Point;
   using Tangent = typename Cartesian<Scalar, 2>::Tangent;
 
@@ -88,6 +88,6 @@ int test_cartesian() {
   return 0;
 }
 
-}  // namespace Sophus
+}  // namespace sophus
 
-int main() { return Sophus::test_cartesian(); }
+int main() { return sophus::test_cartesian(); }

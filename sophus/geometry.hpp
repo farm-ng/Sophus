@@ -9,7 +9,7 @@
 #include "so3.hpp"
 #include "types.hpp"
 
-namespace Sophus {
+namespace sophus {
 
 /// Takes in a rotation ``R_foo_plane`` and returns the corresponding line
 /// normal along the y-axis (in reference frame ``foo``).
@@ -163,14 +163,14 @@ SE3<T> SE3FromPlane(Plane3<T> const& plane_foo) {
 /// Takes in a hyperplane and returns unique representation by ensuring that the
 /// ``offset`` is not negative.
 ///
-template <class T, int N>
-Eigen::Hyperplane<T, N> makeHyperplaneUnique(
-    Eigen::Hyperplane<T, N> const& plane) {
+template <class T, int kMatrixDim>
+Eigen::Hyperplane<T, kMatrixDim> makeHyperplaneUnique(
+    Eigen::Hyperplane<T, kMatrixDim> const& plane) {
   if (plane.offset() >= 0) {
     return plane;
   }
 
-  return Eigen::Hyperplane<T, N>(-plane.normal(), -plane.offset());
+  return Eigen::Hyperplane<T, kMatrixDim>(-plane.normal(), -plane.offset());
 }
 
-}  // namespace Sophus
+}  // namespace sophus

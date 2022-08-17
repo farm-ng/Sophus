@@ -12,42 +12,42 @@
 #include "rotation_matrix.hpp"
 #include "types.hpp"
 
-namespace Sophus {
-template <class Scalar_, int Options = 0>
+namespace sophus {
+template <class ScalarT, int Options = 0>
 class SO2;
 using SO2d = SO2<double>;
 using SO2f = SO2<float>;
-}  // namespace Sophus
+}  // namespace sophus
 
 namespace Eigen {
 namespace internal {
 
-template <class Scalar_, int Options_>
-struct traits<Sophus::SO2<Scalar_, Options_>> {
+template <class ScalarT, int Options_>
+struct traits<sophus::SO2<ScalarT, Options_>> {
   static constexpr int Options = Options_;
-  using Scalar = Scalar_;
-  using ComplexType = Sophus::Vector2<Scalar, Options>;
+  using Scalar = ScalarT;
+  using ComplexType = sophus::Vector2<Scalar, Options>;
 };
 
-template <class Scalar_, int Options_>
-struct traits<Map<Sophus::SO2<Scalar_>, Options_>>
-    : traits<Sophus::SO2<Scalar_, Options_>> {
+template <class ScalarT, int Options_>
+struct traits<Map<sophus::SO2<ScalarT>, Options_>>
+    : traits<sophus::SO2<ScalarT, Options_>> {
   static constexpr int Options = Options_;
-  using Scalar = Scalar_;
-  using ComplexType = Map<Sophus::Vector2<Scalar>, Options>;
+  using Scalar = ScalarT;
+  using ComplexType = Map<sophus::Vector2<Scalar>, Options>;
 };
 
-template <class Scalar_, int Options_>
-struct traits<Map<Sophus::SO2<Scalar_> const, Options_>>
-    : traits<Sophus::SO2<Scalar_, Options_> const> {
+template <class ScalarT, int Options_>
+struct traits<Map<sophus::SO2<ScalarT> const, Options_>>
+    : traits<sophus::SO2<ScalarT, Options_> const> {
   static constexpr int Options = Options_;
-  using Scalar = Scalar_;
-  using ComplexType = Map<Sophus::Vector2<Scalar> const, Options>;
+  using Scalar = ScalarT;
+  using ComplexType = Map<sophus::Vector2<Scalar> const, Options>;
 };
 }  // namespace internal
 }  // namespace Eigen
 
-namespace Sophus {
+namespace sophus {
 
 /// SO2 base type - implements SO2 class but is storage agnostic.
 ///
@@ -80,18 +80,18 @@ class SO2Base {
   static constexpr int Options = Eigen::internal::traits<Derived>::Options;
   using Scalar = typename Eigen::internal::traits<Derived>::Scalar;
   using ComplexT = typename Eigen::internal::traits<Derived>::ComplexType;
-  using ComplexTemporaryType = Sophus::Vector2<Scalar, Options>;
+  using ComplexTemporaryType = sophus::Vector2<Scalar, Options>;
 
   /// Degrees of freedom of manifold, number of dimensions in tangent space (one
   /// since we only have in-plane rotations).
-  static int constexpr DoF = 1;
+  static int constexpr kDoF = 1;
   /// Number of internal parameters used (complex numbers are a tuples).
-  static int constexpr num_parameters = 2;
+  static int constexpr kNumParameters = 2;
   /// Group transformations are 2x2 matrices.
-  static int constexpr N = 2;
+  static int constexpr kMatrixDim = 2;
   /// Points are 3-dimensional
-  static int constexpr Dim = 2;
-  using Transformation = Matrix<Scalar, N, N>;
+  static int constexpr kPointDim = 2;
+  using Transformation = Matrix<Scalar, kMatrixDim, kMatrixDim>;
   using Point = Vector2<Scalar>;
   using HomogeneousPoint = Vector3<Scalar>;
   using Line = ParametrizedLine2<Scalar>;
@@ -305,9 +305,9 @@ class SO2Base {
 
   /// Returns derivative of  this * SO2::exp(x)  wrt. x at x=0.
   ///
-  SOPHUS_FUNC Matrix<Scalar, num_parameters, DoF> Dx_this_mul_exp_x_at_0()
+  SOPHUS_FUNC Matrix<Scalar, kNumParameters, kDoF> Dx_this_mul_exp_x_at_0()
       const {
-    return Matrix<Scalar, num_parameters, DoF>(-unit_complex()[1],
+    return Matrix<Scalar, kNumParameters, kDoF>(-unit_complex()[1],
                                                unit_complex()[0]);
   }
 
@@ -315,15 +315,15 @@ class SO2Base {
   ///
   /// It returns (c[0], c[1]), with c being the unit complex number.
   ///
-  SOPHUS_FUNC Sophus::Vector<Scalar, num_parameters> params() const {
+  SOPHUS_FUNC sophus::Vector<Scalar, kNumParameters> params() const {
     return unit_complex();
   }
 
   /// Returns derivative of log(this^{-1} * x) by x at x=this.
   ///
-  SOPHUS_FUNC Matrix<Scalar, DoF, num_parameters> Dx_log_this_inv_by_x_at_this()
+  SOPHUS_FUNC Matrix<Scalar, kDoF, kNumParameters> Dx_log_this_inv_by_x_at_this()
       const {
-    return Matrix<Scalar, DoF, num_parameters>(-unit_complex()[1],
+    return Matrix<Scalar, kDoF, kNumParameters>(-unit_complex()[1],
                                                unit_complex()[0]);
   }
 
@@ -354,14 +354,14 @@ class SO2Base {
 };
 
 /// SO2 using  default storage; derived from SO2Base.
-template <class Scalar_, int Options>
-class SO2 : public SO2Base<SO2<Scalar_, Options>> {
+template <class ScalarT, int Options>
+class SO2 : public SO2Base<SO2<ScalarT, Options>> {
  public:
-  using Base = SO2Base<SO2<Scalar_, Options>>;
-  static int constexpr DoF = Base::DoF;
-  static int constexpr num_parameters = Base::num_parameters;
+  using Base = SO2Base<SO2<ScalarT, Options>>;
+  static int constexpr kDoF = Base::kDoF;
+  static int constexpr kNumParameters = Base::kNumParameters;
 
-  using Scalar = Scalar_;
+  using Scalar = ScalarT;
   using Transformation = typename Base::Transformation;
   using Point = typename Base::Point;
   using HomogeneousPoint = typename Base::HomogeneousPoint;
@@ -457,23 +457,23 @@ class SO2 : public SO2Base<SO2<Scalar_, Options>> {
 
   /// Returns derivative of exp(x) wrt. x.
   ///
-  SOPHUS_FUNC static Sophus::Matrix<Scalar, num_parameters, DoF> Dx_exp_x(
+  SOPHUS_FUNC static sophus::Matrix<Scalar, kNumParameters, kDoF> Dx_exp_x(
       Tangent const& theta) {
     using std::cos;
     using std::sin;
-    return Sophus::Matrix<Scalar, num_parameters, DoF>(-sin(theta), cos(theta));
+    return sophus::Matrix<Scalar, kNumParameters, kDoF>(-sin(theta), cos(theta));
   }
 
   /// Returns derivative of exp(x) wrt. x_i at x=0.
   ///
-  SOPHUS_FUNC static Sophus::Matrix<Scalar, num_parameters, DoF>
+  SOPHUS_FUNC static sophus::Matrix<Scalar, kNumParameters, kDoF>
   Dx_exp_x_at_0() {
-    return Sophus::Matrix<Scalar, num_parameters, DoF>(Scalar(0), Scalar(1));
+    return sophus::Matrix<Scalar, kNumParameters, kDoF>(Scalar(0), Scalar(1));
   }
 
   /// Returns derivative of exp(x) * p wrt. x_i at x=0.
   ///
-  SOPHUS_FUNC static Sophus::Matrix<Scalar, 2, DoF> Dx_exp_x_times_point_at_0(
+  SOPHUS_FUNC static sophus::Matrix<Scalar, 2, kDoF> Dx_exp_x_times_point_at_0(
       Point const& point) {
     return Point(-point.y(), point.x());
   }
@@ -569,7 +569,7 @@ class SO2 : public SO2Base<SO2<Scalar_, Options>> {
   ComplexMember unit_complex_;
 };
 
-}  // namespace Sophus
+}  // namespace sophus
 
 namespace Eigen {
 
@@ -577,12 +577,12 @@ namespace Eigen {
 ///
 /// Allows us to wrap SO2 objects around POD array (e.g. external c style
 /// complex number / tuple).
-template <class Scalar_, int Options>
-class Map<Sophus::SO2<Scalar_>, Options>
-    : public Sophus::SO2Base<Map<Sophus::SO2<Scalar_>, Options>> {
+template <class ScalarT, int Options>
+class Map<sophus::SO2<ScalarT>, Options>
+    : public sophus::SO2Base<Map<sophus::SO2<ScalarT>, Options>> {
  public:
-  using Base = Sophus::SO2Base<Map<Sophus::SO2<Scalar_>, Options>>;
-  using Scalar = Scalar_;
+  using Base = sophus::SO2Base<Map<sophus::SO2<ScalarT>, Options>>;
+  using Scalar = ScalarT;
 
   using Transformation = typename Base::Transformation;
   using Point = typename Base::Point;
@@ -591,7 +591,7 @@ class Map<Sophus::SO2<Scalar_>, Options>
   using Adjoint = typename Base::Adjoint;
 
   /// ``Base`` is friend so unit_complex_nonconst can be accessed from ``Base``.
-  friend class Sophus::SO2Base<Map<Sophus::SO2<Scalar_>, Options>>;
+  friend class sophus::SO2Base<Map<sophus::SO2<ScalarT>, Options>>;
 
   using Base::operator=;
   using Base::operator*=;
@@ -603,7 +603,7 @@ class Map<Sophus::SO2<Scalar_>, Options>
   /// Accessor of unit complex number.
   ///
   SOPHUS_FUNC
-  Map<Sophus::Vector2<Scalar>, Options> const& unit_complex() const {
+  Map<sophus::Vector2<Scalar>, Options> const& unit_complex() const {
     return unit_complex_;
   }
 
@@ -611,7 +611,7 @@ class Map<Sophus::SO2<Scalar_>, Options>
   /// Mutator of unit_complex is protected to ensure class invariant.
   ///
   SOPHUS_FUNC
-  Map<Sophus::Vector2<Scalar>, Options>& unit_complex_nonconst() {
+  Map<sophus::Vector2<Scalar>, Options>& unit_complex_nonconst() {
     return unit_complex_;
   }
 
@@ -622,12 +622,12 @@ class Map<Sophus::SO2<Scalar_>, Options>
 ///
 /// Allows us to wrap SO2 objects around POD array (e.g. external c style
 /// complex number / tuple).
-template <class Scalar_, int Options>
-class Map<Sophus::SO2<Scalar_> const, Options>
-    : public Sophus::SO2Base<Map<Sophus::SO2<Scalar_> const, Options>> {
+template <class ScalarT, int Options>
+class Map<sophus::SO2<ScalarT> const, Options>
+    : public sophus::SO2Base<Map<sophus::SO2<ScalarT> const, Options>> {
  public:
-  using Base = Sophus::SO2Base<Map<Sophus::SO2<Scalar_> const, Options>>;
-  using Scalar = Scalar_;
+  using Base = sophus::SO2Base<Map<sophus::SO2<ScalarT> const, Options>>;
+  using Scalar = ScalarT;
   using Transformation = typename Base::Transformation;
   using Point = typename Base::Point;
   using HomogeneousPoint = typename Base::HomogeneousPoint;
@@ -641,7 +641,7 @@ class Map<Sophus::SO2<Scalar_> const, Options>
 
   /// Accessor of unit complex number.
   ///
-  SOPHUS_FUNC Map<Sophus::Vector2<Scalar> const, Options> const& unit_complex()
+  SOPHUS_FUNC Map<sophus::Vector2<Scalar> const, Options> const& unit_complex()
       const {
     return unit_complex_;
   }

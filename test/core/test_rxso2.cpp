@@ -6,11 +6,11 @@
 // Explicit instantiate all class templates so that all member methods
 // get compiled and for code coverage analysis.
 namespace Eigen {
-template class Map<Sophus::RxSO2<double>>;
-template class Map<Sophus::RxSO2<double> const>;
+template class Map<sophus::RxSO2<double>>;
+template class Map<sophus::RxSO2<double> const>;
 }  // namespace Eigen
 
-namespace Sophus {
+namespace sophus {
 
 template class RxSO2<double, Eigen::AutoAlign>;
 template class RxSO2<float, Eigen::DontAlign>;
@@ -296,6 +296,6 @@ int test_rxso2() {
   return 0;
 }
 
-}  // namespace Sophus
+}  // namespace sophus
 
-int main() { return Sophus::test_rxso2(); }
+int main() { return sophus::test_rxso2(); }

@@ -5,7 +5,7 @@
 #include "num_diff.hpp"
 #include "se3.hpp"
 
-namespace Sophus {
+namespace sophus {
 namespace experimental {
 // Experimental since the API will certainly change drastically in the future.
 
@@ -68,4 +68,4 @@ Vector3<Scalar> finiteDifferenceRotationalVelocity(
 }
 
 }  // namespace experimental
-}  // namespace Sophus
+}  // namespace sophus

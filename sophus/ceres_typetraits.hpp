@@ -1,7 +1,7 @@
 #ifndef SOPHUS_CERES_TYPETRAITS_HPP
 #define SOPHUS_CERES_TYPETRAITS_HPP
 
-namespace Sophus {
+namespace sophus {
 
 template <class T, std::size_t = sizeof(T)>
 constexpr std::true_type complete(T*);
@@ -12,12 +12,12 @@ using IsSpecialized = decltype(complete(std::declval<T*>()));
 
 /// Type trait used to distinguish mappable vector types from scalars
 ///
-/// We use this class to distinguish Sophus::Vector<Scalar, N> from Scalar types
+/// We use this class to distinguish sophus::Vector<Scalar, kMatrixDim> from Scalar types
 /// in LieGroup<T>::Tangent
 ///
 /// Primary use is mapping LieGroup::Tangent over raw data, with 2 options:
 ///  - LieGroup::Tangent is "scalar" (for SO2), then we just dereference pointer
-///  - LieGroup::Tangent is Sophus::Vector<...>, then we need to use Eigen::Map
+///  - LieGroup::Tangent is sophus::Vector<...>, then we need to use Eigen::Map
 ///
 /// Specialization of Eigen::internal::traits<T> for T is crucial for
 /// for constructing Eigen::Map<T>, thus we use that property for distinguishing
@@ -51,6 +51,6 @@ struct Mapper<T, typename std::enable_if<IsMappableV<T>>::type> {
   static ConstMap map(const Scalar* ptr) noexcept { return ConstMap(ptr); }
 };
 
-}  // namespace Sophus
+}  // namespace sophus
 
 #endif
