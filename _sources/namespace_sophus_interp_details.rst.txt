@@ -1,0 +1,62 @@
+.. index:: pair: namespace; sophus::interp_details
+.. _doxid-namespacesophus_1_1interp__details:
+
+namespace sophus::interp_details
+================================
+
+.. toctree::
+	:hidden:
+
+	struct_sophus_interp_details_Traits.rst
+	struct_sophus_interp_details_Traits-2.rst
+	struct_sophus_interp_details_Traits-3.rst
+	struct_sophus_interp_details_Traits-4.rst
+	struct_sophus_interp_details_Traits-5.rst
+	struct_sophus_interp_details_Traits-6.rst
+	struct_sophus_interp_details_Traits-7.rst
+	struct_sophus_interp_details_Traits-8.rst
+	struct_sophus_interp_details_Traits-9.rst
+	struct_sophus_interp_details_Traits-10.rst
+
+
+
+
+.. ref-code-block:: cpp
+	:class: doxyrest-overview-code-block
+
+	
+	namespace interp_details {
+
+	// structs
+
+	template <class Group>
+	struct :ref:`Traits<doxid-structsophus_1_1interp__details_1_1_traits>`;
+
+	template <class Scalar>
+	struct :ref:`Traits<SE3<Scalar>><doxid-structsophus_1_1interp__details_1_1_traits_3_01_s_e3_3_01_scalar_01_4_01_4>`;
+
+	template <class Scalar>
+	struct :ref:`Traits<Sim2<Scalar>><doxid-structsophus_1_1interp__details_1_1_traits_3_01_sim2_3_01_scalar_01_4_01_4>`;
+
+	template <class Scalar>
+	struct :ref:`Traits<Sim3<Scalar>><doxid-structsophus_1_1interp__details_1_1_traits_3_01_sim3_3_01_scalar_01_4_01_4>`;
+
+	template <class Scalar>
+	struct :ref:`Traits<SO2<Scalar>><doxid-structsophus_1_1interp__details_1_1_traits_3_01_s_o2_3_01_scalar_01_4_01_4>`;
+
+	template <class Scalar>
+	struct :ref:`Traits<SE2<Scalar>><doxid-structsophus_1_1interp__details_1_1_traits_3_01_s_e2_3_01_scalar_01_4_01_4>`;
+
+	template <class Scalar>
+	struct :ref:`Traits<RxSO2<Scalar>><doxid-structsophus_1_1interp__details_1_1_traits_3_01_rx_s_o2_3_01_scalar_01_4_01_4>`;
+
+	template <class Scalar>
+	struct :ref:`Traits<RxSO3<Scalar>><doxid-structsophus_1_1interp__details_1_1_traits_3_01_rx_s_o3_3_01_scalar_01_4_01_4>`;
+
+	template <class Scalar, int kPointDim>
+	struct :ref:`Traits<Cartesian<Scalar, kPointDim>><doxid-structsophus_1_1interp__details_1_1_traits_3_01_cartesian_3_01_scalar_00_01k_point_dim_01_4_01_4>`;
+
+	template <class Scalar>
+	struct :ref:`Traits<SO3<Scalar>><doxid-structsophus_1_1interp__details_1_1_traits_3_01_s_o3_3_01_scalar_01_4_01_4>`;
+
+	} // namespace interp_details

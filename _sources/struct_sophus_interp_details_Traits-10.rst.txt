@@ -1,0 +1,27 @@
+.. index:: pair: struct; sophus::interp_details::Traits<SO3<Scalar>>
+.. _doxid-structsophus_1_1interp__details_1_1_traits_3_01_s_o3_3_01_scalar_01_4_01_4:
+
+template struct sophus::interp_details::Traits<SO3<Scalar>>
+===========================================================
+
+.. toctree::
+	:hidden:
+
+
+
+
+.. ref-code-block:: cpp
+	:class: doxyrest-overview-code-block
+
+	#include <interpolate_details.hpp>
+	
+	template <class Scalar>
+	struct Traits<SO3<Scalar>> {
+		// fields
+	
+		static constexpr bool :target:`supported<doxid-structsophus_1_1interp__details_1_1_traits_3_01_s_o3_3_01_scalar_01_4_01_4_1a8e1e63b11a31c9adcc44552bc8944580>` = true;
+
+		// methods
+	
+		static bool :target:`hasShortestPathAmbiguity<doxid-structsophus_1_1interp__details_1_1_traits_3_01_s_o3_3_01_scalar_01_4_01_4_1aa8830d01766ac3b536720fef579e06aa>`(:ref:`SO3<doxid-classsophus_1_1_s_o3>`<Scalar> const& foo_T_bar);
+	};

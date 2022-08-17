@@ -1,0 +1,22 @@
+.. index:: pair: struct; sophus::nullopt_t
+.. _doxid-structsophus_1_1nullopt__t:
+
+struct sophus::nullopt_t
+========================
+
+.. toctree::
+	:hidden:
+
+Nullopt type of lightweight optional class.
+
+
+.. ref-code-block:: cpp
+	:class: doxyrest-overview-code-block
+
+	#include <common.hpp>
+	
+	struct nullopt_t {
+		// construction
+	
+		:target:`nullopt_t<doxid-structsophus_1_1nullopt__t_1ae8c61d0a6f1627d6c090ee74c2a4f7c9>`();
+	};

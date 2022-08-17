@@ -1,0 +1,29 @@
+.. index:: pair: class; sophus::details::Curve
+.. _doxid-classsophus_1_1details_1_1_curve:
+
+template class sophus::details::Curve
+=====================================
+
+.. toctree::
+	:hidden:
+
+
+
+
+.. ref-code-block:: cpp
+	:class: doxyrest-overview-code-block
+
+	#include <num_diff.hpp>
+	
+	template <class Scalar>
+	class Curve {
+	public:
+		// methods
+	
+		template <class Fn>
+		static auto :target:`num_diff<doxid-classsophus_1_1details_1_1_curve_1aaf804ff23675352eba8ccf9ba55ef45a>`(
+			Fn curve,
+			Scalar t,
+			Scalar h
+			);
+	};

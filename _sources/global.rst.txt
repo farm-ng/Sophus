@@ -8,7 +8,7 @@ Global Namespace
 	:hidden:
 
 	namespace_Eigen.rst
-	namespace_Sophus.rst
+	namespace_sophus.rst
 
 Overview
 ~~~~~~~~
@@ -23,7 +23,10 @@ Overview
 	// namespaces
 
 	namespace :ref:`Eigen<doxid-namespace_eigen>`;
-	namespace :ref:`Sophus<doxid-namespace_sophus>`;
+	namespace :ref:`sophus<doxid-namespacesophus>`;
+		namespace :ref:`sophus::details<doxid-namespacesophus_1_1details>`;
+		namespace :ref:`sophus::experimental<doxid-namespacesophus_1_1experimental>`;
+		namespace :ref:`sophus::interp_details<doxid-namespacesophus_1_1interp__details>`;
 
 	// macros
 

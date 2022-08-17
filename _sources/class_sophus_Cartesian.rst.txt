@@ -1,0 +1,332 @@
+.. index:: pair: class; sophus::Cartesian
+.. _doxid-classsophus_1_1_cartesian:
+
+template class sophus::Cartesian
+================================
+
+.. toctree::
+	:hidden:
+
+Overview
+~~~~~~~~
+
+:ref:`Cartesian <doxid-classsophus_1_1_cartesian>` using default storage; derived from :ref:`CartesianBase <doxid-classsophus_1_1_cartesian_base>`. :ref:`More...<details-classsophus_1_1_cartesian>`
+
+
+.. ref-code-block:: cpp
+	:class: doxyrest-overview-code-block
+
+	#include <cartesian.hpp>
+	
+	template <class ScalarT, int M, int Options>
+	class Cartesian {
+	public:
+		// typedefs
+	
+		using :target:`Scalar<doxid-classsophus_1_1_cartesian_1a4acb444218badffdf2526f1bfbe9a326>` = ScalarT ;
+		using :target:`Transformation<doxid-classsophus_1_1_cartesian_1af5b921ea74054cf412a5dc69f0e5ac3c>` = typename :ref:`Base::Transformation<doxid-classsophus_1_1_cartesian_base_1af8e4043fa605beb60a045cd90cc5828a>` ;
+		using :target:`Point<doxid-classsophus_1_1_cartesian_1a6cc478c5fd3322f3dadd5a400800d8b9>` = typename :ref:`Base::Point<doxid-classsophus_1_1_cartesian_base_1a14eed4e80df1cd428cda91f866fb55d4>` ;
+		using :target:`HomogeneousPoint<doxid-classsophus_1_1_cartesian_1a4ade212c6d96f51c2a5de89fec94bf38>` = typename :ref:`Base::HomogeneousPoint<doxid-classsophus_1_1_cartesian_base_1a101c06e7ad0bb6b999cf9cea66995240>` ;
+		using :target:`Tangent<doxid-classsophus_1_1_cartesian_1a03e673b05afe40098f9c0daa9d285ea0>` = typename :ref:`Base::Tangent<doxid-classsophus_1_1_cartesian_base_1aee0ced0ec080a4d005a576baf9c9d0e3>` ;
+		using :target:`ParamsMember<doxid-classsophus_1_1_cartesian_1afe51cf3a65b72703ac733e1bb18c5f40>` = :ref:`sophus::Vector<doxid-namespacesophus_1a7c637d4509eb50d45192c268f3c0d2d4>`<:ref:`Scalar<doxid-classsophus_1_1_cartesian_1a4acb444218badffdf2526f1bfbe9a326>`, M, Options> ;
+
+		// fields
+	
+		static constexpr int :target:`kDoF<doxid-classsophus_1_1_cartesian_1a98829dcd18550f0d679e9e815c13dd64>` = Base::kDoF;
+		static constexpr int :target:`kNumParameters<doxid-classsophus_1_1_cartesian_1a8d48564bc693c1df38da9a906b37fc3e>` = Base::kNumParameters;
+		static constexpr int :target:`kMatrixDim<doxid-classsophus_1_1_cartesian_1afd59575ebd888c03953f39979a76e5fd>` = Base::kMatrixDim;
+		static constexpr int :target:`kPointDim<doxid-classsophus_1_1_cartesian_1ac7358c84fc0ad488453aa830ab7b2136>` = Base::kPointDim;
+
+		// construction
+	
+		:ref:`Cartesian<doxid-classsophus_1_1_cartesian_1a837237e01b21e7b3de9e7ed2895b2c1f>`();
+		:ref:`Cartesian<doxid-classsophus_1_1_cartesian_1a24631ee59cc69f49317439b8eb97e6c4>`(Cartesian const& other);
+	
+		template <class OtherDerived>
+		:ref:`Cartesian<doxid-classsophus_1_1_cartesian_1a262a12f6172caf4ebf68a58ed20a0187>`(:ref:`CartesianBase<doxid-classsophus_1_1_cartesian_base>`<OtherDerived, M> const& other);
+	
+		template <class D>
+		:ref:`Cartesian<doxid-classsophus_1_1_cartesian_1a3953bc7c0bf8d3aacb572c64efac9e90>`(Eigen::MatrixBase<D> const& m);
+
+		// methods
+	
+		:ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` Cartesian& :ref:`operator=<doxid-classsophus_1_1_cartesian_1ac227b9cd06b9dd1d34e4d4be1834dfa7>`(Cartesian const& other);
+		:ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`Scalar<doxid-classsophus_1_1_cartesian_1a4acb444218badffdf2526f1bfbe9a326>`* :ref:`data<doxid-classsophus_1_1_cartesian_1abebdb5903701d298733c3439f6d39bb4>`();
+		:ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`Scalar<doxid-classsophus_1_1_cartesian_1a4acb444218badffdf2526f1bfbe9a326>` const* :ref:`data<doxid-classsophus_1_1_cartesian_1a17aa5b44125c8f8a2f13fd8b0c717a87>`() const;
+		:ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`ParamsMember<doxid-classsophus_1_1_cartesian_1afe51cf3a65b72703ac733e1bb18c5f40>`& :ref:`params<doxid-classsophus_1_1_cartesian_1a59e8c8b0ff2fc0948145c7ae5eff2cbe>`();
+		:ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`ParamsMember<doxid-classsophus_1_1_cartesian_1afe51cf3a65b72703ac733e1bb18c5f40>` const& :ref:`params<doxid-classsophus_1_1_cartesian_1aac885da1a7e62f35508f1ca90d785efc>`() const;
+	
+		template <class OtherDerived>
+		:ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`CartesianBase<doxid-classsophus_1_1_cartesian_base>`<Derived, M>& :ref:`operator=<doxid-classsophus_1_1_cartesian_1a6cf54d560d36365697fbc213d276c955>`(:ref:`CartesianBase<doxid-classsophus_1_1_cartesian_base>`<OtherDerived, M> const& other);
+	
+		static :ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`sophus::Matrix<doxid-namespacesophus_1a7f99d420690326fc31ef6aed3fd0038c>`<:ref:`Scalar<doxid-classsophus_1_1_cartesian_1a4acb444218badffdf2526f1bfbe9a326>`, :ref:`kNumParameters<doxid-classsophus_1_1_cartesian_1a8d48564bc693c1df38da9a906b37fc3e>`, :ref:`kDoF<doxid-classsophus_1_1_cartesian_1a98829dcd18550f0d679e9e815c13dd64>`> :ref:`Dx_exp_x_at_0<doxid-classsophus_1_1_cartesian_1a5189c1a29a5ad30deb48b3ade21ef912>`();
+		static :ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`sophus::Matrix<doxid-namespacesophus_1a7f99d420690326fc31ef6aed3fd0038c>`<:ref:`Scalar<doxid-classsophus_1_1_cartesian_1a4acb444218badffdf2526f1bfbe9a326>`, :ref:`kNumParameters<doxid-classsophus_1_1_cartesian_1a8d48564bc693c1df38da9a906b37fc3e>`, :ref:`kDoF<doxid-classsophus_1_1_cartesian_1a98829dcd18550f0d679e9e815c13dd64>`> :ref:`Dx_exp_x<doxid-classsophus_1_1_cartesian_1a644f316326dfd770982408a83ed58c14>`(:ref:`Tangent<doxid-classsophus_1_1_cartesian_1a03e673b05afe40098f9c0daa9d285ea0>` const&);
+		static :ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`sophus::Matrix<doxid-namespacesophus_1a7f99d420690326fc31ef6aed3fd0038c>`<:ref:`Scalar<doxid-classsophus_1_1_cartesian_1a4acb444218badffdf2526f1bfbe9a326>`, :ref:`kPointDim<doxid-classsophus_1_1_cartesian_1ac7358c84fc0ad488453aa830ab7b2136>`, :ref:`kDoF<doxid-classsophus_1_1_cartesian_1a98829dcd18550f0d679e9e815c13dd64>`> :ref:`Dx_exp_x_times_point_at_0<doxid-classsophus_1_1_cartesian_1ad56a4e319678bf86a283c13dfb5b1298>`(:ref:`Point<doxid-classsophus_1_1_cartesian_1a6cc478c5fd3322f3dadd5a400800d8b9>` const&);
+		static :ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`Transformation<doxid-classsophus_1_1_cartesian_1af5b921ea74054cf412a5dc69f0e5ac3c>` :ref:`Dxi_exp_x_matrix_at_0<doxid-classsophus_1_1_cartesian_1a31b37b35b0065fac134f448826a7c1e7>`(int i);
+		static :ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`Transformation<doxid-classsophus_1_1_cartesian_1af5b921ea74054cf412a5dc69f0e5ac3c>` :ref:`generator<doxid-classsophus_1_1_cartesian_1af23c52fd4224552b9a1da30525cd65a4>`(int i);
+		static :ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` Cartesian<:ref:`Scalar<doxid-classsophus_1_1_cartesian_1a4acb444218badffdf2526f1bfbe9a326>`, M> :ref:`exp<doxid-classsophus_1_1_cartesian_1afbe5bf20dc7e2caf9b8918dc44e79e02>`(:ref:`Tangent<doxid-classsophus_1_1_cartesian_1a03e673b05afe40098f9c0daa9d285ea0>` const& a);
+		static :ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`Transformation<doxid-classsophus_1_1_cartesian_1af5b921ea74054cf412a5dc69f0e5ac3c>` :ref:`hat<doxid-classsophus_1_1_cartesian_1afb8a2e64504dcea70aba1941fdca87ee>`(:ref:`Tangent<doxid-classsophus_1_1_cartesian_1a03e673b05afe40098f9c0daa9d285ea0>` const& a);
+		static :ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`Tangent<doxid-classsophus_1_1_cartesian_1a03e673b05afe40098f9c0daa9d285ea0>` :ref:`lieBracket<doxid-classsophus_1_1_cartesian_1abb2db88d3fcc9f1bc538e466018b24e1>`(:ref:`Tangent<doxid-classsophus_1_1_cartesian_1a03e673b05afe40098f9c0daa9d285ea0>` const&, :ref:`Tangent<doxid-classsophus_1_1_cartesian_1a03e673b05afe40098f9c0daa9d285ea0>` const&);
+	
+		template <class UniformRandomBitGenerator>
+		static Cartesian :ref:`sampleUniform<doxid-classsophus_1_1_cartesian_1a065e45069611d1b41ef5070c7b7c43c7>`(UniformRandomBitGenerator& generator);
+	
+		static :ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`Tangent<doxid-classsophus_1_1_cartesian_1a03e673b05afe40098f9c0daa9d285ea0>` :ref:`vee<doxid-classsophus_1_1_cartesian_1ae9c8fc20388bc854e687ed187f914ba9>`(:ref:`Transformation<doxid-classsophus_1_1_cartesian_1af5b921ea74054cf412a5dc69f0e5ac3c>` const& m);
+
+	protected:
+		// fields
+	
+		:ref:`ParamsMember<doxid-classsophus_1_1_cartesian_1afe51cf3a65b72703ac733e1bb18c5f40>` :target:`params_<doxid-classsophus_1_1_cartesian_1a67140632fa2e0d9a30beec3b03b44d8a>`;
+	};
+.. _details-classsophus_1_1_cartesian:
+
+Detailed Documentation
+~~~~~~~~~~~~~~~~~~~~~~
+
+:ref:`Cartesian <doxid-classsophus_1_1_cartesian>` using default storage; derived from :ref:`CartesianBase <doxid-classsophus_1_1_cartesian_base>`.
+
+Construction
+------------
+
+.. index:: pair: function; Cartesian
+.. _doxid-classsophus_1_1_cartesian_1a837237e01b21e7b3de9e7ed2895b2c1f:
+
+.. ref-code-block:: cpp
+	:class: doxyrest-title-code-block
+
+	Cartesian()
+
+Default constructor initializes to zero vector.
+
+.. index:: pair: function; Cartesian
+.. _doxid-classsophus_1_1_cartesian_1a24631ee59cc69f49317439b8eb97e6c4:
+
+.. ref-code-block:: cpp
+	:class: doxyrest-title-code-block
+
+	Cartesian(Cartesian const& other)
+
+Copy constructor.
+
+.. index:: pair: function; Cartesian
+.. _doxid-classsophus_1_1_cartesian_1a262a12f6172caf4ebf68a58ed20a0187:
+
+.. ref-code-block:: cpp
+	:class: doxyrest-title-code-block
+
+	template <class OtherDerived>
+	Cartesian(:ref:`CartesianBase<doxid-classsophus_1_1_cartesian_base>`<OtherDerived, M> const& other)
+
+Copy-like constructor from OtherDerived.
+
+.. index:: pair: function; Cartesian
+.. _doxid-classsophus_1_1_cartesian_1a3953bc7c0bf8d3aacb572c64efac9e90:
+
+.. ref-code-block:: cpp
+	:class: doxyrest-title-code-block
+
+	template <class D>
+	Cartesian(Eigen::MatrixBase<D> const& m)
+
+Accepts either M-vector or (M+1)x(M+1) matrices.
+
+Methods
+-------
+
+.. index:: pair: function; operator=
+.. _doxid-classsophus_1_1_cartesian_1ac227b9cd06b9dd1d34e4d4be1834dfa7:
+
+.. ref-code-block:: cpp
+	:class: doxyrest-title-code-block
+
+	:ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` Cartesian& operator=(Cartesian const& other)
+
+Define copy-assignment operator explicitly. The definition of implicit copy assignment operator is deprecated in presence of a user-declared copy constructor (-Wdeprecated-copy in clang >= 13).
+
+.. index:: pair: function; data
+.. _doxid-classsophus_1_1_cartesian_1abebdb5903701d298733c3439f6d39bb4:
+
+.. ref-code-block:: cpp
+	:class: doxyrest-title-code-block
+
+	:ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`Scalar<doxid-classsophus_1_1_cartesian_1a4acb444218badffdf2526f1bfbe9a326>`* data()
+
+This provides unsafe read/write access to internal data.
+
+.. index:: pair: function; data
+.. _doxid-classsophus_1_1_cartesian_1a17aa5b44125c8f8a2f13fd8b0c717a87:
+
+.. ref-code-block:: cpp
+	:class: doxyrest-title-code-block
+
+	:ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`Scalar<doxid-classsophus_1_1_cartesian_1a4acb444218badffdf2526f1bfbe9a326>` const* data() const
+
+Const version of :ref:`data() <doxid-classsophus_1_1_cartesian_1abebdb5903701d298733c3439f6d39bb4>` above.
+
+.. index:: pair: function; params
+.. _doxid-classsophus_1_1_cartesian_1a59e8c8b0ff2fc0948145c7ae5eff2cbe:
+
+.. ref-code-block:: cpp
+	:class: doxyrest-title-code-block
+
+	:ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`ParamsMember<doxid-classsophus_1_1_cartesian_1afe51cf3a65b72703ac733e1bb18c5f40>`& params()
+
+Mutator of params vector.
+
+.. index:: pair: function; params
+.. _doxid-classsophus_1_1_cartesian_1aac885da1a7e62f35508f1ca90d785efc:
+
+.. ref-code-block:: cpp
+	:class: doxyrest-title-code-block
+
+	:ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`ParamsMember<doxid-classsophus_1_1_cartesian_1afe51cf3a65b72703ac733e1bb18c5f40>` const& params() const
+
+Accessor of params vector.
+
+.. index:: pair: function; operator=
+.. _doxid-classsophus_1_1_cartesian_1a6cf54d560d36365697fbc213d276c955:
+
+.. ref-code-block:: cpp
+	:class: doxyrest-title-code-block
+
+	template <class OtherDerived>
+	:ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`CartesianBase<doxid-classsophus_1_1_cartesian_base>`<Derived, M>& operator=(:ref:`CartesianBase<doxid-classsophus_1_1_cartesian_base>`<OtherDerived, M> const& other)
+
+Group multiplication, are vector additions.
+
+.. index:: pair: function; Dx_exp_x_at_0
+.. _doxid-classsophus_1_1_cartesian_1a5189c1a29a5ad30deb48b3ade21ef912:
+
+.. ref-code-block:: cpp
+	:class: doxyrest-title-code-block
+
+	static :ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`sophus::Matrix<doxid-namespacesophus_1a7f99d420690326fc31ef6aed3fd0038c>`<:ref:`Scalar<doxid-classsophus_1_1_cartesian_1a4acb444218badffdf2526f1bfbe9a326>`, :ref:`kNumParameters<doxid-classsophus_1_1_cartesian_1a8d48564bc693c1df38da9a906b37fc3e>`, :ref:`kDoF<doxid-classsophus_1_1_cartesian_1a98829dcd18550f0d679e9e815c13dd64>`> Dx_exp_x_at_0()
+
+Returns derivative of exp(x) wrt. x.
+
+.. index:: pair: function; Dx_exp_x
+.. _doxid-classsophus_1_1_cartesian_1a644f316326dfd770982408a83ed58c14:
+
+.. ref-code-block:: cpp
+	:class: doxyrest-title-code-block
+
+	static :ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`sophus::Matrix<doxid-namespacesophus_1a7f99d420690326fc31ef6aed3fd0038c>`<:ref:`Scalar<doxid-classsophus_1_1_cartesian_1a4acb444218badffdf2526f1bfbe9a326>`, :ref:`kNumParameters<doxid-classsophus_1_1_cartesian_1a8d48564bc693c1df38da9a906b37fc3e>`, :ref:`kDoF<doxid-classsophus_1_1_cartesian_1a98829dcd18550f0d679e9e815c13dd64>`> Dx_exp_x(:ref:`Tangent<doxid-classsophus_1_1_cartesian_1a03e673b05afe40098f9c0daa9d285ea0>` const&)
+
+Returns derivative of exp(x) wrt. x_i at x=0.
+
+.. index:: pair: function; Dx_exp_x_times_point_at_0
+.. _doxid-classsophus_1_1_cartesian_1ad56a4e319678bf86a283c13dfb5b1298:
+
+.. ref-code-block:: cpp
+	:class: doxyrest-title-code-block
+
+	static :ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`sophus::Matrix<doxid-namespacesophus_1a7f99d420690326fc31ef6aed3fd0038c>`<:ref:`Scalar<doxid-classsophus_1_1_cartesian_1a4acb444218badffdf2526f1bfbe9a326>`, :ref:`kPointDim<doxid-classsophus_1_1_cartesian_1ac7358c84fc0ad488453aa830ab7b2136>`, :ref:`kDoF<doxid-classsophus_1_1_cartesian_1a98829dcd18550f0d679e9e815c13dd64>`> Dx_exp_x_times_point_at_0(:ref:`Point<doxid-classsophus_1_1_cartesian_1a6cc478c5fd3322f3dadd5a400800d8b9>` const&)
+
+Returns derivative of exp(x) \* p wrt. x_i at x=0.
+
+.. index:: pair: function; Dxi_exp_x_matrix_at_0
+.. _doxid-classsophus_1_1_cartesian_1a31b37b35b0065fac134f448826a7c1e7:
+
+.. ref-code-block:: cpp
+	:class: doxyrest-title-code-block
+
+	static :ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`Transformation<doxid-classsophus_1_1_cartesian_1af5b921ea74054cf412a5dc69f0e5ac3c>` Dxi_exp_x_matrix_at_0(int i)
+
+Returns derivative of exp(x).matrix() wrt. ``x_i at x=0``.
+
+.. index:: pair: function; generator
+.. _doxid-classsophus_1_1_cartesian_1af23c52fd4224552b9a1da30525cd65a4:
+
+.. ref-code-block:: cpp
+	:class: doxyrest-title-code-block
+
+	static :ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`Transformation<doxid-classsophus_1_1_cartesian_1af5b921ea74054cf412a5dc69f0e5ac3c>` generator(int i)
+
+Returns the ith infinitesimal generators of Cartesian(M).
+
+The infinitesimal generators for e.g. the 3-dimensional case:
+
+.. ref-code-block:: cpp
+
+	      |  0  0  0  1 |
+	G_0 = |  0  0  0  0 |
+	      |  0  0  0  0 |
+	      |  0  0  0  0 |
+	
+	      |  0  0  0  0 |
+	G_1 = |  0  0  0  1 |
+	      |  0  0  0  0 |
+	      |  0  0  0  0 |
+	
+	      |  0  0  0  0 |
+	G_2 = |  0  0  0  0 |
+	      |  0  0  0  1 |
+	      |  0  0  0  0 |
+
+Precondition: ``i`` must be in [0, M-1].
+
+.. index:: pair: function; exp
+.. _doxid-classsophus_1_1_cartesian_1afbe5bf20dc7e2caf9b8918dc44e79e02:
+
+.. ref-code-block:: cpp
+	:class: doxyrest-title-code-block
+
+	static :ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` Cartesian<:ref:`Scalar<doxid-classsophus_1_1_cartesian_1a4acb444218badffdf2526f1bfbe9a326>`, M> exp(:ref:`Tangent<doxid-classsophus_1_1_cartesian_1a03e673b05afe40098f9c0daa9d285ea0>` const& a)
+
+Group exponential.
+
+For Euclidean vector space, just the identity. Or to be more precise it just constructs the (M+1xM+1) homogeneous matrix representation
+
+.. index:: pair: function; hat
+.. _doxid-classsophus_1_1_cartesian_1afb8a2e64504dcea70aba1941fdca87ee:
+
+.. ref-code-block:: cpp
+	:class: doxyrest-title-code-block
+
+	static :ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`Transformation<doxid-classsophus_1_1_cartesian_1af5b921ea74054cf412a5dc69f0e5ac3c>` hat(:ref:`Tangent<doxid-classsophus_1_1_cartesian_1a03e673b05afe40098f9c0daa9d285ea0>` const& a)
+
+hat-operator
+
+Formally, the :ref:`hat() <doxid-classsophus_1_1_cartesian_1afb8a2e64504dcea70aba1941fdca87ee>` -operator of Cartesian(M) is defined as
+
+``hat(.): R^M -> R^{M+1xM+1}, hat(a) = sum_i a_i * G_i`` (for i=0,...,M-1)
+
+with ``G_i`` being the ith infinitesimal generator of Cartesian(M).
+
+The corresponding inverse is the :ref:`vee() <doxid-classsophus_1_1_cartesian_1ae9c8fc20388bc854e687ed187f914ba9>` -operator, see below.
+
+.. index:: pair: function; lieBracket
+.. _doxid-classsophus_1_1_cartesian_1abb2db88d3fcc9f1bc538e466018b24e1:
+
+.. ref-code-block:: cpp
+	:class: doxyrest-title-code-block
+
+	static :ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`Tangent<doxid-classsophus_1_1_cartesian_1a03e673b05afe40098f9c0daa9d285ea0>` lieBracket(:ref:`Tangent<doxid-classsophus_1_1_cartesian_1a03e673b05afe40098f9c0daa9d285ea0>` const&, :ref:`Tangent<doxid-classsophus_1_1_cartesian_1a03e673b05afe40098f9c0daa9d285ea0>` const&)
+
+Lie bracket.
+
+Always 0 for commutative groups.
+
+.. index:: pair: function; sampleUniform
+.. _doxid-classsophus_1_1_cartesian_1a065e45069611d1b41ef5070c7b7c43c7:
+
+.. ref-code-block:: cpp
+	:class: doxyrest-title-code-block
+
+	template <class UniformRandomBitGenerator>
+	static Cartesian sampleUniform(UniformRandomBitGenerator& generator)
+
+Draws uniform samples in the range [-1, 1] per coordinates.
+
+.. index:: pair: function; vee
+.. _doxid-classsophus_1_1_cartesian_1ae9c8fc20388bc854e687ed187f914ba9:
+
+.. ref-code-block:: cpp
+	:class: doxyrest-title-code-block
+
+	static :ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`Tangent<doxid-classsophus_1_1_cartesian_1a03e673b05afe40098f9c0daa9d285ea0>` vee(:ref:`Transformation<doxid-classsophus_1_1_cartesian_1af5b921ea74054cf412a5dc69f0e5ac3c>` const& m)
+
+vee-operator
+
+This is the inverse of the :ref:`hat() <doxid-classsophus_1_1_cartesian_1afb8a2e64504dcea70aba1941fdca87ee>` -operator, see above.
+

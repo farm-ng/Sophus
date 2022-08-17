@@ -1,0 +1,148 @@
+.. index:: pair: namespace; sophus::details
+.. _doxid-namespacesophus_1_1details:
+
+namespace sophus::details
+=========================
+
+.. toctree::
+	:hidden:
+
+	class_sophus_details_Curve.rst
+	class_sophus_details_MaxMetric.rst
+	class_sophus_details_MaxMetric-2.rst
+	class_sophus_details_Pretty.rst
+	class_sophus_details_Pretty-2.rst
+	class_sophus_details_Pretty-3.rst
+	class_sophus_details_SetElementAt.rst
+	class_sophus_details_SetElementAt-2.rst
+	class_sophus_details_SetElementAt-3.rst
+	class_sophus_details_SetToZero.rst
+	class_sophus_details_SetToZero-2.rst
+	class_sophus_details_SquaredNorm.rst
+	class_sophus_details_SquaredNorm-2.rst
+	class_sophus_details_Transpose.rst
+	class_sophus_details_Transpose-2.rst
+	class_sophus_details_VectorField.rst
+	class_sophus_details_VectorField-2.rst
+
+
+
+
+.. ref-code-block:: cpp
+	:class: doxyrest-overview-code-block
+
+	
+	namespace details {
+
+	// classes
+
+	template <class Scalar>
+	class :ref:`Curve<doxid-classsophus_1_1details_1_1_curve>`;
+
+	template <class Scalar, int M, int kMatrixDim>
+	class :ref:`MaxMetric<Matrix<Scalar, M, kMatrixDim>><doxid-classsophus_1_1details_1_1_max_metric_3_01_matrix_3_01_scalar_00_01_m_00_01k_matrix_dim_01_4_01_4>`;
+
+	template <class Scalar>
+	class :ref:`MaxMetric<doxid-classsophus_1_1details_1_1_max_metric>`;
+
+	template <class Scalar, int M, int kMatrixDim>
+	class :ref:`Pretty<Eigen::Matrix<Scalar, M, kMatrixDim>, void><doxid-classsophus_1_1details_1_1_pretty_3_01_eigen_1_1_matrix_3_01_scalar_00_01_m_00_01k_matrix_dim_01_4_00_01void_01_4>`;
+
+	template <class Scalar, class Enable = void>
+	class :ref:`Pretty<doxid-classsophus_1_1details_1_1_pretty>`;
+
+	template <class Ptr>
+	class :ref:`Pretty<Ptr, enable_if_t<std::is_pointer<Ptr>::value>><doxid-classsophus_1_1details_1_1_pretty_3_01_ptr_00_01enable__if__t_3_01std_1_1is__pointer_3_01_ptr_01_4_1_1value_01_4_01_4>`;
+
+	template <class Scalar>
+	class :ref:`SetElementAt<Scalar, Scalar><doxid-classsophus_1_1details_1_1_set_element_at_3_01_scalar_00_01_scalar_01_4>`;
+
+	template <class Scalar, int kMatrixDim>
+	class :ref:`SetElementAt<Vector<Scalar, kMatrixDim>, Scalar><doxid-classsophus_1_1details_1_1_set_element_at_3_01_vector_3_01_scalar_00_01k_matrix_dim_01_4_00_01_scalar_01_4>`;
+
+	template <class T1, class Scalar>
+	class :ref:`SetElementAt<doxid-classsophus_1_1details_1_1_set_element_at>`;
+
+	template <class Scalar, int M, int kMatrixDim>
+	class :ref:`SetToZero<Matrix<Scalar, M, kMatrixDim>><doxid-classsophus_1_1details_1_1_set_to_zero_3_01_matrix_3_01_scalar_00_01_m_00_01k_matrix_dim_01_4_01_4>`;
+
+	template <class Scalar>
+	class :ref:`SetToZero<doxid-classsophus_1_1details_1_1_set_to_zero>`;
+
+	template <class Scalar, int kMatrixDim>
+	class :ref:`SquaredNorm<Matrix<Scalar, kMatrixDim, 1>><doxid-classsophus_1_1details_1_1_squared_norm_3_01_matrix_3_01_scalar_00_01k_matrix_dim_00_011_01_4_01_4>`;
+
+	template <class Scalar>
+	class :ref:`SquaredNorm<doxid-classsophus_1_1details_1_1_squared_norm>`;
+
+	template <class Scalar>
+	class :ref:`Transpose<doxid-classsophus_1_1details_1_1_transpose>`;
+
+	template <class Scalar, int M, int kMatrixDim>
+	class :ref:`Transpose<Matrix<Scalar, M, kMatrixDim>><doxid-classsophus_1_1details_1_1_transpose_3_01_matrix_3_01_scalar_00_01_m_00_01k_matrix_dim_01_4_01_4>`;
+
+	template <class Scalar, int kMatrixDim, int M>
+	class :ref:`VectorField<doxid-classsophus_1_1details_1_1_vector_field>`;
+
+	template <class Scalar, int kMatrixDim>
+	class :ref:`VectorField<Scalar, kMatrixDim, 1><doxid-classsophus_1_1details_1_1_vector_field_3_01_scalar_00_01k_matrix_dim_00_011_01_4>`;
+
+	// global functions
+
+	template <class T>
+	void :target:`getQuaternion<doxid-namespacesophus_1_1details_1aa68c68eb324c2a7dd5ac13fb98cd55f7>`(T const&);
+
+	template <class Scalar>
+	Eigen::Quaternion<Scalar> :target:`getUnitQuaternion<doxid-namespacesophus_1_1details_1adb1d385445430f4df28ddbb976e7d8a2>`(:ref:`SO3<doxid-classsophus_1_1_s_o3>`<Scalar> const& R);
+
+	template <class Scalar>
+	Eigen::Quaternion<Scalar> :target:`getUnitQuaternion<doxid-namespacesophus_1_1details_1a03a24dea1e78c40384dd4f54f150d66a>`(:ref:`RxSO3<doxid-classsophus_1_1_rx_s_o3>`<Scalar> const& sR);
+
+	template <
+		class SequenceContainer,
+		class Scalar = typename SequenceContainer::value_type::Scalar
+		>
+	Eigen::Quaternion<Scalar> :target:`averageUnitQuaternion<doxid-namespacesophus_1_1details_1a54b87dc42458ea9eac1eafa09ae0a1d8>`(SequenceContainer const& foo_Ts_bar);
+
+	template <class Scalar, int kMatrixDim>
+	:ref:`Matrix<doxid-namespacesophus_1a7f99d420690326fc31ef6aed3fd0038c>`<Scalar, kMatrixDim, kMatrixDim> :target:`calcW<doxid-namespacesophus_1_1details_1ac3dad27eae2f04bd6464e0aeeb3b1b62>`(
+		:ref:`Matrix<doxid-namespacesophus_1a7f99d420690326fc31ef6aed3fd0038c>`<Scalar, kMatrixDim, kMatrixDim> const& Omega,
+		Scalar const theta,
+		Scalar const sigma
+		);
+
+	template <class Scalar>
+	void :target:`calcW_derivatives<doxid-namespacesophus_1_1details_1ad96161a37b1679985cc5375d57841907>`(
+		Scalar const theta,
+		Scalar const sigma,
+		Scalar& A,
+		Scalar& B,
+		Scalar& C,
+		Scalar& A_dsigma,
+		Scalar& B_dsigma,
+		Scalar& C_dsigma,
+		Scalar& A_dtheta,
+		Scalar& B_dtheta
+		);
+
+	template <class Scalar, int kMatrixDim>
+	:ref:`Matrix<doxid-namespacesophus_1a7f99d420690326fc31ef6aed3fd0038c>`<Scalar, kMatrixDim, kMatrixDim> :target:`calcWInv<doxid-namespacesophus_1_1details_1a7d04f9d2f81e49f493d7243d19ec8749>`(
+		:ref:`Matrix<doxid-namespacesophus_1a7f99d420690326fc31ef6aed3fd0038c>`<Scalar, kMatrixDim, kMatrixDim> const& Omega,
+		Scalar const theta,
+		Scalar const sigma,
+		Scalar const scale
+		);
+
+	template <class T>
+	std::string :target:`pretty<doxid-namespacesophus_1_1details_1a97558765431382aaaf7afcd69374ebd4>`(T const& v);
+
+	template <class... Args>
+	void :target:`testFailed<doxid-namespacesophus_1_1details_1ac059931884068017786bb73930389ab2>`(
+		bool& passed,
+		char const* func,
+		char const* file,
+		int line,
+		std::string const& msg
+		);
+
+	} // namespace details

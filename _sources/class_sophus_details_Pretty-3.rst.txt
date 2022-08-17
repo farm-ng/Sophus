@@ -1,0 +1,24 @@
+.. index:: pair: class; sophus::details::Pretty<Ptr, enable_if_t<std::is_pointer<Ptr>::value>>
+.. _doxid-classsophus_1_1details_1_1_pretty_3_01_ptr_00_01enable__if__t_3_01std_1_1is__pointer_3_01_ptr_01_4_1_1value_01_4_01_4:
+
+template class sophus::details::Pretty<Ptr, enable_if_t<std::is_pointer<Ptr>::value>>
+=====================================================================================
+
+.. toctree::
+	:hidden:
+
+
+
+
+.. ref-code-block:: cpp
+	:class: doxyrest-overview-code-block
+
+	#include <test_macros.hpp>
+	
+	template <class Ptr>
+	class Pretty<Ptr, enable_if_t<std::is_pointer<Ptr>::value>> {
+	public:
+		// methods
+	
+		static std::string :target:`impl<doxid-classsophus_1_1details_1_1_pretty_3_01_ptr_00_01enable__if__t_3_01std_1_1is__pointer_3_01_ptr_01_4_1_1value_01_4_01_4_1a806bf253718a357a6f30d96c713005ab>`(Ptr ptr);
+	};

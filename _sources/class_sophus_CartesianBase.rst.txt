@@ -1,0 +1,356 @@
+.. index:: pair: class; sophus::CartesianBase
+.. _doxid-classsophus_1_1_cartesian_base:
+
+template class sophus::CartesianBase
+====================================
+
+.. toctree::
+	:hidden:
+
+Overview
+~~~~~~~~
+
+:ref:`Cartesian <doxid-classsophus_1_1_cartesian>` base type - implements :ref:`Cartesian <doxid-classsophus_1_1_cartesian>` class but is storage agnostic. :ref:`More...<details-classsophus_1_1_cartesian_base>`
+
+
+.. ref-code-block:: cpp
+	:class: doxyrest-overview-code-block
+
+	#include <cartesian.hpp>
+	
+	template <class Derived, int M>
+	class CartesianBase {
+	public:
+		// typedefs
+	
+		using :target:`Scalar<doxid-classsophus_1_1_cartesian_base_1a99b4c3c99c3ef8a848d9795002c8cbaa>` = typename Eigen::internal::traits<Derived>:::ref:`Scalar<doxid-classsophus_1_1_cartesian_base_1a99b4c3c99c3ef8a848d9795002c8cbaa>` ;
+		using :target:`ParamsType<doxid-classsophus_1_1_cartesian_base_1a74c86b76cb4341645d06c785c9db166b>` = typename Eigen::internal::traits<Derived>:::ref:`ParamsType<doxid-classsophus_1_1_cartesian_base_1a74c86b76cb4341645d06c785c9db166b>` ;
+		using :target:`Transformation<doxid-classsophus_1_1_cartesian_base_1af8e4043fa605beb60a045cd90cc5828a>` = :ref:`sophus::Matrix<doxid-namespacesophus_1a7f99d420690326fc31ef6aed3fd0038c>`<:ref:`Scalar<doxid-classsophus_1_1_cartesian_base_1a99b4c3c99c3ef8a848d9795002c8cbaa>`, :ref:`kMatrixDim<doxid-classsophus_1_1_cartesian_base_1aa3200e0b0efd5cd61cf8c3f3ef5a2d4c>`, :ref:`kMatrixDim<doxid-classsophus_1_1_cartesian_base_1aa3200e0b0efd5cd61cf8c3f3ef5a2d4c>`> ;
+		using :target:`Point<doxid-classsophus_1_1_cartesian_base_1a14eed4e80df1cd428cda91f866fb55d4>` = :ref:`sophus::Vector<doxid-namespacesophus_1a7c637d4509eb50d45192c268f3c0d2d4>`<:ref:`Scalar<doxid-classsophus_1_1_cartesian_base_1a99b4c3c99c3ef8a848d9795002c8cbaa>`, M> ;
+		using :target:`HomogeneousPoint<doxid-classsophus_1_1_cartesian_base_1a101c06e7ad0bb6b999cf9cea66995240>` = :ref:`sophus::Vector<doxid-namespacesophus_1a7c637d4509eb50d45192c268f3c0d2d4>`<:ref:`Scalar<doxid-classsophus_1_1_cartesian_base_1a99b4c3c99c3ef8a848d9795002c8cbaa>`, :ref:`kMatrixDim<doxid-classsophus_1_1_cartesian_base_1aa3200e0b0efd5cd61cf8c3f3ef5a2d4c>`> ;
+		using :target:`Line<doxid-classsophus_1_1_cartesian_base_1ad498a8eb4927a8c9f011a9206e1dd3c9>` = :ref:`ParametrizedLine<doxid-namespacesophus_1a910b914ee145092c711dfc074723848c>`<:ref:`Scalar<doxid-classsophus_1_1_cartesian_base_1a99b4c3c99c3ef8a848d9795002c8cbaa>`, M> ;
+		using :target:`Hyperplane<doxid-classsophus_1_1_cartesian_base_1af8a3ab4d6fed84aef1fa6b2fd38bdf7d>` = Eigen::Hyperplane<:ref:`Scalar<doxid-classsophus_1_1_cartesian_base_1a99b4c3c99c3ef8a848d9795002c8cbaa>`, M> ;
+		using :target:`Tangent<doxid-classsophus_1_1_cartesian_base_1aee0ced0ec080a4d005a576baf9c9d0e3>` = :ref:`sophus::Vector<doxid-namespacesophus_1a7c637d4509eb50d45192c268f3c0d2d4>`<:ref:`Scalar<doxid-classsophus_1_1_cartesian_base_1a99b4c3c99c3ef8a848d9795002c8cbaa>`, :ref:`kDoF<doxid-classsophus_1_1_cartesian_base_1acfbb1c9ce3369a7aab000ae6138c03e4>`> ;
+		using :target:`Adjoint<doxid-classsophus_1_1_cartesian_base_1a304b024648361750066561a35bdf4583>` = :ref:`Matrix<doxid-namespacesophus_1a7f99d420690326fc31ef6aed3fd0038c>`<:ref:`Scalar<doxid-classsophus_1_1_cartesian_base_1a99b4c3c99c3ef8a848d9795002c8cbaa>`, :ref:`kDoF<doxid-classsophus_1_1_cartesian_base_1acfbb1c9ce3369a7aab000ae6138c03e4>`, :ref:`kDoF<doxid-classsophus_1_1_cartesian_base_1acfbb1c9ce3369a7aab000ae6138c03e4>`> ;
+		using :ref:`ReturnScalar<doxid-classsophus_1_1_cartesian_base_1a7a5237c11c3a9ce48b23956056295daf>` = typename Eigen::ScalarBinaryOpTraits<:ref:`Scalar<doxid-classsophus_1_1_cartesian_base_1a99b4c3c99c3ef8a848d9795002c8cbaa>`, typename OtherDerived::Scalar>::ReturnType ;
+		using :target:`CartesianSum<doxid-classsophus_1_1_cartesian_base_1a4d9b383aafd27bd1c153be1c13036dd7>` = :ref:`Cartesian<doxid-classsophus_1_1_cartesian>`<:ref:`ReturnScalar<doxid-classsophus_1_1_cartesian_base_1a7a5237c11c3a9ce48b23956056295daf>`<OtherDerived>, M> ;
+		using :target:`PointProduct<doxid-classsophus_1_1_cartesian_base_1a466636784ddd92df54b0256c2178b554>` = :ref:`sophus::Vector<doxid-namespacesophus_1a7c637d4509eb50d45192c268f3c0d2d4>`<:ref:`ReturnScalar<doxid-classsophus_1_1_cartesian_base_1a7a5237c11c3a9ce48b23956056295daf>`<PointDerived>, M> ;
+		using :target:`HomogeneousPointProduct<doxid-classsophus_1_1_cartesian_base_1a36a97888e913b23a4bd9226501988079>` = :ref:`sophus::Vector<doxid-namespacesophus_1a7c637d4509eb50d45192c268f3c0d2d4>`<:ref:`ReturnScalar<doxid-classsophus_1_1_cartesian_base_1a7a5237c11c3a9ce48b23956056295daf>`<HPointDerived>, :ref:`kMatrixDim<doxid-classsophus_1_1_cartesian_base_1aa3200e0b0efd5cd61cf8c3f3ef5a2d4c>`> ;
+
+		// fields
+	
+		static constexpr int :ref:`kDoF<doxid-classsophus_1_1_cartesian_base_1acfbb1c9ce3369a7aab000ae6138c03e4>` = M;
+		static constexpr int :ref:`kNumParameters<doxid-classsophus_1_1_cartesian_base_1a4147e55ef09e87bca4885c092a20f9a3>` = M;
+		static constexpr int :ref:`kMatrixDim<doxid-classsophus_1_1_cartesian_base_1aa3200e0b0efd5cd61cf8c3f3ef5a2d4c>` = M + 1;
+		static constexpr int :target:`kPointDim<doxid-classsophus_1_1_cartesian_base_1ac4f8ca54981d03b6fcf82ed8bf30a570>` = M;
+
+		// methods
+	
+		:ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`Adjoint<doxid-classsophus_1_1_cartesian_base_1a304b024648361750066561a35bdf4583>` :ref:`Adj<doxid-classsophus_1_1_cartesian_base_1ab14df96eae5c412eb61e5d00f903389b>`() const;
+	
+		template <class NewScalarType>
+		:ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`Cartesian<doxid-classsophus_1_1_cartesian>`<NewScalarType, M> :ref:`cast<doxid-classsophus_1_1_cartesian_base_1a40ab8d80163c3990b11c47826f53d69a>`() const;
+	
+		:ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`Matrix<doxid-namespacesophus_1a7f99d420690326fc31ef6aed3fd0038c>`<:ref:`Scalar<doxid-classsophus_1_1_cartesian_base_1a99b4c3c99c3ef8a848d9795002c8cbaa>`, :ref:`kNumParameters<doxid-classsophus_1_1_cartesian_base_1a4147e55ef09e87bca4885c092a20f9a3>`, :ref:`kDoF<doxid-classsophus_1_1_cartesian_base_1acfbb1c9ce3369a7aab000ae6138c03e4>`> :ref:`Dx_this_mul_exp_x_at_0<doxid-classsophus_1_1_cartesian_base_1aa1f9019b19f7a2d31f8edfda8340fec5>`() const;
+		:ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`Matrix<doxid-namespacesophus_1a7f99d420690326fc31ef6aed3fd0038c>`<:ref:`Scalar<doxid-classsophus_1_1_cartesian_base_1a99b4c3c99c3ef8a848d9795002c8cbaa>`, :ref:`kNumParameters<doxid-classsophus_1_1_cartesian_base_1a4147e55ef09e87bca4885c092a20f9a3>`, :ref:`kDoF<doxid-classsophus_1_1_cartesian_base_1acfbb1c9ce3369a7aab000ae6138c03e4>`> :ref:`Dx_log_this_inv_by_x_at_this<doxid-classsophus_1_1_cartesian_base_1a2d8765225327b8706ae34078eb558d47>`() const;
+		:ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`Cartesian<doxid-classsophus_1_1_cartesian>`<:ref:`Scalar<doxid-classsophus_1_1_cartesian_base_1a99b4c3c99c3ef8a848d9795002c8cbaa>`, M> :ref:`inverse<doxid-classsophus_1_1_cartesian_base_1a924b0b7db6592b5f6ba522a1144442a8>`() const;
+		:ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`Tangent<doxid-classsophus_1_1_cartesian_base_1aee0ced0ec080a4d005a576baf9c9d0e3>` :ref:`log<doxid-classsophus_1_1_cartesian_base_1a3eb8b91b3d2a43c1e44792a4f2fba6bd>`() const;
+		:ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`Transformation<doxid-classsophus_1_1_cartesian_base_1af8e4043fa605beb60a045cd90cc5828a>` :ref:`matrix<doxid-classsophus_1_1_cartesian_base_1affc4fa110f536c809aa66af0f1b60347>`() const;
+	
+		template <class OtherDerived>
+		:ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` CartesianBase<Derived, M>& :ref:`operator=<doxid-classsophus_1_1_cartesian_base_1a6cf54d560d36365697fbc213d276c955>`(CartesianBase<OtherDerived, M> const& other);
+	
+		template <typename OtherDerived>
+		:ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`CartesianSum<doxid-classsophus_1_1_cartesian_base_1a4d9b383aafd27bd1c153be1c13036dd7>`<OtherDerived> :ref:`operator*<doxid-classsophus_1_1_cartesian_base_1a4b36596db07522cbc3dc7bd6765227eb>`(CartesianBase<OtherDerived, M> const& other) const;
+	
+		template <
+			typename PointDerived,
+			typename = typename std::enable_if<IsFixedSizeVector<PointDerived, M>::value>::type
+			>
+		:ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`PointProduct<doxid-classsophus_1_1_cartesian_base_1a466636784ddd92df54b0256c2178b554>`<PointDerived> :ref:`operator*<doxid-classsophus_1_1_cartesian_base_1a357c14568997eb203b278d920b564ffd>`(Eigen::MatrixBase<PointDerived> const& p) const;
+	
+		template <
+			typename HPointDerived,
+			typename = typename std::enable_if<IsFixedSizeVector<HPointDerived, kMatrixDim>::value>::type
+			>
+		:ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`HomogeneousPointProduct<doxid-classsophus_1_1_cartesian_base_1a36a97888e913b23a4bd9226501988079>`<HPointDerived> :ref:`operator*<doxid-classsophus_1_1_cartesian_base_1aa2fa7023581235221125af2126462220>`(Eigen::MatrixBase<HPointDerived> const& p) const;
+	
+		:ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`Line<doxid-classsophus_1_1_cartesian_base_1ad498a8eb4927a8c9f011a9206e1dd3c9>` :ref:`operator*<doxid-classsophus_1_1_cartesian_base_1acae0a9d6c9ad3de083e8a0b6e464998d>`(:ref:`Line<doxid-classsophus_1_1_cartesian_base_1ad498a8eb4927a8c9f011a9206e1dd3c9>` const& l) const;
+		:ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`Hyperplane<doxid-classsophus_1_1_cartesian_base_1af8a3ab4d6fed84aef1fa6b2fd38bdf7d>` :ref:`operator*<doxid-classsophus_1_1_cartesian_base_1a76a4254245b106f45ed6fecafc9c94fa>`(:ref:`Hyperplane<doxid-classsophus_1_1_cartesian_base_1af8a3ab4d6fed84aef1fa6b2fd38bdf7d>` const& p) const;
+	
+		template <
+			typename OtherDerived,
+			typename = typename std::enable_if<std::is_same<Scalar, ReturnScalar<OtherDerived>>::value>::type
+			>
+		:ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` CartesianBase<Derived, M>& :ref:`operator*=<doxid-classsophus_1_1_cartesian_base_1a5ffdecc09f9c92304b1fff7225117aa4>`(CartesianBase<OtherDerived, M> const& other);
+	
+		:ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`ParamsType<doxid-classsophus_1_1_cartesian_base_1a74c86b76cb4341645d06c785c9db166b>`& :ref:`params<doxid-classsophus_1_1_cartesian_base_1a7759b1ddf54c6d241430a43590cae75c>`();
+		:ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`ParamsType<doxid-classsophus_1_1_cartesian_base_1a74c86b76cb4341645d06c785c9db166b>` const& :ref:`params<doxid-classsophus_1_1_cartesian_base_1af88650ebe1d58079c259877fbfd7bdbb>`() const;
+	};
+
+	// direct descendants
+
+	template <class ScalarT, int M, int Options>
+	class :ref:`Map<sophus::Cartesian<ScalarT, M> const, Options><doxid-class_eigen_1_1_map_3_01sophus_1_1_cartesian_3_01_scalar_t_00_01_m_01_4_01const_00_01_options_01_4>`;
+
+	template <class ScalarT, int M, int Options>
+	class :ref:`Map<sophus::Cartesian<ScalarT, M>, Options><doxid-class_eigen_1_1_map_3_01sophus_1_1_cartesian_3_01_scalar_t_00_01_m_01_4_00_01_options_01_4>`;
+.. _details-classsophus_1_1_cartesian_base:
+
+Detailed Documentation
+~~~~~~~~~~~~~~~~~~~~~~
+
+:ref:`Cartesian <doxid-classsophus_1_1_cartesian>` base type - implements :ref:`Cartesian <doxid-classsophus_1_1_cartesian>` class but is storage agnostic.
+
+Euclidean vector space as Lie group.
+
+Lie groups can be seen as a generalization over the Euclidean vector space R^M. Here a kMatrixDim-dimensional vector ``p`` is represented as a \| I p \| \| o 1 \|
+
+On the other hand, Cartesian(M) can be seen as a special case of SE(M) with identity rotation, and hence represents pure translation.
+
+The purpose of this class is two-fold:
+
+* for educational purpose, to highlight how Lie groups generalize over Euclidean vector spaces.
+
+* to be used in templated/generic algorithms (such as sophus::Spline) which are implemented against the Lie group interface.
+
+Obviously, Cartesian(M) can just be represented as a M-tuple.
+
+:ref:`Cartesian <doxid-classsophus_1_1_cartesian>` is not compact, but a commutative group. For vector additions it holds ``a+b = b+a``.
+
+See :ref:`Cartesian <doxid-classsophus_1_1_cartesian>` class for more details below.
+
+Typedefs
+--------
+
+.. index:: pair: typedef; ReturnScalar
+.. _doxid-classsophus_1_1_cartesian_base_1a7a5237c11c3a9ce48b23956056295daf:
+
+.. ref-code-block:: cpp
+	:class: doxyrest-title-code-block
+
+	using ReturnScalar = typename Eigen::ScalarBinaryOpTraits<:ref:`Scalar<doxid-classsophus_1_1_cartesian_base_1a99b4c3c99c3ef8a848d9795002c8cbaa>`, typename OtherDerived::Scalar>::ReturnType 
+
+For binary operations the return type is determined with the ScalarBinaryOpTraits feature of :ref:`Eigen <doxid-namespace_eigen>`. This allows mixing concrete and Map types, as well as other compatible scalar types such as Ceres::Jet and double scalars with :ref:`Cartesian <doxid-classsophus_1_1_cartesian>` operations.
+
+Fields
+------
+
+.. index:: pair: variable; kDoF
+.. _doxid-classsophus_1_1_cartesian_base_1acfbb1c9ce3369a7aab000ae6138c03e4:
+
+.. ref-code-block:: cpp
+	:class: doxyrest-title-code-block
+
+	static constexpr int kDoF = M
+
+Degrees of freedom of manifold, equals to number of :ref:`Cartesian <doxid-classsophus_1_1_cartesian>` coordinates.
+
+.. index:: pair: variable; kNumParameters
+.. _doxid-classsophus_1_1_cartesian_base_1a4147e55ef09e87bca4885c092a20f9a3:
+
+.. ref-code-block:: cpp
+	:class: doxyrest-title-code-block
+
+	static constexpr int kNumParameters = M
+
+Number of internal parameters used, also M.
+
+.. index:: pair: variable; kMatrixDim
+.. _doxid-classsophus_1_1_cartesian_base_1aa3200e0b0efd5cd61cf8c3f3ef5a2d4c:
+
+.. ref-code-block:: cpp
+	:class: doxyrest-title-code-block
+
+	static constexpr int kMatrixDim = M + 1
+
+Group transformations are (M+1)x(M+1) matrices.
+
+Methods
+-------
+
+.. index:: pair: function; Adj
+.. _doxid-classsophus_1_1_cartesian_base_1ab14df96eae5c412eb61e5d00f903389b:
+
+.. ref-code-block:: cpp
+	:class: doxyrest-title-code-block
+
+	:ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`Adjoint<doxid-classsophus_1_1_cartesian_base_1a304b024648361750066561a35bdf4583>` Adj() const
+
+Adjoint transformation.
+
+Always identity of commutative groups.
+
+.. index:: pair: function; cast
+.. _doxid-classsophus_1_1_cartesian_base_1a40ab8d80163c3990b11c47826f53d69a:
+
+.. ref-code-block:: cpp
+	:class: doxyrest-title-code-block
+
+	template <class NewScalarType>
+	:ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`Cartesian<doxid-classsophus_1_1_cartesian>`<NewScalarType, M> cast() const
+
+Returns copy of instance casted to NewScalarType.
+
+.. index:: pair: function; Dx_this_mul_exp_x_at_0
+.. _doxid-classsophus_1_1_cartesian_base_1aa1f9019b19f7a2d31f8edfda8340fec5:
+
+.. ref-code-block:: cpp
+	:class: doxyrest-title-code-block
+
+	:ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`Matrix<doxid-namespacesophus_1a7f99d420690326fc31ef6aed3fd0038c>`<:ref:`Scalar<doxid-classsophus_1_1_cartesian_base_1a99b4c3c99c3ef8a848d9795002c8cbaa>`, :ref:`kNumParameters<doxid-classsophus_1_1_cartesian_base_1a4147e55ef09e87bca4885c092a20f9a3>`, :ref:`kDoF<doxid-classsophus_1_1_cartesian_base_1acfbb1c9ce3369a7aab000ae6138c03e4>`> Dx_this_mul_exp_x_at_0() const
+
+Returns derivative of this \* exp(x) wrt x at x=0.
+
+.. index:: pair: function; Dx_log_this_inv_by_x_at_this
+.. _doxid-classsophus_1_1_cartesian_base_1a2d8765225327b8706ae34078eb558d47:
+
+.. ref-code-block:: cpp
+	:class: doxyrest-title-code-block
+
+	:ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`Matrix<doxid-namespacesophus_1a7f99d420690326fc31ef6aed3fd0038c>`<:ref:`Scalar<doxid-classsophus_1_1_cartesian_base_1a99b4c3c99c3ef8a848d9795002c8cbaa>`, :ref:`kNumParameters<doxid-classsophus_1_1_cartesian_base_1a4147e55ef09e87bca4885c092a20f9a3>`, :ref:`kDoF<doxid-classsophus_1_1_cartesian_base_1acfbb1c9ce3369a7aab000ae6138c03e4>`> Dx_log_this_inv_by_x_at_this() const
+
+Returns derivative of log(this^{-1} \* x) by x at x=this.
+
+.. index:: pair: function; inverse
+.. _doxid-classsophus_1_1_cartesian_base_1a924b0b7db6592b5f6ba522a1144442a8:
+
+.. ref-code-block:: cpp
+	:class: doxyrest-title-code-block
+
+	:ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`Cartesian<doxid-classsophus_1_1_cartesian>`<:ref:`Scalar<doxid-classsophus_1_1_cartesian_base_1a99b4c3c99c3ef8a848d9795002c8cbaa>`, M> inverse() const
+
+Returns group inverse.
+
+The additive inverse.
+
+.. index:: pair: function; log
+.. _doxid-classsophus_1_1_cartesian_base_1a3eb8b91b3d2a43c1e44792a4f2fba6bd:
+
+.. ref-code-block:: cpp
+	:class: doxyrest-title-code-block
+
+	:ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`Tangent<doxid-classsophus_1_1_cartesian_base_1aee0ced0ec080a4d005a576baf9c9d0e3>` log() const
+
+Logarithmic map.
+
+For Euclidean vector space, just the identity. Or to be more precise it just extracts the significant M-vector from the NxN matrix.
+
+.. index:: pair: function; matrix
+.. _doxid-classsophus_1_1_cartesian_base_1affc4fa110f536c809aa66af0f1b60347:
+
+.. ref-code-block:: cpp
+	:class: doxyrest-title-code-block
+
+	:ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`Transformation<doxid-classsophus_1_1_cartesian_base_1af8e4043fa605beb60a045cd90cc5828a>` matrix() const
+
+Returns 4x4 matrix representation of the instance.
+
+It has the following form:
+
+\| I p \| \| o 1 \|
+
+.. index:: pair: function; operator=
+.. _doxid-classsophus_1_1_cartesian_base_1a6cf54d560d36365697fbc213d276c955:
+
+.. ref-code-block:: cpp
+	:class: doxyrest-title-code-block
+
+	template <class OtherDerived>
+	:ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` CartesianBase<Derived, M>& operator=(CartesianBase<OtherDerived, M> const& other)
+
+Group multiplication, are vector additions.
+
+.. index:: pair: function; operator*
+.. _doxid-classsophus_1_1_cartesian_base_1a4b36596db07522cbc3dc7bd6765227eb:
+
+.. ref-code-block:: cpp
+	:class: doxyrest-title-code-block
+
+	template <typename OtherDerived>
+	:ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`CartesianSum<doxid-classsophus_1_1_cartesian_base_1a4d9b383aafd27bd1c153be1c13036dd7>`<OtherDerived> operator*(CartesianBase<OtherDerived, M> const& other) const
+
+Group multiplication, are vector additions.
+
+.. index:: pair: function; operator*
+.. _doxid-classsophus_1_1_cartesian_base_1a357c14568997eb203b278d920b564ffd:
+
+.. ref-code-block:: cpp
+	:class: doxyrest-title-code-block
+
+	template <
+		typename PointDerived,
+		typename = typename std::enable_if<IsFixedSizeVector<PointDerived, M>::value>::type
+		>
+	:ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`PointProduct<doxid-classsophus_1_1_cartesian_base_1a466636784ddd92df54b0256c2178b554>`<PointDerived> operator*(Eigen::MatrixBase<PointDerived> const& p) const
+
+Group action on points, again just vector addition.
+
+.. index:: pair: function; operator*
+.. _doxid-classsophus_1_1_cartesian_base_1aa2fa7023581235221125af2126462220:
+
+.. ref-code-block:: cpp
+	:class: doxyrest-title-code-block
+
+	template <
+		typename HPointDerived,
+		typename = typename std::enable_if<IsFixedSizeVector<HPointDerived, kMatrixDim>::value>::type
+		>
+	:ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`HomogeneousPointProduct<doxid-classsophus_1_1_cartesian_base_1a36a97888e913b23a4bd9226501988079>`<HPointDerived> operator*(Eigen::MatrixBase<HPointDerived> const& p) const
+
+Group action on homogeneous points. See above for more details.
+
+.. index:: pair: function; operator*
+.. _doxid-classsophus_1_1_cartesian_base_1acae0a9d6c9ad3de083e8a0b6e464998d:
+
+.. ref-code-block:: cpp
+	:class: doxyrest-title-code-block
+
+	:ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`Line<doxid-classsophus_1_1_cartesian_base_1ad498a8eb4927a8c9f011a9206e1dd3c9>` operator*(:ref:`Line<doxid-classsophus_1_1_cartesian_base_1ad498a8eb4927a8c9f011a9206e1dd3c9>` const& l) const
+
+Group action on lines.
+
+.. index:: pair: function; operator*
+.. _doxid-classsophus_1_1_cartesian_base_1a76a4254245b106f45ed6fecafc9c94fa:
+
+.. ref-code-block:: cpp
+	:class: doxyrest-title-code-block
+
+	:ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`Hyperplane<doxid-classsophus_1_1_cartesian_base_1af8a3ab4d6fed84aef1fa6b2fd38bdf7d>` operator*(:ref:`Hyperplane<doxid-classsophus_1_1_cartesian_base_1af8a3ab4d6fed84aef1fa6b2fd38bdf7d>` const& p) const
+
+Group action on planes.
+
+.. index:: pair: function; operator*=
+.. _doxid-classsophus_1_1_cartesian_base_1a5ffdecc09f9c92304b1fff7225117aa4:
+
+.. ref-code-block:: cpp
+	:class: doxyrest-title-code-block
+
+	template <
+		typename OtherDerived,
+		typename = typename std::enable_if<std::is_same<Scalar, ReturnScalar<OtherDerived>>::value>::type
+		>
+	:ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` CartesianBase<Derived, M>& operator*=(CartesianBase<OtherDerived, M> const& other)
+
+In-place group multiplication. This method is only valid if the return type of the multiplication is compatible with this :ref:`Cartesian <doxid-classsophus_1_1_cartesian>` 's Scalar type.
+
+.. index:: pair: function; params
+.. _doxid-classsophus_1_1_cartesian_base_1a7759b1ddf54c6d241430a43590cae75c:
+
+.. ref-code-block:: cpp
+	:class: doxyrest-title-code-block
+
+	:ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`ParamsType<doxid-classsophus_1_1_cartesian_base_1a74c86b76cb4341645d06c785c9db166b>`& params()
+
+Mutator of params vector.
+
+.. index:: pair: function; params
+.. _doxid-classsophus_1_1_cartesian_base_1af88650ebe1d58079c259877fbfd7bdbb:
+
+.. ref-code-block:: cpp
+	:class: doxyrest-title-code-block
+
+	:ref:`SOPHUS_FUNC<doxid-common_8hpp_1a719070c34a48abcdf2f623e4160b4c28>` :ref:`ParamsType<doxid-classsophus_1_1_cartesian_base_1a74c86b76cb4341645d06c785c9db166b>` const& params() const
+
+Accessor of params vector.
+

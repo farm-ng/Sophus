@@ -1,0 +1,27 @@
+.. index:: pair: class; sophus::details::MaxMetric<Matrix<Scalar, M, kMatrixDim>>
+.. _doxid-classsophus_1_1details_1_1_max_metric_3_01_matrix_3_01_scalar_00_01_m_00_01k_matrix_dim_01_4_01_4:
+
+template class sophus::details::MaxMetric<Matrix<Scalar, M, kMatrixDim>>
+========================================================================
+
+.. toctree::
+	:hidden:
+
+
+
+
+.. ref-code-block:: cpp
+	:class: doxyrest-overview-code-block
+
+	#include <types.hpp>
+	
+	template <class Scalar, int M, int kMatrixDim>
+	class MaxMetric<Matrix<Scalar, M, kMatrixDim>> {
+	public:
+		// methods
+	
+		static Scalar :target:`impl<doxid-classsophus_1_1details_1_1_max_metric_3_01_matrix_3_01_scalar_00_01_m_00_01k_matrix_dim_01_4_01_4_1ab68945c5d071fbdb69f329c60b9bd613>`(
+			:ref:`Matrix<doxid-namespacesophus_1a7f99d420690326fc31ef6aed3fd0038c>`<Scalar, M, kMatrixDim> const& p0,
+			:ref:`Matrix<doxid-namespacesophus_1a7f99d420690326fc31ef6aed3fd0038c>`<Scalar, M, kMatrixDim> const& p1
+			);
+	};

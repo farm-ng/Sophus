@@ -1,0 +1,30 @@
+.. index:: pair: struct; sophus::Mapper<T, typename std::enable_if<IsMappableV<T>>::type>
+.. _doxid-structsophus_1_1_mapper_3_01_t_00_01typename_01std_1_1enable__if_3_01_is_mappable_v_3_01_t_01_4_01_4_1_1type_01_4:
+
+template struct sophus::Mapper<T, typename std::enable_if<IsMappableV<T>>::type>
+================================================================================
+
+.. toctree::
+	:hidden:
+
+
+
+
+.. ref-code-block:: cpp
+	:class: doxyrest-overview-code-block
+
+	#include <ceres_typetraits.hpp>
+	
+	template <typename T>
+	struct Mapper<T, typename std::enable_if<IsMappableV<T>>::type> {
+		// typedefs
+	
+		using :target:`Scalar<doxid-structsophus_1_1_mapper_3_01_t_00_01typename_01std_1_1enable__if_3_01_is_mappable_v_3_01_t_01_4_01_4_1_1type_01_4_1abe6ffda7a1a64bc23606f315a49a4284>` = typename T::Scalar ;
+		using :target:`Map<doxid-structsophus_1_1_mapper_3_01_t_00_01typename_01std_1_1enable__if_3_01_is_mappable_v_3_01_t_01_4_01_4_1_1type_01_4_1ac64afd3cd5a88d98db7a213f5c9d9d8a>` = Eigen::Map<T> ;
+		using :target:`ConstMap<doxid-structsophus_1_1_mapper_3_01_t_00_01typename_01std_1_1enable__if_3_01_is_mappable_v_3_01_t_01_4_01_4_1_1type_01_4_1a89d7e7184b0493564ba39b4f6f3f4553>` = :ref:`Eigen::Map<doxid-structsophus_1_1_mapper_1a758eb03db8b04c61a2033a914a0f32df>`<const T> ;
+
+		// methods
+	
+		static :ref:`Map<doxid-structsophus_1_1_mapper_3_01_t_00_01typename_01std_1_1enable__if_3_01_is_mappable_v_3_01_t_01_4_01_4_1_1type_01_4_1ac64afd3cd5a88d98db7a213f5c9d9d8a>` :target:`map<doxid-structsophus_1_1_mapper_3_01_t_00_01typename_01std_1_1enable__if_3_01_is_mappable_v_3_01_t_01_4_01_4_1_1type_01_4_1a92877c2ab45335ec4d04cd54ce1e77b7>`(:ref:`Scalar<doxid-structsophus_1_1_mapper_3_01_t_00_01typename_01std_1_1enable__if_3_01_is_mappable_v_3_01_t_01_4_01_4_1_1type_01_4_1abe6ffda7a1a64bc23606f315a49a4284>`* ptr);
+		static :ref:`ConstMap<doxid-structsophus_1_1_mapper_3_01_t_00_01typename_01std_1_1enable__if_3_01_is_mappable_v_3_01_t_01_4_01_4_1_1type_01_4_1a89d7e7184b0493564ba39b4f6f3f4553>` :target:`map<doxid-structsophus_1_1_mapper_3_01_t_00_01typename_01std_1_1enable__if_3_01_is_mappable_v_3_01_t_01_4_01_4_1_1type_01_4_1a68582369a634618d8a85dabae940de7e>`(const :ref:`Scalar<doxid-structsophus_1_1_mapper_3_01_t_00_01typename_01std_1_1enable__if_3_01_is_mappable_v_3_01_t_01_4_01_4_1_1type_01_4_1abe6ffda7a1a64bc23606f315a49a4284>`* ptr);
+	};

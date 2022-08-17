@@ -1,0 +1,28 @@
+.. index:: pair: class; sophus::details::VectorField<Scalar, kMatrixDim, 1>
+.. _doxid-classsophus_1_1details_1_1_vector_field_3_01_scalar_00_01k_matrix_dim_00_011_01_4:
+
+template class sophus::details::VectorField<Scalar, kMatrixDim, 1>
+==================================================================
+
+.. toctree::
+	:hidden:
+
+
+
+
+.. ref-code-block:: cpp
+	:class: doxyrest-overview-code-block
+
+	#include <num_diff.hpp>
+	
+	template <class Scalar, int kMatrixDim>
+	class VectorField<Scalar, kMatrixDim, 1> {
+	public:
+		// methods
+	
+		static Eigen::Matrix<Scalar, kMatrixDim, 1> :target:`num_diff<doxid-classsophus_1_1details_1_1_vector_field_3_01_scalar_00_01k_matrix_dim_00_011_01_4_1a0a758ed86090190bd5636f187d8f60ef>`(
+			std::function<:ref:`sophus::Vector<doxid-namespacesophus_1a7c637d4509eb50d45192c268f3c0d2d4>`<Scalar, kMatrixDim>(Scalar)> vector_field,
+			Scalar const& a,
+			Scalar eps
+			);
+	};

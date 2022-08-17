@@ -1,0 +1,47 @@
+.. index:: pair: namespace; sophus::experimental
+.. _doxid-namespacesophus_1_1experimental:
+
+namespace sophus::experimental
+==============================
+
+.. toctree::
+	:hidden:
+
+
+
+
+.. ref-code-block:: cpp
+	:class: doxyrest-overview-code-block
+
+	
+	namespace experimental {
+
+	// global functions
+
+	template <class Scalar>
+	:ref:`Vector3<doxid-namespacesophus_1af4f60bd964bf8b3a37bd49dda57aa1d8>`<Scalar> :target:`transformVelocity<doxid-namespacesophus_1_1experimental_1ac1064f1d36334611f2373e21caff7eb0>`(
+		:ref:`SO3<doxid-classsophus_1_1_s_o3>`<Scalar> const& foo_R_bar,
+		:ref:`Vector3<doxid-namespacesophus_1af4f60bd964bf8b3a37bd49dda57aa1d8>`<Scalar> const& vel_bar
+		);
+
+	template <class Scalar>
+	:ref:`Vector3<doxid-namespacesophus_1af4f60bd964bf8b3a37bd49dda57aa1d8>`<Scalar> :target:`transformVelocity<doxid-namespacesophus_1_1experimental_1a699fa1cdf7e2a2200b4df94b605eebdb>`(
+		:ref:`SE3<doxid-classsophus_1_1_s_e3>`<Scalar> const& foo_T_bar,
+		:ref:`Vector3<doxid-namespacesophus_1af4f60bd964bf8b3a37bd49dda57aa1d8>`<Scalar> const& vel_bar
+		);
+
+	template <class Scalar>
+	:ref:`Vector3<doxid-namespacesophus_1af4f60bd964bf8b3a37bd49dda57aa1d8>`<Scalar> :target:`finiteDifferenceRotationalVelocity<doxid-namespacesophus_1_1experimental_1aadb93529c538d2b247d934bb209b9d89>`(
+		std::function<:ref:`SO3<doxid-classsophus_1_1_s_o3>`<Scalar>(Scalar)> const& foo_R_bar,
+		Scalar t,
+		Scalar h = :ref:`Constants<doxid-structsophus_1_1_constants>`<Scalar>::epsilon()
+		);
+
+	template <class Scalar>
+	:ref:`Vector3<doxid-namespacesophus_1af4f60bd964bf8b3a37bd49dda57aa1d8>`<Scalar> :target:`finiteDifferenceRotationalVelocity<doxid-namespacesophus_1_1experimental_1ad7af49bfb3af2cfcdfda185f10e25534>`(
+		std::function<:ref:`SE3<doxid-classsophus_1_1_s_e3>`<Scalar>(Scalar)> const& foo_T_bar,
+		Scalar t,
+		Scalar h = :ref:`Constants<doxid-structsophus_1_1_constants>`<Scalar>::epsilon()
+		);
+
+	} // namespace experimental

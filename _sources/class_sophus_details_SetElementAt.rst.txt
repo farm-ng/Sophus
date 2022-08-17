@@ -1,0 +1,28 @@
+.. index:: pair: class; sophus::details::SetElementAt<Scalar, Scalar>
+.. _doxid-classsophus_1_1details_1_1_set_element_at_3_01_scalar_00_01_scalar_01_4:
+
+template class sophus::details::SetElementAt<Scalar, Scalar>
+============================================================
+
+.. toctree::
+	:hidden:
+
+
+
+
+.. ref-code-block:: cpp
+	:class: doxyrest-overview-code-block
+
+	#include <types.hpp>
+	
+	template <class Scalar>
+	class SetElementAt<Scalar, Scalar> {
+	public:
+		// methods
+	
+		static void :target:`impl<doxid-classsophus_1_1details_1_1_set_element_at_3_01_scalar_00_01_scalar_01_4_1a272ed58f8201fd456a51c86582f9f9d5>`(
+			Scalar& s,
+			Scalar value,
+			int at
+			);
+	};

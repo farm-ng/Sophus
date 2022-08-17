@@ -1,8 +1,8 @@
-.. index:: pair: class; Eigen::Map<Sophus::SE3<Scalar_>, Options>
-.. _doxid-class_eigen_1_1_map_3_01_sophus_1_1_s_e3_3_01_scalar___01_4_00_01_options_01_4:
+.. index:: pair: class; Eigen::Map<sophus::SO3<ScalarT> const, Options>
+.. _doxid-class_eigen_1_1_map_3_01sophus_1_1_s_o3_3_01_scalar_t_01_4_01const_00_01_options_01_4:
 
-template class Eigen::Map<Sophus::SE3<Scalar_>, Options>
-========================================================
+template class Eigen::Map<sophus::SO3<ScalarT> const, Options>
+==============================================================
 
 .. toctree::
 	:hidden:
@@ -10,43 +10,39 @@ template class Eigen::Map<Sophus::SE3<Scalar_>, Options>
 Overview
 ~~~~~~~~
 
-Specialization of Eigen::Map for ``SE3``; derived from SE3Base. :ref:`More...<details-class_eigen_1_1_map_3_01_sophus_1_1_s_e3_3_01_scalar___01_4_00_01_options_01_4>`
+Specialization of Eigen::Map for ``SO3 const``; derived from SO3Base. :ref:`More...<details-class_eigen_1_1_map_3_01sophus_1_1_s_o3_3_01_scalar_t_01_4_01const_00_01_options_01_4>`
 
 
 .. ref-code-block:: cpp
 	:class: doxyrest-overview-code-block
 
-	#include <se3.hpp>
+	#include <so3.hpp>
 	
-	template <class Scalar_, int Options>
-	class Map<Sophus::SE3<Scalar_>, Options>: public :ref:`Sophus::SE3Base<doxid-class_sophus_1_1_s_e3_base>` {
+	template <class ScalarT, int Options>
+	class Map<sophus::SO3<ScalarT> const, Options>: public :ref:`sophus::SO3Base<doxid-classsophus_1_1_s_o3_base>` {
 	public:
 		// typedefs
 	
-		using :target:`Base<doxid-class_eigen_1_1_map_3_01_sophus_1_1_s_e3_3_01_scalar___01_4_00_01_options_01_4_1a2376a48de6dcf14bae893136623ef54a>` = :ref:`Sophus::SE3Base<doxid-class_sophus_1_1_s_e3_base>`<:ref:`Map<doxid-class_eigen_1_1_map_3_01_sophus_1_1_s_e3_3_01_scalar___01_4_00_01_options_01_4_1aaae165f69a0361e0a5828c604c993e4f>`<:ref:`Sophus::SE3<doxid-class_sophus_1_1_s_e3>`<Scalar_>, Options>> ;
-		using :target:`Scalar<doxid-class_eigen_1_1_map_3_01_sophus_1_1_s_e3_3_01_scalar___01_4_00_01_options_01_4_1a8a860491c38bae03987641d21b2d8b56>` = Scalar_ ;
-		using :target:`Transformation<doxid-class_eigen_1_1_map_3_01_sophus_1_1_s_e3_3_01_scalar___01_4_00_01_options_01_4_1a8a6132be5490f14fc98e0f318e832a02>` = typename :ref:`Base::Transformation<doxid-class_sophus_1_1_s_e3_base_1a75e30f1b9419c7e722ef6b5aec1d6746>` ;
-		using :target:`Point<doxid-class_eigen_1_1_map_3_01_sophus_1_1_s_e3_3_01_scalar___01_4_00_01_options_01_4_1a4d784099df7804129714210a0d970b9a>` = typename :ref:`Base::Point<doxid-class_sophus_1_1_s_e3_base_1ac89231a4c460d6a84b2ad2373cba7de3>` ;
-		using :target:`HomogeneousPoint<doxid-class_eigen_1_1_map_3_01_sophus_1_1_s_e3_3_01_scalar___01_4_00_01_options_01_4_1a3eb04f97933839bd6e687075295c8d7d>` = typename :ref:`Base::HomogeneousPoint<doxid-class_sophus_1_1_s_e3_base_1a200886227409d1749c374571ab1254be>` ;
-		using :target:`Tangent<doxid-class_eigen_1_1_map_3_01_sophus_1_1_s_e3_3_01_scalar___01_4_00_01_options_01_4_1aad9ad914a830f595665e2214daff75b5>` = typename :ref:`Base::Tangent<doxid-class_sophus_1_1_s_e3_base_1ad244e90ba57d543113905b7e29a4e105>` ;
-		using :target:`Adjoint<doxid-class_eigen_1_1_map_3_01_sophus_1_1_s_e3_3_01_scalar___01_4_00_01_options_01_4_1a773f3ccb0d367126ea1d999427f72e53>` = typename :ref:`Base::Adjoint<doxid-class_sophus_1_1_s_e3_base_1afdac4e5cb9626d235247a16a18b8d3c9>` ;
+		using :target:`Base<doxid-class_eigen_1_1_map_3_01sophus_1_1_s_o3_3_01_scalar_t_01_4_01const_00_01_options_01_4_1a4c52a1d36e2d9d12bd713ca7820a2893>` = :ref:`sophus::SO3Base<doxid-classsophus_1_1_s_o3_base>`<:ref:`Map<doxid-class_eigen_1_1_map_3_01sophus_1_1_s_o3_3_01_scalar_t_01_4_01const_00_01_options_01_4_1a4ffaf1ef907fed7de95e58cc15a9073b>`<:ref:`sophus::SO3<doxid-classsophus_1_1_s_o3>`<ScalarT> const, :ref:`Options<doxid-classsophus_1_1_s_o3_base_1a4209aae6501a518b2191c5d01be76c2b>`>> ;
+		using :target:`Scalar<doxid-class_eigen_1_1_map_3_01sophus_1_1_s_o3_3_01_scalar_t_01_4_01const_00_01_options_01_4_1ad530601ad0853dedef149884a729a2cb>` = ScalarT ;
+		using :target:`Transformation<doxid-class_eigen_1_1_map_3_01sophus_1_1_s_o3_3_01_scalar_t_01_4_01const_00_01_options_01_4_1a86cd18959af411697e9a72d93c8723f6>` = typename :ref:`Base::Transformation<doxid-classsophus_1_1_s_o3_base_1a232e86d87b202a4cf84e8870f4fe91ec>` ;
+		using :target:`Point<doxid-class_eigen_1_1_map_3_01sophus_1_1_s_o3_3_01_scalar_t_01_4_01const_00_01_options_01_4_1aa129b5d02302614189de03faf7977792>` = typename :ref:`Base::Point<doxid-classsophus_1_1_s_o3_base_1a5bdd65d86392afc3aa8f536304999b71>` ;
+		using :target:`HomogeneousPoint<doxid-class_eigen_1_1_map_3_01sophus_1_1_s_o3_3_01_scalar_t_01_4_01const_00_01_options_01_4_1ae2c889c6dfdb8052f6d6a8e09cd86c21>` = typename :ref:`Base::HomogeneousPoint<doxid-classsophus_1_1_s_o3_base_1a3362880f9cf601ae4a5b12c4d434c9aa>` ;
+		using :target:`Tangent<doxid-class_eigen_1_1_map_3_01sophus_1_1_s_o3_3_01_scalar_t_01_4_01const_00_01_options_01_4_1a09d47fab497de97766405da183cccf2f>` = typename :ref:`Base::Tangent<doxid-classsophus_1_1_s_o3_base_1acaaaafa488cbeb31effde063af839189>` ;
+		using :target:`Adjoint<doxid-class_eigen_1_1_map_3_01sophus_1_1_s_o3_3_01_scalar_t_01_4_01const_00_01_options_01_4_1a560415d6de9d23a705df81068dca1058>` = typename :ref:`Base::Adjoint<doxid-classsophus_1_1_s_o3_base_1a356363e3ab4e168893890ca4be4364a0>` ;
 
 		// construction
 	
-		:target:`Map<doxid-class_eigen_1_1_map_3_01_sophus_1_1_s_e3_3_01_scalar___01_4_00_01_options_01_4_1aaae165f69a0361e0a5828c604c993e4f>`(:ref:`Scalar<doxid-class_eigen_1_1_map_3_01_sophus_1_1_s_e3_3_01_scalar___01_4_00_01_options_01_4_1a8a860491c38bae03987641d21b2d8b56>`* coeffs);
+		:target:`Map<doxid-class_eigen_1_1_map_3_01sophus_1_1_s_o3_3_01_scalar_t_01_4_01const_00_01_options_01_4_1a4ffaf1ef907fed7de95e58cc15a9073b>`(:ref:`Scalar<doxid-class_eigen_1_1_map_3_01sophus_1_1_s_o3_3_01_scalar_t_01_4_01const_00_01_options_01_4_1ad530601ad0853dedef149884a729a2cb>` const* coeffs);
 
 		// methods
 	
-		:ref:`Map<doxid-class_eigen_1_1_map_3_01_sophus_1_1_s_e3_3_01_scalar___01_4_00_01_options_01_4_1aaae165f69a0361e0a5828c604c993e4f>`<:ref:`Sophus::SO3<doxid-class_sophus_1_1_s_o3>`<:ref:`Scalar<doxid-class_eigen_1_1_map_3_01_sophus_1_1_s_e3_3_01_scalar___01_4_00_01_options_01_4_1a8a860491c38bae03987641d21b2d8b56>`>, Options>& :ref:`so3<doxid-class_eigen_1_1_map_3_01_sophus_1_1_s_e3_3_01_scalar___01_4_00_01_options_01_4_1aafb8f84ce3d72a98bbfc425c1a80f8f0>`();
-		:ref:`Map<doxid-class_eigen_1_1_map_3_01_sophus_1_1_s_e3_3_01_scalar___01_4_00_01_options_01_4_1aaae165f69a0361e0a5828c604c993e4f>`<:ref:`Sophus::SO3<doxid-class_sophus_1_1_s_o3>`<:ref:`Scalar<doxid-class_eigen_1_1_map_3_01_sophus_1_1_s_e3_3_01_scalar___01_4_00_01_options_01_4_1a8a860491c38bae03987641d21b2d8b56>`>, Options> const& :ref:`so3<doxid-class_eigen_1_1_map_3_01_sophus_1_1_s_e3_3_01_scalar___01_4_00_01_options_01_4_1a6d4522c4b2eb84dd07610f75dabf7d1c>`() const;
-		:ref:`Map<doxid-class_eigen_1_1_map_3_01_sophus_1_1_s_e3_3_01_scalar___01_4_00_01_options_01_4_1aaae165f69a0361e0a5828c604c993e4f>`<:ref:`Sophus::Vector3<doxid-namespace_sophus_1ade8af1bfa6ef21fdd15e6a3a89929be5>`<:ref:`Scalar<doxid-class_eigen_1_1_map_3_01_sophus_1_1_s_e3_3_01_scalar___01_4_00_01_options_01_4_1a8a860491c38bae03987641d21b2d8b56>`, Options>>& :ref:`translation<doxid-class_eigen_1_1_map_3_01_sophus_1_1_s_e3_3_01_scalar___01_4_00_01_options_01_4_1a988e3088c40573050237da482585eb5c>`();
-		:ref:`Map<doxid-class_eigen_1_1_map_3_01_sophus_1_1_s_e3_3_01_scalar___01_4_00_01_options_01_4_1aaae165f69a0361e0a5828c604c993e4f>`<:ref:`Sophus::Vector3<doxid-namespace_sophus_1ade8af1bfa6ef21fdd15e6a3a89929be5>`<:ref:`Scalar<doxid-class_eigen_1_1_map_3_01_sophus_1_1_s_e3_3_01_scalar___01_4_00_01_options_01_4_1a8a860491c38bae03987641d21b2d8b56>`, Options>> const& :ref:`translation<doxid-class_eigen_1_1_map_3_01_sophus_1_1_s_e3_3_01_scalar___01_4_00_01_options_01_4_1ac247ef38bc39b75bd1baa158faaf1130>`() const;
+		:ref:`Map<doxid-class_eigen_1_1_map_3_01sophus_1_1_s_o3_3_01_scalar_t_01_4_01const_00_01_options_01_4_1a4ffaf1ef907fed7de95e58cc15a9073b>`<Eigen::Quaternion<:ref:`Scalar<doxid-class_eigen_1_1_map_3_01sophus_1_1_s_o3_3_01_scalar_t_01_4_01const_00_01_options_01_4_1ad530601ad0853dedef149884a729a2cb>`> const, :ref:`Options<doxid-classsophus_1_1_s_o3_base_1a4209aae6501a518b2191c5d01be76c2b>`> const& :ref:`unit_quaternion<doxid-class_eigen_1_1_map_3_01sophus_1_1_s_o3_3_01_scalar_t_01_4_01const_00_01_options_01_4_1a1e0055c75a57e37d02481e622782407a>`() const;
 
 	protected:
 		// fields
 	
-		:ref:`Map<doxid-class_eigen_1_1_map_3_01_sophus_1_1_s_e3_3_01_scalar___01_4_00_01_options_01_4_1aaae165f69a0361e0a5828c604c993e4f>`<:ref:`Sophus::SO3<doxid-class_sophus_1_1_s_o3>`<:ref:`Scalar<doxid-class_eigen_1_1_map_3_01_sophus_1_1_s_e3_3_01_scalar___01_4_00_01_options_01_4_1a8a860491c38bae03987641d21b2d8b56>`>, Options> :target:`so3_<doxid-class_eigen_1_1_map_3_01_sophus_1_1_s_e3_3_01_scalar___01_4_00_01_options_01_4_1a638b0abc08a4fad249989315683d5dac>`;
-		:ref:`Map<doxid-class_eigen_1_1_map_3_01_sophus_1_1_s_e3_3_01_scalar___01_4_00_01_options_01_4_1aaae165f69a0361e0a5828c604c993e4f>`<:ref:`Sophus::Vector3<doxid-namespace_sophus_1ade8af1bfa6ef21fdd15e6a3a89929be5>`<:ref:`Scalar<doxid-class_eigen_1_1_map_3_01_sophus_1_1_s_e3_3_01_scalar___01_4_00_01_options_01_4_1a8a860491c38bae03987641d21b2d8b56>`>, Options> :target:`translation_<doxid-class_eigen_1_1_map_3_01_sophus_1_1_s_e3_3_01_scalar___01_4_00_01_options_01_4_1a1aea3c28c4dd9bf540e8537b8fe70ad7>`;
+		const :ref:`Map<doxid-class_eigen_1_1_map_3_01sophus_1_1_s_o3_3_01_scalar_t_01_4_01const_00_01_options_01_4_1a4ffaf1ef907fed7de95e58cc15a9073b>`<Eigen::Quaternion<:ref:`Scalar<doxid-class_eigen_1_1_map_3_01sophus_1_1_s_o3_3_01_scalar_t_01_4_01const_00_01_options_01_4_1ad530601ad0853dedef149884a729a2cb>`> const, :ref:`Options<doxid-classsophus_1_1_s_o3_base_1a4209aae6501a518b2191c5d01be76c2b>`> :ref:`unit_quaternion_<doxid-class_eigen_1_1_map_3_01sophus_1_1_s_o3_3_01_scalar_t_01_4_01const_00_01_options_01_4_1a25f8654c66ccc024e6de106a4d33478b>`;
 	};
 
 Inherited Members
@@ -58,131 +54,132 @@ Inherited Members
 	public:
 		// typedefs
 	
-		using :ref:`Scalar<doxid-class_sophus_1_1_s_e3_base_1a3eb701512103dc1c78d6b6e58d70a5b9>` = typename Eigen::internal::traits<Derived>:::ref:`Scalar<doxid-class_sophus_1_1_s_e3_base_1a3eb701512103dc1c78d6b6e58d70a5b9>` ;
-		using :ref:`TranslationType<doxid-class_sophus_1_1_s_e3_base_1ab0520404000f2ee629d8ac2dd8ddada1>` = typename Eigen::internal::traits<Derived>:::ref:`TranslationType<doxid-class_sophus_1_1_s_e3_base_1ab0520404000f2ee629d8ac2dd8ddada1>` ;
-		using :ref:`SO3Type<doxid-class_sophus_1_1_s_e3_base_1a232c57d92aa0c98354cb12fa66c78b5b>` = typename Eigen::internal::traits<Derived>:::ref:`SO3Type<doxid-class_sophus_1_1_s_e3_base_1a232c57d92aa0c98354cb12fa66c78b5b>` ;
-		using :ref:`QuaternionType<doxid-class_sophus_1_1_s_e3_base_1aabe323736d5152ef96473a84296d248b>` = typename SO3Type::QuaternionType ;
-		using :ref:`Transformation<doxid-class_sophus_1_1_s_e3_base_1a75e30f1b9419c7e722ef6b5aec1d6746>` = :ref:`Matrix<doxid-namespace_sophus_1a6da48bb60b569fdd4619fcd8f5fb2498>`<:ref:`Scalar<doxid-class_sophus_1_1_s_e3_base_1a3eb701512103dc1c78d6b6e58d70a5b9>`, :ref:`N<doxid-class_sophus_1_1_s_e3_base_1ac3e6d2440d5bcf63f9e1bfda254d40de>`, :ref:`N<doxid-class_sophus_1_1_s_e3_base_1ac3e6d2440d5bcf63f9e1bfda254d40de>`> ;
-		using :ref:`Point<doxid-class_sophus_1_1_s_e3_base_1ac89231a4c460d6a84b2ad2373cba7de3>` = :ref:`Vector3<doxid-namespace_sophus_1ade8af1bfa6ef21fdd15e6a3a89929be5>`<:ref:`Scalar<doxid-class_sophus_1_1_s_e3_base_1a3eb701512103dc1c78d6b6e58d70a5b9>`> ;
-		using :ref:`HomogeneousPoint<doxid-class_sophus_1_1_s_e3_base_1a200886227409d1749c374571ab1254be>` = :ref:`Vector4<doxid-namespace_sophus_1a2f54b15372bfd1bb0c34464ad61a77c6>`<:ref:`Scalar<doxid-class_sophus_1_1_s_e3_base_1a3eb701512103dc1c78d6b6e58d70a5b9>`> ;
-		using :ref:`Line<doxid-class_sophus_1_1_s_e3_base_1ab778a19f6bd175a1f34d3e46978c11a1>` = :ref:`ParametrizedLine3<doxid-namespace_sophus_1a24633b90a69ca83ad90d833e11e59dd9>`<:ref:`Scalar<doxid-class_sophus_1_1_s_e3_base_1a3eb701512103dc1c78d6b6e58d70a5b9>`> ;
-		using :ref:`Hyperplane<doxid-class_sophus_1_1_s_e3_base_1a8cc1eee16867c96921b630f38651232a>` = :ref:`Hyperplane3<doxid-namespace_sophus_1ab084f0123710bbef2c90302d40497a74>`<:ref:`Scalar<doxid-class_sophus_1_1_s_e3_base_1a3eb701512103dc1c78d6b6e58d70a5b9>`> ;
-		using :ref:`Tangent<doxid-class_sophus_1_1_s_e3_base_1ad244e90ba57d543113905b7e29a4e105>` = :ref:`Vector<doxid-namespace_sophus_1abf9f6f1b37fa7bef4d2df65d63154cdf>`<:ref:`Scalar<doxid-class_sophus_1_1_s_e3_base_1a3eb701512103dc1c78d6b6e58d70a5b9>`, :ref:`DoF<doxid-class_sophus_1_1_s_e3_base_1a185c5b140a0815351de44c4ea5d89103>`> ;
-		using :ref:`Adjoint<doxid-class_sophus_1_1_s_e3_base_1afdac4e5cb9626d235247a16a18b8d3c9>` = :ref:`Matrix<doxid-namespace_sophus_1a6da48bb60b569fdd4619fcd8f5fb2498>`<:ref:`Scalar<doxid-class_sophus_1_1_s_e3_base_1a3eb701512103dc1c78d6b6e58d70a5b9>`, :ref:`DoF<doxid-class_sophus_1_1_s_e3_base_1a185c5b140a0815351de44c4ea5d89103>`, :ref:`DoF<doxid-class_sophus_1_1_s_e3_base_1a185c5b140a0815351de44c4ea5d89103>`> ;
-		using :ref:`ReturnScalar<doxid-class_sophus_1_1_s_e3_base_1a6fc973b48bda3160055cb02cd5262551>` = typename Eigen::ScalarBinaryOpTraits<:ref:`Scalar<doxid-class_sophus_1_1_s_e3_base_1a3eb701512103dc1c78d6b6e58d70a5b9>`, typename OtherDerived::Scalar>::ReturnType ;
-		using :ref:`SE3Product<doxid-class_sophus_1_1_s_e3_base_1af2b8edde2888dbd467b44058cc159181>` = :ref:`SE3<doxid-class_sophus_1_1_s_e3>`<:ref:`ReturnScalar<doxid-class_sophus_1_1_s_e3_base_1a6fc973b48bda3160055cb02cd5262551>`<OtherDerived>> ;
-		using :ref:`PointProduct<doxid-class_sophus_1_1_s_e3_base_1ae0c228d4cebb05213dd8848dd9f602c3>` = :ref:`Vector3<doxid-namespace_sophus_1ade8af1bfa6ef21fdd15e6a3a89929be5>`<:ref:`ReturnScalar<doxid-class_sophus_1_1_s_e3_base_1a6fc973b48bda3160055cb02cd5262551>`<PointDerived>> ;
-		using :ref:`HomogeneousPointProduct<doxid-class_sophus_1_1_s_e3_base_1a73615ebcbd9b006a2ba68ea39753de5c>` = :ref:`Vector4<doxid-namespace_sophus_1a2f54b15372bfd1bb0c34464ad61a77c6>`<:ref:`ReturnScalar<doxid-class_sophus_1_1_s_e3_base_1a6fc973b48bda3160055cb02cd5262551>`<HPointDerived>> ;
+		using :ref:`Scalar<doxid-classsophus_1_1_s_o3_base_1a96ca73fae867d94326ab30e2fb2a94b5>` = typename Eigen::internal::traits<Derived>:::ref:`Scalar<doxid-classsophus_1_1_s_o3_base_1a96ca73fae867d94326ab30e2fb2a94b5>` ;
+		using :ref:`QuaternionType<doxid-classsophus_1_1_s_o3_base_1a0185f7afe171298a9ba317aebe312dba>` = typename Eigen::internal::traits<Derived>:::ref:`QuaternionType<doxid-classsophus_1_1_s_o3_base_1a0185f7afe171298a9ba317aebe312dba>` ;
+		using :ref:`QuaternionTemporaryType<doxid-classsophus_1_1_s_o3_base_1a8431abc678f49098c6f4164eed8277a7>` = Eigen::Quaternion<:ref:`Scalar<doxid-classsophus_1_1_s_o3_base_1a96ca73fae867d94326ab30e2fb2a94b5>`, :ref:`Options<doxid-classsophus_1_1_s_o3_base_1a4209aae6501a518b2191c5d01be76c2b>`> ;
+		using :ref:`Transformation<doxid-classsophus_1_1_s_o3_base_1a232e86d87b202a4cf84e8870f4fe91ec>` = :ref:`Matrix<doxid-namespacesophus_1a7f99d420690326fc31ef6aed3fd0038c>`<:ref:`Scalar<doxid-classsophus_1_1_s_o3_base_1a96ca73fae867d94326ab30e2fb2a94b5>`, :ref:`kMatrixDim<doxid-classsophus_1_1_s_o3_base_1aac32009fb4ec49a99b296515c82049cf>`, :ref:`kMatrixDim<doxid-classsophus_1_1_s_o3_base_1aac32009fb4ec49a99b296515c82049cf>`> ;
+		using :ref:`Point<doxid-classsophus_1_1_s_o3_base_1a5bdd65d86392afc3aa8f536304999b71>` = :ref:`Vector3<doxid-namespacesophus_1af4f60bd964bf8b3a37bd49dda57aa1d8>`<:ref:`Scalar<doxid-classsophus_1_1_s_o3_base_1a96ca73fae867d94326ab30e2fb2a94b5>`> ;
+		using :ref:`HomogeneousPoint<doxid-classsophus_1_1_s_o3_base_1a3362880f9cf601ae4a5b12c4d434c9aa>` = :ref:`Vector4<doxid-namespacesophus_1a623e033b3b2d24075de8441290223fd4>`<:ref:`Scalar<doxid-classsophus_1_1_s_o3_base_1a96ca73fae867d94326ab30e2fb2a94b5>`> ;
+		using :ref:`Line<doxid-classsophus_1_1_s_o3_base_1a04e881052b92b2811775c9bdd35bd323>` = :ref:`ParametrizedLine3<doxid-namespacesophus_1a67df2f1155c609f5b3ddd59d5c926802>`<:ref:`Scalar<doxid-classsophus_1_1_s_o3_base_1a96ca73fae867d94326ab30e2fb2a94b5>`> ;
+		using :ref:`Hyperplane<doxid-classsophus_1_1_s_o3_base_1ad88b9cf087d2f512d55697dbe320d15d>` = :ref:`Hyperplane3<doxid-namespacesophus_1a872d9a03e32a4d8f9b99b8858cc0518a>`<:ref:`Scalar<doxid-classsophus_1_1_s_o3_base_1a96ca73fae867d94326ab30e2fb2a94b5>`> ;
+		using :ref:`Tangent<doxid-classsophus_1_1_s_o3_base_1acaaaafa488cbeb31effde063af839189>` = :ref:`Vector<doxid-namespacesophus_1a7c637d4509eb50d45192c268f3c0d2d4>`<:ref:`Scalar<doxid-classsophus_1_1_s_o3_base_1a96ca73fae867d94326ab30e2fb2a94b5>`, :ref:`kDoF<doxid-classsophus_1_1_s_o3_base_1a422d381ec1ffb6923e3c073acbe1bb46>`> ;
+		using :ref:`Adjoint<doxid-classsophus_1_1_s_o3_base_1a356363e3ab4e168893890ca4be4364a0>` = :ref:`Matrix<doxid-namespacesophus_1a7f99d420690326fc31ef6aed3fd0038c>`<:ref:`Scalar<doxid-classsophus_1_1_s_o3_base_1a96ca73fae867d94326ab30e2fb2a94b5>`, :ref:`kDoF<doxid-classsophus_1_1_s_o3_base_1a422d381ec1ffb6923e3c073acbe1bb46>`, :ref:`kDoF<doxid-classsophus_1_1_s_o3_base_1a422d381ec1ffb6923e3c073acbe1bb46>`> ;
+		using :ref:`ReturnScalar<doxid-classsophus_1_1_s_o3_base_1a7640f2fa91524249ad7fc6f3b25ab0df>` = typename Eigen::ScalarBinaryOpTraits<:ref:`Scalar<doxid-classsophus_1_1_s_o3_base_1a96ca73fae867d94326ab30e2fb2a94b5>`, typename OtherDerived::Scalar>::ReturnType ;
+		using :ref:`SO3Product<doxid-classsophus_1_1_s_o3_base_1a899f392801c5384177dd10351d66e053>` = :ref:`SO3<doxid-classsophus_1_1_s_o3>`<:ref:`ReturnScalar<doxid-classsophus_1_1_s_o3_base_1a7640f2fa91524249ad7fc6f3b25ab0df>`<OtherDerived>> ;
+		using :ref:`PointProduct<doxid-classsophus_1_1_s_o3_base_1a8f7697e4037631ec21f202a67bb05fd6>` = :ref:`Vector3<doxid-namespacesophus_1af4f60bd964bf8b3a37bd49dda57aa1d8>`<:ref:`ReturnScalar<doxid-classsophus_1_1_s_o3_base_1a7640f2fa91524249ad7fc6f3b25ab0df>`<PointDerived>> ;
+		using :ref:`HomogeneousPointProduct<doxid-classsophus_1_1_s_o3_base_1a3b21766b6eb26f53fe98073beb5fb53f>` = :ref:`Vector4<doxid-namespacesophus_1a623e033b3b2d24075de8441290223fd4>`<:ref:`ReturnScalar<doxid-classsophus_1_1_s_o3_base_1a7640f2fa91524249ad7fc6f3b25ab0df>`<HPointDerived>> ;
+
+		// structs
+	
+		struct :ref:`TangentAndTheta<doxid-structsophus_1_1_s_o3_base_1_1_tangent_and_theta>`;
 
 		// fields
 	
-		static constexpr int :ref:`DoF<doxid-class_sophus_1_1_s_e3_base_1a185c5b140a0815351de44c4ea5d89103>` = 6;
-		static constexpr int :ref:`num_parameters<doxid-class_sophus_1_1_s_e3_base_1ac0ee11a7faadafa313b906270cee545b>` = 7;
-		static constexpr int :ref:`N<doxid-class_sophus_1_1_s_e3_base_1ac3e6d2440d5bcf63f9e1bfda254d40de>` = 4;
+		static constexpr int :ref:`Options<doxid-classsophus_1_1_s_o3_base_1a4209aae6501a518b2191c5d01be76c2b>` = Eigen::internal::traits<Derived>::Options;
+		static constexpr int :ref:`kDoF<doxid-classsophus_1_1_s_o3_base_1a422d381ec1ffb6923e3c073acbe1bb46>` = 3;
+		static constexpr int :ref:`kNumParameters<doxid-classsophus_1_1_s_o3_base_1aac20933079be59d0da0058054dbeea2a>` = 4;
+		static constexpr int :ref:`kMatrixDim<doxid-classsophus_1_1_s_o3_base_1aac32009fb4ec49a99b296515c82049cf>` = 3;
+		static constexpr int :ref:`kPointDim<doxid-classsophus_1_1_s_o3_base_1a26f46d443e117986e8a08e8fda3941f9>` = 3;
 
 		// methods
 	
-		:ref:`Adjoint<doxid-class_sophus_1_1_s_e3_base_1afdac4e5cb9626d235247a16a18b8d3c9>` :ref:`Adj<doxid-class_sophus_1_1_s_e3_base_1a4e7bbc419552d6f3d7ae1a07cb22d69d>`() const;
-		:ref:`Scalar<doxid-class_sophus_1_1_s_e3_base_1a3eb701512103dc1c78d6b6e58d70a5b9>` :ref:`angleX<doxid-class_sophus_1_1_s_e3_base_1ad35cca0635dcaf9e2f485dfc3aaf6adc>`() const;
-		:ref:`Scalar<doxid-class_sophus_1_1_s_e3_base_1a3eb701512103dc1c78d6b6e58d70a5b9>` :ref:`angleY<doxid-class_sophus_1_1_s_e3_base_1af8656241b12503f6e9ceafd327abbe20>`() const;
-		:ref:`Scalar<doxid-class_sophus_1_1_s_e3_base_1a3eb701512103dc1c78d6b6e58d70a5b9>` :ref:`angleZ<doxid-class_sophus_1_1_s_e3_base_1a43a0d2c85dcb4ce33c1cc458f44bf0af>`() const;
+		:ref:`Adjoint<doxid-classsophus_1_1_s_o3_base_1a356363e3ab4e168893890ca4be4364a0>` :ref:`Adj<doxid-classsophus_1_1_s_o3_base_1aaedaaef3d5caf29af4981773a08ccc8a>`() const;
+	
+		template <class S = Scalar>
+		:ref:`enable_if_t<doxid-namespacesophus_1a5529a358015f80ee0da9440745fc0be8>`<std::is_floating_point<S>::value, S> :ref:`angleX<doxid-classsophus_1_1_s_o3_base_1a4d9823f4efd7496429ab28af83cac152>`() const;
+	
+		template <class S = Scalar>
+		:ref:`enable_if_t<doxid-namespacesophus_1a5529a358015f80ee0da9440745fc0be8>`<std::is_floating_point<S>::value, S> :ref:`angleY<doxid-classsophus_1_1_s_o3_base_1ace0e7f99ea2fc1d6295398dc1bce2147>`() const;
+	
+		template <class S = Scalar>
+		:ref:`enable_if_t<doxid-namespacesophus_1a5529a358015f80ee0da9440745fc0be8>`<std::is_floating_point<S>::value, S> :ref:`angleZ<doxid-classsophus_1_1_s_o3_base_1a5204f726cfdb023530f8002f53ca2def>`() const;
 	
 		template <class NewScalarType>
-		:ref:`SE3<doxid-class_sophus_1_1_s_e3>`<NewScalarType> :ref:`cast<doxid-class_sophus_1_1_s_e3_base_1acb9440dca0877102eb3cde1d0aa79035>`() const;
+		:ref:`SO3<doxid-classsophus_1_1_s_o3>`<NewScalarType> :ref:`cast<doxid-classsophus_1_1_s_o3_base_1ad55a80273fd464038e08dc9d11e8d764>`() const;
 	
-		:ref:`Matrix<doxid-namespace_sophus_1a6da48bb60b569fdd4619fcd8f5fb2498>`<:ref:`Scalar<doxid-class_sophus_1_1_s_e3_base_1a3eb701512103dc1c78d6b6e58d70a5b9>`, :ref:`num_parameters<doxid-class_sophus_1_1_s_e3_base_1ac0ee11a7faadafa313b906270cee545b>`, :ref:`DoF<doxid-class_sophus_1_1_s_e3_base_1a185c5b140a0815351de44c4ea5d89103>`> :ref:`Dx_this_mul_exp_x_at_0<doxid-class_sophus_1_1_s_e3_base_1a1104d6ab18ccc69a6f5d031c2e767731>`() const;
-		:ref:`SE3<doxid-class_sophus_1_1_s_e3>`<:ref:`Scalar<doxid-class_sophus_1_1_s_e3_base_1a3eb701512103dc1c78d6b6e58d70a5b9>`> :ref:`inverse<doxid-class_sophus_1_1_s_e3_base_1ad5356ba502dd3c15e2513cf459d498e9>`() const;
-		:ref:`Tangent<doxid-class_sophus_1_1_s_e3_base_1ad244e90ba57d543113905b7e29a4e105>` :ref:`log<doxid-class_sophus_1_1_s_e3_base_1a97d84dd32d7d023a03f05a74da6377d8>`() const;
-		void :ref:`normalize<doxid-class_sophus_1_1_s_e3_base_1a33626101e4eef59db31ea8a1dee9d590>`();
-		:ref:`Transformation<doxid-class_sophus_1_1_s_e3_base_1a75e30f1b9419c7e722ef6b5aec1d6746>` :ref:`matrix<doxid-class_sophus_1_1_s_e3_base_1a8149537ee69c807461d0a29e4afcfbdd>`() const;
-		:ref:`Matrix<doxid-namespace_sophus_1a6da48bb60b569fdd4619fcd8f5fb2498>`<:ref:`Scalar<doxid-class_sophus_1_1_s_e3_base_1a3eb701512103dc1c78d6b6e58d70a5b9>`, 3, 4> :ref:`matrix3x4<doxid-class_sophus_1_1_s_e3_base_1a24c0a523ef514813de78965fb66d58dd>`() const;
+		:ref:`Scalar<doxid-classsophus_1_1_s_o3_base_1a96ca73fae867d94326ab30e2fb2a94b5>`* :ref:`data<doxid-classsophus_1_1_s_o3_base_1a781815dcbe44d930674f415e851bcfc2>`();
+		:ref:`Scalar<doxid-classsophus_1_1_s_o3_base_1a96ca73fae867d94326ab30e2fb2a94b5>` const* :ref:`data<doxid-classsophus_1_1_s_o3_base_1a3e73b427c64882f1e9a82f9263634de5>`() const;
+		:ref:`Matrix<doxid-namespacesophus_1a7f99d420690326fc31ef6aed3fd0038c>`<:ref:`Scalar<doxid-classsophus_1_1_s_o3_base_1a96ca73fae867d94326ab30e2fb2a94b5>`, :ref:`kNumParameters<doxid-classsophus_1_1_s_o3_base_1aac20933079be59d0da0058054dbeea2a>`, :ref:`kDoF<doxid-classsophus_1_1_s_o3_base_1a422d381ec1ffb6923e3c073acbe1bb46>`> :ref:`Dx_this_mul_exp_x_at_0<doxid-classsophus_1_1_s_o3_base_1a78f6ef1ea69d4dd567eb989082ed0e59>`() const;
+		:ref:`Matrix<doxid-namespacesophus_1a7f99d420690326fc31ef6aed3fd0038c>`<:ref:`Scalar<doxid-classsophus_1_1_s_o3_base_1a96ca73fae867d94326ab30e2fb2a94b5>`, :ref:`kDoF<doxid-classsophus_1_1_s_o3_base_1a422d381ec1ffb6923e3c073acbe1bb46>`, :ref:`kNumParameters<doxid-classsophus_1_1_s_o3_base_1aac20933079be59d0da0058054dbeea2a>`> :ref:`Dx_log_this_inv_by_x_at_this<doxid-classsophus_1_1_s_o3_base_1acc528622f3bb4de9296c3cf66466084b>`() const;
+		:ref:`sophus::Vector<doxid-namespacesophus_1a7c637d4509eb50d45192c268f3c0d2d4>`<:ref:`Scalar<doxid-classsophus_1_1_s_o3_base_1a96ca73fae867d94326ab30e2fb2a94b5>`, :ref:`kNumParameters<doxid-classsophus_1_1_s_o3_base_1aac20933079be59d0da0058054dbeea2a>`> :ref:`params<doxid-classsophus_1_1_s_o3_base_1a69eda45a279a3da8a6264169650079b3>`() const;
+		:ref:`SO3<doxid-classsophus_1_1_s_o3>`<:ref:`Scalar<doxid-classsophus_1_1_s_o3_base_1a96ca73fae867d94326ab30e2fb2a94b5>`> :ref:`inverse<doxid-classsophus_1_1_s_o3_base_1ae700c629d8616a0e427b8f887280469b>`() const;
+		:ref:`Tangent<doxid-classsophus_1_1_s_o3_base_1acaaaafa488cbeb31effde063af839189>` :ref:`log<doxid-classsophus_1_1_s_o3_base_1a81266dfb24bb6f3102717e60ac618b33>`() const;
+		:ref:`TangentAndTheta<doxid-structsophus_1_1_s_o3_base_1_1_tangent_and_theta>` :ref:`logAndTheta<doxid-classsophus_1_1_s_o3_base_1a80a0c61b9a40312ad4cd3b0824fb97eb>`() const;
+		void :ref:`normalize<doxid-classsophus_1_1_s_o3_base_1ad1ecdb53e514c92e08f2886955633782>`();
+		:ref:`Transformation<doxid-classsophus_1_1_s_o3_base_1a232e86d87b202a4cf84e8870f4fe91ec>` :ref:`matrix<doxid-classsophus_1_1_s_o3_base_1a469a317bbc435510f610c80854744daf>`() const;
 	
 		template <class OtherDerived>
-		:ref:`SE3Base<doxid-class_sophus_1_1_s_e3_base>`<Derived>& :ref:`operator=<doxid-class_sophus_1_1_s_e3_base_1a22b3c6622abc80ae64ce2f15d3751208>`(:ref:`SE3Base<doxid-class_sophus_1_1_s_e3_base>`<OtherDerived> const& other);
+		:ref:`SO3Base<doxid-classsophus_1_1_s_o3_base>`<Derived>& :ref:`operator=<doxid-classsophus_1_1_s_o3_base_1a7eb9db9c5374f2583e1d13264a08d8b6>`(:ref:`SO3Base<doxid-classsophus_1_1_s_o3_base>`<OtherDerived> const& other);
 	
 		template <typename OtherDerived>
-		:ref:`SE3Product<doxid-class_sophus_1_1_s_e3_base_1af2b8edde2888dbd467b44058cc159181>`<OtherDerived> :ref:`operator*<doxid-class_sophus_1_1_s_e3_base_1a508f481f4620bb03c9964776f48c7301>`(:ref:`SE3Base<doxid-class_sophus_1_1_s_e3_base>`<OtherDerived> const& other) const;
+		:ref:`SO3Product<doxid-classsophus_1_1_s_o3_base_1a899f392801c5384177dd10351d66e053>`<OtherDerived> :ref:`operator*<doxid-classsophus_1_1_s_o3_base_1a1660dfc0d3a52548c60aab937c3db1be>`(:ref:`SO3Base<doxid-classsophus_1_1_s_o3_base>`<OtherDerived> const& other) const;
 	
 		template <
 			typename PointDerived,
 			typename = typename std::enable_if<IsFixedSizeVector<PointDerived, 3>::value>::type
 			>
-		:ref:`PointProduct<doxid-class_sophus_1_1_s_e3_base_1ae0c228d4cebb05213dd8848dd9f602c3>`<PointDerived> :ref:`operator*<doxid-class_sophus_1_1_s_e3_base_1abad26b7d002e6c44939d37da76bad5c9>`(Eigen::MatrixBase<PointDerived> const& p) const;
+		:ref:`PointProduct<doxid-classsophus_1_1_s_o3_base_1a8f7697e4037631ec21f202a67bb05fd6>`<PointDerived> :ref:`operator*<doxid-classsophus_1_1_s_o3_base_1a3db3c19905123d18cde84ac5c42072b5>`(Eigen::MatrixBase<PointDerived> const& p) const;
 	
 		template <
 			typename HPointDerived,
 			typename = typename std::enable_if<IsFixedSizeVector<HPointDerived, 4>::value>::type
 			>
-		:ref:`HomogeneousPointProduct<doxid-class_sophus_1_1_s_e3_base_1a73615ebcbd9b006a2ba68ea39753de5c>`<HPointDerived> :ref:`operator*<doxid-class_sophus_1_1_s_e3_base_1a060e19c3376fa36119d8c9bcc8edb244>`(Eigen::MatrixBase<HPointDerived> const& p) const;
+		:ref:`HomogeneousPointProduct<doxid-classsophus_1_1_s_o3_base_1a3b21766b6eb26f53fe98073beb5fb53f>`<HPointDerived> :ref:`operator*<doxid-classsophus_1_1_s_o3_base_1a7003e7dbfb45b134a94b951adb4cedd3>`(Eigen::MatrixBase<HPointDerived> const& p) const;
 	
-		:ref:`Line<doxid-class_sophus_1_1_s_e3_base_1ab778a19f6bd175a1f34d3e46978c11a1>` :ref:`operator*<doxid-class_sophus_1_1_s_e3_base_1a4661783faa317e804dfe3fd78fd321f6>`(:ref:`Line<doxid-class_sophus_1_1_s_e3_base_1ab778a19f6bd175a1f34d3e46978c11a1>` const& l) const;
-		:ref:`Hyperplane<doxid-class_sophus_1_1_s_e3_base_1a8cc1eee16867c96921b630f38651232a>` :ref:`operator*<doxid-class_sophus_1_1_s_e3_base_1aee0f9b524cb647b0cc67c9677edda66a>`(:ref:`Hyperplane<doxid-class_sophus_1_1_s_e3_base_1a8cc1eee16867c96921b630f38651232a>` const& p) const;
+		:ref:`Line<doxid-classsophus_1_1_s_o3_base_1a04e881052b92b2811775c9bdd35bd323>` :ref:`operator*<doxid-classsophus_1_1_s_o3_base_1ad2f317bd3ceb78b52a24395e88e2ed99>`(:ref:`Line<doxid-classsophus_1_1_s_o3_base_1a04e881052b92b2811775c9bdd35bd323>` const& l) const;
+		:ref:`Hyperplane<doxid-classsophus_1_1_s_o3_base_1ad88b9cf087d2f512d55697dbe320d15d>` :ref:`operator*<doxid-classsophus_1_1_s_o3_base_1acd3fa81a375b191634dea4bbeb578216>`(:ref:`Hyperplane<doxid-classsophus_1_1_s_o3_base_1ad88b9cf087d2f512d55697dbe320d15d>` const& p) const;
 	
 		template <
 			typename OtherDerived,
 			typename = typename std::enable_if<std::is_same<Scalar, ReturnScalar<OtherDerived>>::value>::type
 			>
-		:ref:`SE3Base<doxid-class_sophus_1_1_s_e3_base>`<Derived>& :ref:`operator*=<doxid-class_sophus_1_1_s_e3_base_1a5ee0f34cbbcf283c80d7de4d3c34f335>`(:ref:`SE3Base<doxid-class_sophus_1_1_s_e3_base>`<OtherDerived> const& other);
+		:ref:`SO3Base<doxid-classsophus_1_1_s_o3_base>`<Derived>& :ref:`operator*=<doxid-classsophus_1_1_s_o3_base_1a1cd95665d8bfe33b99bc23c6e3eab6b4>`(:ref:`SO3Base<doxid-classsophus_1_1_s_o3_base>`<OtherDerived> const& other);
 	
-		:ref:`Matrix3<doxid-namespace_sophus_1a480d3dfd742f398b9e6244acd2591b39>`<:ref:`Scalar<doxid-class_sophus_1_1_s_e3_base_1a3eb701512103dc1c78d6b6e58d70a5b9>`> :ref:`rotationMatrix<doxid-class_sophus_1_1_s_e3_base_1ad50dcbbb857ed69e59ee36c28ff05e04>`() const;
-		:ref:`SO3Type<doxid-class_sophus_1_1_s_e3_base_1a232c57d92aa0c98354cb12fa66c78b5b>`& :ref:`so3<doxid-class_sophus_1_1_s_e3_base_1a853b17d9c41d6dfc6740e357df68fa12>`();
-		:ref:`SO3Type<doxid-class_sophus_1_1_s_e3_base_1a232c57d92aa0c98354cb12fa66c78b5b>` const& :ref:`so3<doxid-class_sophus_1_1_s_e3_base_1a7313b91a200d77fb64f66103e57661e9>`() const;
-		void :ref:`setQuaternion<doxid-class_sophus_1_1_s_e3_base_1adf0c3e64921faca2cde721141e813740>`(Eigen::Quaternion<:ref:`Scalar<doxid-class_sophus_1_1_s_e3_base_1a3eb701512103dc1c78d6b6e58d70a5b9>`> const& quat);
-		void :ref:`setRotationMatrix<doxid-class_sophus_1_1_s_e3_base_1af0e13f3b8155eefef864182d7222a639>`(:ref:`Matrix3<doxid-namespace_sophus_1a480d3dfd742f398b9e6244acd2591b39>`<:ref:`Scalar<doxid-class_sophus_1_1_s_e3_base_1a3eb701512103dc1c78d6b6e58d70a5b9>`> const& R);
-		:ref:`Sophus::Vector<doxid-namespace_sophus_1abf9f6f1b37fa7bef4d2df65d63154cdf>`<:ref:`Scalar<doxid-class_sophus_1_1_s_e3_base_1a3eb701512103dc1c78d6b6e58d70a5b9>`, :ref:`num_parameters<doxid-class_sophus_1_1_s_e3_base_1ac0ee11a7faadafa313b906270cee545b>`> :ref:`params<doxid-class_sophus_1_1_s_e3_base_1a6285c9e7a381e93e41c4d21e67e35ab8>`() const;
-		:ref:`TranslationType<doxid-class_sophus_1_1_s_e3_base_1ab0520404000f2ee629d8ac2dd8ddada1>`& :ref:`translation<doxid-class_sophus_1_1_s_e3_base_1af355658de9c9c32c588417ba26ed285a>`();
-		:ref:`TranslationType<doxid-class_sophus_1_1_s_e3_base_1ab0520404000f2ee629d8ac2dd8ddada1>` const& :ref:`translation<doxid-class_sophus_1_1_s_e3_base_1a81b5183db43f6203bfe07d4d00d87249>`() const;
-		:ref:`QuaternionType<doxid-class_sophus_1_1_s_e3_base_1aabe323736d5152ef96473a84296d248b>` const& :ref:`unit_quaternion<doxid-class_sophus_1_1_s_e3_base_1a2633e8245de91f863b4adf513c496f7b>`() const;
+		void :ref:`setQuaternion<doxid-classsophus_1_1_s_o3_base_1a25e824316f2733608e36e0eba670ab0f>`(Eigen::Quaternion<:ref:`Scalar<doxid-classsophus_1_1_s_o3_base_1a96ca73fae867d94326ab30e2fb2a94b5>`> const& quaternion);
+		:ref:`QuaternionType<doxid-classsophus_1_1_s_o3_base_1a0185f7afe171298a9ba317aebe312dba>` const& :ref:`unit_quaternion<doxid-classsophus_1_1_s_o3_base_1a66e9c0bc44cf29ec92640a5b9f0af552>`() const;
+	
+		template <
+			typename QuaternionProductType,
+			typename QuaternionTypeA,
+			typename QuaternionTypeB
+			>
+		static QuaternionProductType :ref:`QuaternionProduct<doxid-classsophus_1_1_s_o3_base_1a8c466f624fce96d0a70c26cd673ab61c>`(
+			const QuaternionTypeA& a,
+			const QuaternionTypeB& b
+			);
 
-.. _details-class_eigen_1_1_map_3_01_sophus_1_1_s_e3_3_01_scalar___01_4_00_01_options_01_4:
+.. _details-class_eigen_1_1_map_3_01sophus_1_1_s_o3_3_01_scalar_t_01_4_01const_00_01_options_01_4:
 
 Detailed Documentation
 ~~~~~~~~~~~~~~~~~~~~~~
 
-Specialization of Eigen::Map for ``SE3``; derived from SE3Base.
+Specialization of Eigen::Map for ``SO3 const``; derived from SO3Base.
 
-Allows us to wrap SE3 objects around POD array.
+Allows us to wrap SO3 objects around POD array (e.g. external c style quaternion).
+
+Fields
+------
+
+.. index:: pair: variable; unit_quaternion_
+.. _doxid-class_eigen_1_1_map_3_01sophus_1_1_s_o3_3_01_scalar_t_01_4_01const_00_01_options_01_4_1a25f8654c66ccc024e6de106a4d33478b:
+
+.. ref-code-block:: cpp
+	:class: doxyrest-title-code-block
+
+	const :ref:`Map<doxid-class_eigen_1_1_map_3_01sophus_1_1_s_o3_3_01_scalar_t_01_4_01const_00_01_options_01_4_1a4ffaf1ef907fed7de95e58cc15a9073b>`<Eigen::Quaternion<:ref:`Scalar<doxid-class_eigen_1_1_map_3_01sophus_1_1_s_o3_3_01_scalar_t_01_4_01const_00_01_options_01_4_1ad530601ad0853dedef149884a729a2cb>`> const, :ref:`Options<doxid-classsophus_1_1_s_o3_base_1a4209aae6501a518b2191c5d01be76c2b>`> unit_quaternion_
+
+Mutator of unit_quaternion is protected to ensure class invariant.
 
 Methods
 -------
 
-.. index:: pair: function; so3
-.. _doxid-class_eigen_1_1_map_3_01_sophus_1_1_s_e3_3_01_scalar___01_4_00_01_options_01_4_1aafb8f84ce3d72a98bbfc425c1a80f8f0:
+.. index:: pair: function; unit_quaternion
+.. _doxid-class_eigen_1_1_map_3_01sophus_1_1_s_o3_3_01_scalar_t_01_4_01const_00_01_options_01_4_1a1e0055c75a57e37d02481e622782407a:
 
 .. ref-code-block:: cpp
 	:class: doxyrest-title-code-block
 
-	:ref:`Map<doxid-class_eigen_1_1_map_3_01_sophus_1_1_s_e3_3_01_scalar___01_4_00_01_options_01_4_1aaae165f69a0361e0a5828c604c993e4f>`<:ref:`Sophus::SO3<doxid-class_sophus_1_1_s_o3>`<:ref:`Scalar<doxid-class_eigen_1_1_map_3_01_sophus_1_1_s_e3_3_01_scalar___01_4_00_01_options_01_4_1a8a860491c38bae03987641d21b2d8b56>`>, Options>& so3()
+	:ref:`Map<doxid-class_eigen_1_1_map_3_01sophus_1_1_s_o3_3_01_scalar_t_01_4_01const_00_01_options_01_4_1a4ffaf1ef907fed7de95e58cc15a9073b>`<Eigen::Quaternion<:ref:`Scalar<doxid-class_eigen_1_1_map_3_01sophus_1_1_s_o3_3_01_scalar_t_01_4_01const_00_01_options_01_4_1ad530601ad0853dedef149884a729a2cb>`> const, :ref:`Options<doxid-classsophus_1_1_s_o3_base_1a4209aae6501a518b2191c5d01be76c2b>`> const& unit_quaternion() const
 
-Mutator of SO3.
-
-.. index:: pair: function; so3
-.. _doxid-class_eigen_1_1_map_3_01_sophus_1_1_s_e3_3_01_scalar___01_4_00_01_options_01_4_1a6d4522c4b2eb84dd07610f75dabf7d1c:
-
-.. ref-code-block:: cpp
-	:class: doxyrest-title-code-block
-
-	:ref:`Map<doxid-class_eigen_1_1_map_3_01_sophus_1_1_s_e3_3_01_scalar___01_4_00_01_options_01_4_1aaae165f69a0361e0a5828c604c993e4f>`<:ref:`Sophus::SO3<doxid-class_sophus_1_1_s_o3>`<:ref:`Scalar<doxid-class_eigen_1_1_map_3_01_sophus_1_1_s_e3_3_01_scalar___01_4_00_01_options_01_4_1a8a860491c38bae03987641d21b2d8b56>`>, Options> const& so3() const
-
-Accessor of SO3.
-
-.. index:: pair: function; translation
-.. _doxid-class_eigen_1_1_map_3_01_sophus_1_1_s_e3_3_01_scalar___01_4_00_01_options_01_4_1a988e3088c40573050237da482585eb5c:
-
-.. ref-code-block:: cpp
-	:class: doxyrest-title-code-block
-
-	:ref:`Map<doxid-class_eigen_1_1_map_3_01_sophus_1_1_s_e3_3_01_scalar___01_4_00_01_options_01_4_1aaae165f69a0361e0a5828c604c993e4f>`<:ref:`Sophus::Vector3<doxid-namespace_sophus_1ade8af1bfa6ef21fdd15e6a3a89929be5>`<:ref:`Scalar<doxid-class_eigen_1_1_map_3_01_sophus_1_1_s_e3_3_01_scalar___01_4_00_01_options_01_4_1a8a860491c38bae03987641d21b2d8b56>`, Options>>& translation()
-
-Mutator of translation vector.
-
-.. index:: pair: function; translation
-.. _doxid-class_eigen_1_1_map_3_01_sophus_1_1_s_e3_3_01_scalar___01_4_00_01_options_01_4_1ac247ef38bc39b75bd1baa158faaf1130:
-
-.. ref-code-block:: cpp
-	:class: doxyrest-title-code-block
-
-	:ref:`Map<doxid-class_eigen_1_1_map_3_01_sophus_1_1_s_e3_3_01_scalar___01_4_00_01_options_01_4_1aaae165f69a0361e0a5828c604c993e4f>`<:ref:`Sophus::Vector3<doxid-namespace_sophus_1ade8af1bfa6ef21fdd15e6a3a89929be5>`<:ref:`Scalar<doxid-class_eigen_1_1_map_3_01_sophus_1_1_s_e3_3_01_scalar___01_4_00_01_options_01_4_1a8a860491c38bae03987641d21b2d8b56>`, Options>> const& translation() const
-
-Accessor of translation vector.
+Accessor of unit quaternion.
 

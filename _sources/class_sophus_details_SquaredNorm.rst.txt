@@ -1,0 +1,24 @@
+.. index:: pair: class; sophus::details::SquaredNorm<Matrix<Scalar, kMatrixDim, 1>>
+.. _doxid-classsophus_1_1details_1_1_squared_norm_3_01_matrix_3_01_scalar_00_01k_matrix_dim_00_011_01_4_01_4:
+
+template class sophus::details::SquaredNorm<Matrix<Scalar, kMatrixDim, 1>>
+==========================================================================
+
+.. toctree::
+	:hidden:
+
+
+
+
+.. ref-code-block:: cpp
+	:class: doxyrest-overview-code-block
+
+	#include <types.hpp>
+	
+	template <class Scalar, int kMatrixDim>
+	class SquaredNorm<Matrix<Scalar, kMatrixDim, 1>> {
+	public:
+		// methods
+	
+		static Scalar :target:`impl<doxid-classsophus_1_1details_1_1_squared_norm_3_01_matrix_3_01_scalar_00_01k_matrix_dim_00_011_01_4_01_4_1a0da16a1b22684248c34cbfc9a0b384a5>`(:ref:`Matrix<doxid-namespacesophus_1a7f99d420690326fc31ef6aed3fd0038c>`<Scalar, kMatrixDim, 1> const& s);
+	};

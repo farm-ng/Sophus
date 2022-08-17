@@ -1,0 +1,27 @@
+.. index:: pair: struct; sophus::interp_details::Traits<Cartesian<Scalar, kPointDim>>
+.. _doxid-structsophus_1_1interp__details_1_1_traits_3_01_cartesian_3_01_scalar_00_01k_point_dim_01_4_01_4:
+
+template struct sophus::interp_details::Traits<Cartesian<Scalar, kPointDim>>
+============================================================================
+
+.. toctree::
+	:hidden:
+
+
+
+
+.. ref-code-block:: cpp
+	:class: doxyrest-overview-code-block
+
+	#include <interpolate_details.hpp>
+	
+	template <class Scalar, int kPointDim>
+	struct Traits<Cartesian<Scalar, kPointDim>> {
+		// fields
+	
+		static constexpr bool :target:`supported<doxid-structsophus_1_1interp__details_1_1_traits_3_01_cartesian_3_01_scalar_00_01k_point_dim_01_4_01_4_1ad27ae0da51e3dbc2a1db7d536b98e869>` = true;
+
+		// methods
+	
+		static bool :target:`hasShortestPathAmbiguity<doxid-structsophus_1_1interp__details_1_1_traits_3_01_cartesian_3_01_scalar_00_01k_point_dim_01_4_01_4_1ad2be9654503f84620977fef36abbd167>`(:ref:`Cartesian<doxid-classsophus_1_1_cartesian>`<Scalar, kPointDim> const&);
+	};

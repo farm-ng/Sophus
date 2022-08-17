@@ -1,0 +1,24 @@
+.. index:: pair: class; sophus::details::Pretty
+.. _doxid-classsophus_1_1details_1_1_pretty:
+
+template class sophus::details::Pretty
+======================================
+
+.. toctree::
+	:hidden:
+
+
+
+
+.. ref-code-block:: cpp
+	:class: doxyrest-overview-code-block
+
+	#include <test_macros.hpp>
+	
+	template <class Scalar, class Enable = void>
+	class Pretty {
+	public:
+		// methods
+	
+		static std::string :target:`impl<doxid-classsophus_1_1details_1_1_pretty_1a24d3a3f72f4d78a77e973b09f122324b>`(Scalar s);
+	};

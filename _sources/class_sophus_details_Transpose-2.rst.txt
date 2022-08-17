@@ -1,0 +1,24 @@
+.. index:: pair: class; sophus::details::Transpose<Matrix<Scalar, M, kMatrixDim>>
+.. _doxid-classsophus_1_1details_1_1_transpose_3_01_matrix_3_01_scalar_00_01_m_00_01k_matrix_dim_01_4_01_4:
+
+template class sophus::details::Transpose<Matrix<Scalar, M, kMatrixDim>>
+========================================================================
+
+.. toctree::
+	:hidden:
+
+
+
+
+.. ref-code-block:: cpp
+	:class: doxyrest-overview-code-block
+
+	#include <types.hpp>
+	
+	template <class Scalar, int M, int kMatrixDim>
+	class Transpose<Matrix<Scalar, M, kMatrixDim>> {
+	public:
+		// methods
+	
+		static :ref:`Matrix<doxid-namespacesophus_1a7f99d420690326fc31ef6aed3fd0038c>`<Scalar, M, kMatrixDim> :target:`impl<doxid-classsophus_1_1details_1_1_transpose_3_01_matrix_3_01_scalar_00_01_m_00_01k_matrix_dim_01_4_01_4_1a3e32a55380bf77b88ee0c35745bf7d2b>`(:ref:`Matrix<doxid-namespacesophus_1a7f99d420690326fc31ef6aed3fd0038c>`<Scalar, M, kMatrixDim> const& s);
+	};

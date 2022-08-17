@@ -1,0 +1,11 @@
+.. index:: pair: class; sophus::details::SetElementAt
+.. _doxid-classsophus_1_1details_1_1_set_element_at:
+
+template class sophus::details::SetElementAt
+============================================
+
+.. toctree::
+	:hidden:
+
+
+

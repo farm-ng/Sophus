@@ -1,0 +1,24 @@
+.. index:: pair: class; sophus::details::Transpose
+.. _doxid-classsophus_1_1details_1_1_transpose:
+
+template class sophus::details::Transpose
+=========================================
+
+.. toctree::
+	:hidden:
+
+
+
+
+.. ref-code-block:: cpp
+	:class: doxyrest-overview-code-block
+
+	#include <types.hpp>
+	
+	template <class Scalar>
+	class Transpose {
+	public:
+		// methods
+	
+		static Scalar :target:`impl<doxid-classsophus_1_1details_1_1_transpose_1a82931ce14efc44ed9d0b27ba6fb589f8>`(Scalar const& s);
+	};

@@ -1,0 +1,27 @@
+.. index:: pair: class; sophus::details::MaxMetric
+.. _doxid-classsophus_1_1details_1_1_max_metric:
+
+template class sophus::details::MaxMetric
+=========================================
+
+.. toctree::
+	:hidden:
+
+
+
+
+.. ref-code-block:: cpp
+	:class: doxyrest-overview-code-block
+
+	#include <types.hpp>
+	
+	template <class Scalar>
+	class MaxMetric {
+	public:
+		// methods
+	
+		static Scalar :target:`impl<doxid-classsophus_1_1details_1_1_max_metric_1a50b4b6aa09515bf78e92e97276d4f9b0>`(
+			Scalar s0,
+			Scalar s1
+			);
+	};

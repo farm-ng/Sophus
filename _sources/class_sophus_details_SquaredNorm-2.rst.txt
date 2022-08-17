@@ -1,0 +1,24 @@
+.. index:: pair: class; sophus::details::SquaredNorm
+.. _doxid-classsophus_1_1details_1_1_squared_norm:
+
+template class sophus::details::SquaredNorm
+===========================================
+
+.. toctree::
+	:hidden:
+
+
+
+
+.. ref-code-block:: cpp
+	:class: doxyrest-overview-code-block
+
+	#include <types.hpp>
+	
+	template <class Scalar>
+	class SquaredNorm {
+	public:
+		// methods
+	
+		static Scalar :target:`impl<doxid-classsophus_1_1details_1_1_squared_norm_1aa16de521b51ef452882347ff5fcfde12>`(Scalar const& s);
+	};

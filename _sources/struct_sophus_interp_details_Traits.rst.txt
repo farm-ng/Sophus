@@ -1,0 +1,11 @@
+.. index:: pair: struct; sophus::interp_details::Traits
+.. _doxid-structsophus_1_1interp__details_1_1_traits:
+
+template struct sophus::interp_details::Traits
+==============================================
+
+.. toctree::
+	:hidden:
+
+
+

@@ -1,0 +1,24 @@
+.. index:: pair: class; sophus::details::Pretty<Eigen::Matrix<Scalar, M, kMatrixDim>, void>
+.. _doxid-classsophus_1_1details_1_1_pretty_3_01_eigen_1_1_matrix_3_01_scalar_00_01_m_00_01k_matrix_dim_01_4_00_01void_01_4:
+
+template class sophus::details::Pretty<Eigen::Matrix<Scalar, M, kMatrixDim>, void>
+==================================================================================
+
+.. toctree::
+	:hidden:
+
+
+
+
+.. ref-code-block:: cpp
+	:class: doxyrest-overview-code-block
+
+	#include <test_macros.hpp>
+	
+	template <class Scalar, int M, int kMatrixDim>
+	class Pretty<Eigen::Matrix<Scalar, M, kMatrixDim>, void> {
+	public:
+		// methods
+	
+		static std::string :target:`impl<doxid-classsophus_1_1details_1_1_pretty_3_01_eigen_1_1_matrix_3_01_scalar_00_01_m_00_01k_matrix_dim_01_4_00_01void_01_4_1a6dd53cdea68d73216fce7e50b84b23cb>`(:ref:`Matrix<doxid-namespacesophus_1a7f99d420690326fc31ef6aed3fd0038c>`<Scalar, M, kMatrixDim> const& v);
+	};

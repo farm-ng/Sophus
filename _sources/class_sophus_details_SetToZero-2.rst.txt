@@ -1,0 +1,24 @@
+.. index:: pair: class; sophus::details::SetToZero
+.. _doxid-classsophus_1_1details_1_1_set_to_zero:
+
+template class sophus::details::SetToZero
+=========================================
+
+.. toctree::
+	:hidden:
+
+
+
+
+.. ref-code-block:: cpp
+	:class: doxyrest-overview-code-block
+
+	#include <types.hpp>
+	
+	template <class Scalar>
+	class SetToZero {
+	public:
+		// methods
+	
+		static void :target:`impl<doxid-classsophus_1_1details_1_1_set_to_zero_1a46d9d9245d73bb2f63e61b04e35c41d3>`(Scalar& s);
+	};

@@ -1,0 +1,28 @@
+.. index:: pair: class; sophus::details::SetElementAt<Vector<Scalar, kMatrixDim>, Scalar>
+.. _doxid-classsophus_1_1details_1_1_set_element_at_3_01_vector_3_01_scalar_00_01k_matrix_dim_01_4_00_01_scalar_01_4:
+
+template class sophus::details::SetElementAt<Vector<Scalar, kMatrixDim>, Scalar>
+================================================================================
+
+.. toctree::
+	:hidden:
+
+
+
+
+.. ref-code-block:: cpp
+	:class: doxyrest-overview-code-block
+
+	#include <types.hpp>
+	
+	template <class Scalar, int kMatrixDim>
+	class SetElementAt<Vector<Scalar, kMatrixDim>, Scalar> {
+	public:
+		// methods
+	
+		static void :target:`impl<doxid-classsophus_1_1details_1_1_set_element_at_3_01_vector_3_01_scalar_00_01k_matrix_dim_01_4_00_01_scalar_01_4_1a8006c6ed27a4f8134a79cf896611259d>`(
+			:ref:`Vector<doxid-namespacesophus_1a7c637d4509eb50d45192c268f3c0d2d4>`<Scalar, kMatrixDim>& v,
+			Scalar value,
+			int at
+			);
+	};

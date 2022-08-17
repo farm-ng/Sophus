@@ -1,0 +1,26 @@
+.. index:: pair: struct; sophus::Constants<float>
+.. _doxid-structsophus_1_1_constants_3_01float_01_4:
+
+template struct sophus::Constants<float>
+========================================
+
+.. toctree::
+	:hidden:
+
+
+
+
+.. ref-code-block:: cpp
+	:class: doxyrest-overview-code-block
+
+	#include <common.hpp>
+	
+	template <>
+	struct Constants<float> {
+		// methods
+	
+		static constexpr float :target:`epsilon<doxid-structsophus_1_1_constants_3_01float_01_4_1a7b7b0249d1d1de7814bc559ad9073328>`();
+		static float :target:`epsilonPlus<doxid-structsophus_1_1_constants_3_01float_01_4_1ad4a516791005f39e49dc02a0395d0565>`();
+		static float :target:`epsilonSqrt<doxid-structsophus_1_1_constants_3_01float_01_4_1ac6c87a459120c31d004c920def2cdc8d>`();
+		static constexpr float :target:`pi<doxid-structsophus_1_1_constants_3_01float_01_4_1a020c3d58f56fe3757c33f5e505623f27>`();
+	};
