@@ -2,7 +2,7 @@ name: Linux - sympy
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, rc-22.10 ]
   pull_request:
 
   workflow_dispatch:

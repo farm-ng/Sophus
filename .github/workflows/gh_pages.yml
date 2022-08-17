@@ -2,7 +2,7 @@ name: Build Docs
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, rc-22.10 ]
 
   workflow_dispatch:
 
